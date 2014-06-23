@@ -67,7 +67,7 @@
                               <Image url="@../gallery/image/printButton.png" />
                            </image>
                         </ImageView>
-                        <Label text="جدید" />
+                        <Label text="چاپ" />
                      </children>
                   </HBox>
           </children>

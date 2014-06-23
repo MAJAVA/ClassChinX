@@ -35,9 +35,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
 import jclasschin.JClassChin;
 import jclasschin.model.Effect;
@@ -72,6 +75,14 @@ public class ClassScheduleNewDialogController implements Initializable
     private GridPane periodsGridPane;
     @FXML
     private AnchorPane backwardSizerAnchorPane;
+    @FXML
+    private HBox okHBox;
+    @FXML
+    private ImageView okImageView;
+    @FXML
+    private HBox cancelHBox;
+    @FXML
+    private ImageView cancelImageView;
 
     /**
      * Initializes the controller class.
@@ -153,7 +164,17 @@ public class ClassScheduleNewDialogController implements Initializable
             periodsGridPane.add(endOfPeriodTextField[i], j++, i);
         }
 
-        backwardSizerAnchorPane.setPrefHeight(periodsNumber * 56.5);
+        backwardSizerAnchorPane.setPrefHeight(periodsNumber * 56.5 + 80);
+    }
+
+    @FXML
+    private void okHBoxOnMouseClicked(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseClicked(MouseEvent event)
+    {
     }
 
 }
