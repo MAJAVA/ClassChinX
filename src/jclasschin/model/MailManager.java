@@ -143,5 +143,24 @@ public class MailManager
             return false;
         }
     }
-
+    
+    
+    public boolean deleteForInbox(Integer id)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            mail =(Mail) session.load(Mail.class, id);
+            mail.setReceiverDelete(Boolean.TRUE);
+            session.update(mail);
+            session.getTransaction().commit();
+            return true;
+        }
+        catch (HibernateException he)
+        {
+            return false;
+        }
+    }
+    
 }
