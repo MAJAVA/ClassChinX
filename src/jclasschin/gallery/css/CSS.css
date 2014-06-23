@@ -1,0 +1,25 @@
+.label {
+-fx-font-family : "B Nazanin";
+-fx-font-size:21px;
+-fx-font-weight:bold;
+}
+
+.text-field {
+-fx-font-family : "B Nazanin";
+-fx-font-size:20px;
+}
+
+.combo-box {
+-fx-font-family : "B Nazanin";
+-fx-font-size:20px;
+}
+
+.check-box {
+-fx-font-family : "B Nazanin";
+-fx-font-size:20px;
+}
+
+.check-list-view {
+-fx-font-family : "B Nazanin";
+-fx-font-size:20px;
+}

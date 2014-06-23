@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="164.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jclasschin.controller.FieldsNewDialogController">
+   <children>
+      <Label layoutX="28.0" layoutY="30.0" text="نام رشته :" />
+      <HBox id="HBox" alignment="CENTER" layoutX="83.0" layoutY="89.0" prefHeight="59.0" prefWidth="239.0" spacing="40.0">
+         <children>
+            <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHBoxOnMouseClicked" onMouseEntered="#okHBoxOnMouseEntered" onMouseExited="#okHBoxOnMouseExited" spacing="10.0">
+               <children>
+                  <ImageView id="okButton" fx:id="okImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
+                     <image>
+                        <Image preserveRatio="true" smooth="true" url="@../gallery/image/okButton.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="تایید" />
+               </children>
+            </HBox>
+            <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHBoxOnMouseClicked" onMouseEntered="#cancelHBoxOnMouseEntered" onMouseExited="#cancelHBoxOnMouseExited" spacing="10.0">
+               <children>
+                  <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
+                     <image>
+                        <Image preserveRatio="true" smooth="true" url="@../gallery/image/cancelButton.png" />
+                     </image>
+                  </ImageView>
+                  <Label text="انصراف" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <VBox id="VBox" alignment="TOP_LEFT" layoutX="24.0" layoutY="47.0" spacing="20.0" />
+      <TextField id="subjectTextField" fx:id="fieldNameTextField" layoutX="108.0" layoutY="25.0" prefWidth="264.0" />
+   </children>
+</AnchorPane>
