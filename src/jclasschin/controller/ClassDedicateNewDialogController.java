@@ -59,6 +59,7 @@ public class ClassDedicateNewDialogController implements Initializable
 
     private Stage classDedicateNewDialogStage;
     private DedicationManager dedicationManager;
+     private GridPane gridPane;
 
     ComboBox<String> fieldComboBox = new ComboBox<>();
     Label fieldLabel = new Label("رشته :");
@@ -86,40 +87,17 @@ public class ClassDedicateNewDialogController implements Initializable
         // TODO
         String css = JClassChin.class.getResource("gallery/css/CSS.css").toString();
         classDedicateNewDialogAnchorPane.getStylesheets().add(css);
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.TOP_CENTER);
-        gridPane.setLayoutX(30);
-        gridPane.setLayoutY(30);
-        gridPane.setVgap(15);
-        gridPane.setHgap(15);
-
-        fillFieldComboBox();
-        fillClassCheckListView();
-
-        fieldComboBox.setMinWidth(200);
-        fieldComboBox.setMaxWidth(200);
-
-        checkListView.setMinWidth(200);
-        checkListView.setMaxWidth(200);
-
-        gridPane.add(fieldLabel, 0, 0);
-        gridPane.add(fieldComboBox, 1, 0);
-        gridPane.add(classLabel, 0, 1);
-        gridPane.add(checkListView, 1, 1);
-        classDedicateNewDialogAnchorPane.getChildren().add(gridPane);
-        classDedicateNewDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
     }
-
 
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-       // selectedClass = checkListView.getCheckModel().getSelectedItems();
+        // selectedClass = checkListView.getCheckModel().getSelectedItems();
         //selectedClass2=checkListView.ge
 
         dedicationManager = new DedicationManager();
-        dedicationManager.insert(fieldComboBox.getValue(), (List)selectedClass);
+        dedicationManager.insert(fieldComboBox.getValue(), (List) selectedClass);
 
         classDedicateNewDialogStage.close();
 
@@ -146,12 +124,36 @@ public class ClassDedicateNewDialogController implements Initializable
     {
         this.classDedicateNewDialogStage = classDedicateNewDialogStage;
     }
-    
-    
+
     public void initDialog()
     {
+        if (classDedicateNewDialogAnchorPane.getChildren().contains(gridPane))
+        {
+            classDedicateNewDialogAnchorPane.getChildren().remove(1);
+        }
+        gridPane = new GridPane();
+        gridPane.setAlignment(Pos.TOP_CENTER);
+        gridPane.setLayoutX(30);
+        gridPane.setLayoutY(30);
+        gridPane.setVgap(15);
+        gridPane.setHgap(15);
+
         fillFieldComboBox();
         fillClassCheckListView();
+
+        fieldComboBox.setMinWidth(200);
+        fieldComboBox.setMaxWidth(200);
+
+        checkListView.setMinWidth(200);
+        checkListView.setMaxWidth(200);
+
+        gridPane.add(fieldLabel, 0, 0);
+        gridPane.add(fieldComboBox, 1, 0);
+        gridPane.add(classLabel, 0, 1);
+        gridPane.add(checkListView, 1, 1);
+        classDedicateNewDialogAnchorPane.getChildren().add(gridPane);
+        classDedicateNewDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
     }
 
     private void fillFieldComboBox()
@@ -176,10 +178,10 @@ public class ClassDedicateNewDialogController implements Initializable
             classList.add(((Classroom) c).getName());
         });
         checkListView = new CheckListView<>(classList);
-        checkListView.getCheckModel().clearSelection(); 
+        checkListView.getCheckModel().clearSelection();
         checkListView.getCheckModel().getSelectedItems().addListener((ListChangeListener.Change<? extends String> c) ->
         {
-            selectedClass=(ObservableList<String>) c.getList();
+            selectedClass = (ObservableList<String>) c.getList();
         });
     }
 

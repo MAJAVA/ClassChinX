@@ -94,9 +94,6 @@ public class ClassDedicateEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-
-//        ArrayList<Object> al  = new ArrayList<>();
-//        al.addAll(editableField.getDedications());
         dedicationManager = new DedicationManager();
         dedicationManager.update(editableField.getId(), fieldComboBox.getValue(), (List) selectedClass);
         classDedicateEditDialogStage.close();
