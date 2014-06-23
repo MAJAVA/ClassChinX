@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -40,6 +42,38 @@
                 <RowConstraints minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
               </rowConstraints>
             </GridPane>
+            <HBox id="HBox" alignment="CENTER" layoutX="62.0" layoutY="557.0" prefHeight="41.0" prefWidth="286.0" spacing="40.0">
+               <children>
+                  <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHBoxOnMouseClicked" spacing="10.0">
+                     <children>
+                        <ImageView id="okButton" fx:id="okImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../gallery/image/okButton.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="تایید">
+                           <font>
+                              <Font name="B Nazanin" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHBoxOnMouseClicked" spacing="10.0">
+                     <children>
+                        <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../gallery/image/cancelButton.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="انصراف">
+                           <font>
+                              <Font name="B Nazanin" size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
          </children></AnchorPane>
    </content>
 </ScrollPane>
