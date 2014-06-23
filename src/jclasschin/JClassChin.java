@@ -6,6 +6,7 @@
  */
 package jclasschin;
 
+import com.sun.javafx.css.StyleManager;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,8 @@ import jclasschin.controller.ObjectLayoutController;
  *
  * @author Ali
  */
-public class JClassChin extends Application {
+public class JClassChin extends Application
+{
 
     private static Stage objectStage;
 
@@ -40,19 +42,22 @@ public class JClassChin extends Application {
      * @return the mainStage
      *
      */
-    public static Stage getMainStage() {
+    public static Stage getMainStage()
+    {
         return objectStage;
     }
 
     /**
      * @return the mainLayout
      */
-    public static BorderPane getMainLayout() {
+    public static BorderPane getMainLayout()
+    {
         return mainLayout;
     }
 
     @Override
-    public void start(Stage stage) throws IOException, InterruptedException {
+    public void start(Stage stage) throws IOException, InterruptedException
+    {
 
         objectStage = stage;
 //        mainStage = stage;
@@ -95,13 +100,17 @@ public class JClassChin extends Application {
 //        mainStage.setResizable(false);
 //        mainStage.centerOnScreen();
 //        mainStage.show();
+        String classChinCSS = JClassChin.class.getResource("gallery/css/CSS.css").toString();
+        Application.setUserAgentStylesheet(null);
+        StyleManager.getInstance().addUserAgentStylesheet(classChinCSS);
 
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 

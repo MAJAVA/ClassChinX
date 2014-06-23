@@ -92,7 +92,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#scheduleHBoxOnMouseClicked" spacing="10.0">
+            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#scheduleHBoxOnMouseClicked" onMouseEntered="#scheduleHBoxOnMouseEntered" onMouseExited="#scheduleHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="scheduleImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -105,7 +105,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#scheduleHBoxOnMouseClicked" spacing="10.0">
+            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#reportHBoxOnMouseClicked" onMouseEntered="#reportHBoxOnMouseEntered" onMouseExited="#reportHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="reportsImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>

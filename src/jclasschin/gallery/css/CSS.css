@@ -9,6 +9,11 @@
 -fx-font-size:20px;
 }
 
+.text-area {
+-fx-font-family : "B Nazanin";
+-fx-font-size:20px;
+}
+
 .combo-box {
 -fx-font-family : "B Nazanin";
 -fx-font-size:20px;
@@ -19,7 +24,21 @@
 -fx-font-size:20px;
 }
 
-.check-list-view {
+.column-header .label{
+-fx-font-family : "B Nazanin";
+-fx-font-size:17px;
+}
+
+.table-view {
+-fx-font-family : "B Nazanin";
+-fx-font-size:22px;
+}
+
+.table-column{
+-fx-alignment:center;
+}
+
+.tab {
 -fx-font-family : "B Nazanin";
 -fx-font-size:20px;
 }

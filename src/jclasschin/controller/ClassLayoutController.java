@@ -69,8 +69,8 @@ public class ClassLayoutController implements Initializable
     private ClassDedicateEditDialogController classDedicateEditDialogController;
     private ClassDedicateDeleteDialogController classDedicateDeleteDialogController;
     private ClassScheduleNewDialogController classScheduleNewDialogController;
-//    private ClassScheduleEditDialogController classScheduleEditDialogController;
-//    private ClassScheduleDeleteDialogController classScheduleDeleteDialogController;
+    private ClassScheduleEditDialogController classScheduleEditDialogController;
+    private ClassScheduleDeleteDialogController classScheduleDeleteDialogController;
 
     @FXML
     private TableView<Classroom> classTableView;
@@ -193,7 +193,7 @@ public class ClassLayoutController implements Initializable
 
         classDedicateDeleteDialogController = classDedicateDeleteDialogLoader.getController();
 
-        /* Class New Dialog */
+        /* Schedule New Dialog */
         classScheduleNewDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/ClassScheduleNewDialog.fxml"));
         classScheduleNewDialogLayout = (ScrollPane) classScheduleNewDialogLoader.load();
@@ -207,6 +207,36 @@ public class ClassLayoutController implements Initializable
         classScheduleNewDialogStage.initStyle(StageStyle.UTILITY);
 
         classScheduleNewDialogController = classScheduleNewDialogLoader.getController();
+
+        /* Schedule Edit Dialog */
+        classScheduleEditDialogLoader
+                = new FXMLLoader(JClassChin.class.getResource("view/ClassScheduleEditDialog.fxml"));
+        classScheduleEditDialogLayout = (ScrollPane) classScheduleEditDialogLoader.load();
+        classScheduleEditDialogScene = new Scene(classScheduleEditDialogLayout);
+        classScheduleEditDialogStage = new Stage();
+        classScheduleEditDialogStage.setScene(classScheduleEditDialogScene);
+        classScheduleEditDialogStage.setTitle("ویرایش زمان بندی");
+        classScheduleEditDialogStage.initModality(Modality.WINDOW_MODAL);
+        classScheduleEditDialogStage.initOwner(JClassChin.getMainStage());
+        classScheduleEditDialogStage.setResizable(false);
+        classScheduleEditDialogStage.initStyle(StageStyle.UTILITY);
+
+        classScheduleEditDialogController = classScheduleEditDialogLoader.getController();
+
+        /* Schedule Delete Dialog */
+        classScheduleDeleteDialogLoader
+                = new FXMLLoader(JClassChin.class.getResource("view/ClassScheduleDeleteDialog.fxml"));
+        classScheduleDeleteDialogLayout = (AnchorPane) classScheduleDeleteDialogLoader.load();
+        classScheduleDeleteDialogScene = new Scene(classScheduleDeleteDialogLayout);
+        classScheduleDeleteDialogStage = new Stage();
+        classScheduleDeleteDialogStage.setScene(classScheduleDeleteDialogScene);
+        classScheduleDeleteDialogStage.setTitle("حذف زمان بندی");
+        classScheduleDeleteDialogStage.initModality(Modality.WINDOW_MODAL);
+        classScheduleDeleteDialogStage.initOwner(JClassChin.getMainStage());
+        classScheduleDeleteDialogStage.setResizable(false);
+        classScheduleDeleteDialogStage.initStyle(StageStyle.UTILITY);
+
+        classScheduleDeleteDialogController = classScheduleDeleteDialogLoader.getController();
 
     }
 
@@ -367,19 +397,27 @@ public class ClassLayoutController implements Initializable
 
     }
 
-    @FXML
+@FXML
     private void newScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        classScheduleNewDialogController.initDialog();
+        classScheduleNewDialogStage.showAndWait();
+
     }
 
     @FXML
     private void editScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        classScheduleEditDialogController.initDialog();
+        classScheduleEditDialogStage.showAndWait();
     }
 
     @FXML
     private void deleteScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        classScheduleDeleteDialogStage.showAndWait();
+
     }
+
 
 }

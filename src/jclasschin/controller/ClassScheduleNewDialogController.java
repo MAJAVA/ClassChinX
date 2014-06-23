@@ -34,10 +34,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
 import jclasschin.JClassChin;
+import jclasschin.model.Effect;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.textfield.CustomTextField;
 
@@ -48,15 +51,14 @@ import org.controlsfx.control.textfield.CustomTextField;
  */
 public class ClassScheduleNewDialogController implements Initializable
 {
-
     GridPane gridPane;
     int periodsNumber;
     Label[] periodTitle;
-//    RangeSlider[] periodRangeSlider;
     Label[] fromLable;
-    TextField[] startOfPeriodTextFiled;
+    TextField[] startOfPeriodTextField;
     Label[] toLable;
-    TextField[] endOfPeriodTextFiled;
+    TextField[] endOfPeriodTextField;
+    Tooltip timeTooltip;
 
     @FXML
     private ScrollPane classScheduleNewDialogScrollPane;
@@ -68,6 +70,8 @@ public class ClassScheduleNewDialogController implements Initializable
     private TextField periodsNumberTextField;
     @FXML
     private GridPane periodsGridPane;
+    @FXML
+    private AnchorPane backwardSizerAnchorPane;
 
     /**
      * Initializes the controller class.
@@ -82,71 +86,13 @@ public class ClassScheduleNewDialogController implements Initializable
     {
         String css = JClassChin.class.getResource("gallery/css/CSS.css").toString();
         classScheduleNewDialogScrollPane.getStylesheets().add(css);
-        gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setVgap(15);
-        gridPane.setHgap(15);
-        gridPane.setLayoutX(36);
-        gridPane.setLayoutY(170);
-        //classScheduleNewDialogAnchorPane.getChildren().clear();
-
-//        Label[] label=new Label[50];
-//        for(int i=0;i<50;i++){
-//            label[i]=new Label("Salam"+i);
-//            gridPane.add(label[i], 0, i);
-//        }
-//        classScheduleNewDialogAnchorPane.getChildren().add(gridPane);
+        timeTooltip=new Tooltip("زمان را به شیوه 00:00 وارد کنید\nبرای مثال 11:40");
+        timeTooltip.setTextAlignment(TextAlignment.CENTER);
     }
 
     @FXML
     private void periodsNumberTextFieldOnTextChanged(InputMethodEvent event)
     {
-//        periodsNumber = Integer.parseInt(periodsNumberTextField.getText());
-//
-//        periodTitle = new Label[periodsNumber];
-//        for (int i = 0; i < periodsNumber; i++)
-//        {
-//            periodTitle[i] = new Label("بازه" + (i + 1) + ":");
-//        }
-//
-//        periodRangeSlider = new RangeSlider[periodsNumber];
-//        for (int i = 0; i < periodsNumber; i++)
-//        {
-//            periodRangeSlider[i] = new RangeSlider(0, 144, 8, 20);
-//            periodRangeSlider[i].setShowTickMarks(true);
-//            periodRangeSlider[i].setShowTickLabels(true);
-//            periodRangeSlider[i].setBlockIncrement(10 / 6);
-//            periodRangeSlider[i].setPrefWidth(200);
-//        }
-//
-//        fromLable = new Label("از");
-//
-//        startOfPeriod = new Label[periodsNumber];
-//        for (int i = 0; i < periodsNumber; i++)
-//        {
-//            startOfPeriod[i] = new Label();
-//        }
-//
-//        toLable = new Label("به");
-//
-//        endOfPeriod = new Label[periodsNumber];
-//        for (int i = 0; i < periodsNumber; i++)
-//        {
-//            endOfPeriod[i] = new Label();
-//        }
-//
-//        for (int i = 0; i < periodsNumber; i++)
-//        {
-//            int j = 0;
-//            gridPane.add(periodTitle[i], j++, i);
-//            gridPane.add(periodRangeSlider[i], j++, i);
-//            gridPane.add(fromLable, j++, i);
-//            gridPane.add(startOfPeriod[i], j++, i);
-//            gridPane.add(toLable, j++, i);
-//            gridPane.add(endOfPeriod[i], j++, i);
-//        }
-//        classScheduleNewDialogAnchorPane.getChildren().clear();
-//        classScheduleNewDialogBottomAnchorPane.getChildren().add(gridPane);
 
     }
 
@@ -162,32 +108,19 @@ public class ClassScheduleNewDialogController implements Initializable
             periodTitle[i] = new Label("بازه" + (i + 1) + " :");
         }
 
-//        periodRangeSlider = new RangeSlider[periodsNumber];
-//        for (int i = 0; i < periodsNumber; i++)
-//        {
-//            periodRangeSlider[i] = new RangeSlider(0, 24, 8, 20);
-//            periodRangeSlider[i].setShowTickMarks(true);
-//            periodRangeSlider[i].setShowTickLabels(true);
-//            periodRangeSlider[i].setBlockIncrement(1);
-//            periodRangeSlider[i].setMajorTickUnit(1);
-//            periodRangeSlider[i].setSnapToTicks(true);
-//            periodRangeSlider[i].setMinorTickCount(1);
-//            periodRangeSlider[i].setMajorTickUnit(1);
-//
-//            periodRangeSlider[i].setPrefWidth(300);
-//        }
         fromLable = new Label[periodsNumber];
         for (int i = 0; i < periodsNumber; i++)
         {
             fromLable[i] = new Label("از");
         }
 
-        startOfPeriodTextFiled = new TextField[periodsNumber];
+        startOfPeriodTextField = new TextField[periodsNumber];
         for (int i = 0; i < periodsNumber; i++)
         {
-            startOfPeriodTextFiled[i] = new TextField();
-            startOfPeriodTextFiled[i].setMaxWidth(75);
-            startOfPeriodTextFiled[i].setPromptText("00:00");
+            startOfPeriodTextField[i] = new TextField();
+            startOfPeriodTextField[i].setMaxWidth(75);
+            startOfPeriodTextField[i].setPromptText("00:00");
+            startOfPeriodTextField[i].setTooltip(timeTooltip);
         }
 
         toLable = new Label[periodsNumber];
@@ -196,27 +129,31 @@ public class ClassScheduleNewDialogController implements Initializable
             toLable[i] = new Label("تا");
         }
 
-        endOfPeriodTextFiled = new TextField[periodsNumber];
+        endOfPeriodTextField = new TextField[periodsNumber];
         for (int i = 0; i < periodsNumber; i++)
         {
-            endOfPeriodTextFiled[i] = new TextField();
-            endOfPeriodTextFiled[i].setMaxWidth(75);
-            endOfPeriodTextFiled[i].setPromptText("00:00");
+            endOfPeriodTextField[i] = new TextField();
+            endOfPeriodTextField[i].setMaxWidth(75);
+            endOfPeriodTextField[i].setPromptText("00:00");
+            endOfPeriodTextField[i].setTooltip(timeTooltip);
         }
 
         for (int i = 0; i < periodsNumber; i++)
         {
             int j = 0;
+            new Effect().fadeInTransition(periodTitle[i], 500);
             periodsGridPane.add(periodTitle[i], j++, i);
+            new Effect().fadeInTransition(fromLable[i], 500);
             periodsGridPane.add(fromLable[i], j++, i);
-            periodsGridPane.add(startOfPeriodTextFiled[i], j++, i);
+            new Effect().fadeInTransition(startOfPeriodTextField[i], 500);
+            periodsGridPane.add(startOfPeriodTextField[i], j++, i);
+            new Effect().fadeInTransition(toLable[i], 500);
             periodsGridPane.add(toLable[i], j++, i);
-            periodsGridPane.add(endOfPeriodTextFiled[i], j++, i);
+            new Effect().fadeInTransition(endOfPeriodTextField[i], 500);
+            periodsGridPane.add(endOfPeriodTextField[i], j++, i);
         }
-    //    periodsGridPane.setmi(periodsGridPane.getPrefHeight() + 10);
-        //periodsGridPane.setPrefHeight(periodsGridPane.getPrefHeight() - 1);
 
-        //classScheduleNewDialogAnchorPane.getChildren().add(gridPane);
+        backwardSizerAnchorPane.setPrefHeight(periodsNumber * 56.5);
     }
 
 }
