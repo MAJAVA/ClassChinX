@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.model;
 
 import jclasschin.entity.Ctacss;
@@ -38,8 +37,8 @@ import org.hibernate.Session;
 public class CtacssManager
 {
     public static Term currentTerm;
-    private static Schedule currentSchedule;
-    
+    public static Schedule currentSchedule;
+
     private TermManager termManager;
     private Ctacss ctacss;
     private Session session;
@@ -47,37 +46,69 @@ public class CtacssManager
 
     public boolean updateCurrentTerm(String termName)
     {
-        
+
         termManager = new TermManager();
         term = termManager.selectByName(termName);
-        
+
         try
-        { 
+        {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.getTransaction().begin();
             ctacss = (Ctacss) session.load(Ctacss.class, 1);
             ctacss.setTerm(term);
             session.update(ctacss);
             currentTerm = term;
-            session.getTransaction().commit(); 
+            session.getTransaction().commit();
             return true;
         }
         catch (HibernateException he)
         {
             return false;
         }
-           
+
     }
-    
-    
+
     public void initCurrentTerm()
     {
-            session = (Session) HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            
-            ctacss = (Ctacss) session.load(Ctacss.class, 1);
-            currentTerm = ctacss.getTerm();
-            session.getTransaction().commit(); 
-       
+        session = (Session) HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        ctacss = (Ctacss) session.load(Ctacss.class, 1);
+        currentTerm = ctacss.getTerm();
+        session.getTransaction().commit();
+
     }
+
+    public boolean updateCurrentSchedule(String scheduleName)
+    {
+        ScheduleManager sm = new ScheduleManager();
+        Schedule schedule = sm.selectByName(scheduleName);
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.getTransaction().begin();
+            ctacss = (Ctacss) session.load(Ctacss.class, 1);
+            ctacss.setSchedule(schedule);
+            session.update(ctacss);
+            currentSchedule = schedule;
+            session.getTransaction().commit();
+            return true;
+        }
+        catch (HibernateException he)
+        {
+            return false;
+        }
+
+    }
+
+    public void initCurrentSchedule()
+    {
+        session = (Session) HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        ctacss = (Ctacss) session.load(Ctacss.class, 1);
+        currentSchedule = ctacss.getSchedule();
+        session.getTransaction().commit();
+
+    }
+
 }

@@ -31,7 +31,6 @@ import jclasschin.entity.User;
 import jclasschin.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 /**
@@ -200,6 +199,7 @@ public class UserManager
         finally
         {
             session.close();
+            
         }
 
     }

@@ -24,43 +24,38 @@
 package jclasschin.model;
 
 import java.util.List;
-import jclasschin.entity.Classroom;
 import jclasschin.entity.Dedication;
-import jclasschin.entity.Field;
+import jclasschin.entity.Period;
+import jclasschin.entity.Schedule;
 import jclasschin.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 /**
  *
  * @author HP
  */
-public class DedicationManager
+public class ScheduleManager
 {
 
-    private Dedication dedication;
     private Session session;
-    private Field field;
-    private FieldManager fieldManager = new FieldManager();
-    private Classroom classroom;
-    private ClassManager classManager = new ClassManager();
+    private Schedule schedule;
+    private Period period;
 
-    public boolean insert(String fieldName, List selectedClass)
+    public boolean insert(String scheduleName, Integer numberOfPeriod, String[] start, String[] end)
     {
-        field = fieldManager.selectByName(fieldName);
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
-            selectedClass.stream().forEach((sc) ->
+            schedule = new Schedule(scheduleName, numberOfPeriod, null, null);
+            session.save(schedule);
+            for (int i = 0; i < numberOfPeriod; i++)
             {
-                classroom = classManager.selectByName((String) sc);
-                dedication = new Dedication(CtacssManager.currentTerm, classroom, field, null);
-                session.save(dedication);
-            });
+                period = new Period(schedule, start[i], end[i], null);
+                session.save(period);
+            }
             session.getTransaction().commit();
             return true;
 
@@ -69,69 +64,43 @@ public class DedicationManager
         {
             return false;
         }
+
     }
 
-    public boolean update(Integer fieldID, String fieldName, List selectedClass)
-    {
-        deleteByFieldID(fieldID);
-        field = fieldManager.selectByName(fieldName);
-        try
-        {
-            session = (Session) HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            selectedClass.stream().forEach((sc) ->
-            {
-                classroom = classManager.selectByName((String) sc);
-                dedication = new Dedication(CtacssManager.currentTerm, classroom, field, null);
-                session.save(dedication);
-            }); 
-            session.getTransaction().commit();
-            return true;
-
-        }
-        catch (HibernateException he)
-        {
-            return false;
-        }
-    }
-
-    private Dedication selcetDidicationByTermIdAndClassroomID(Integer fid, Integer cid)
+    public List selectAllSchedule()
     {
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Query q = session.createQuery("from Dedication d where d.field.id=:fid and d.classroom.id=:cid");
-            q.setParameter("fid", fid);
-            q.setParameter("cid", cid);
-            List resultList = q.list();
-            //session.createQuery("from Field f where f.name=\""+fieldName+"\"").list();
+            List resultList;
+            resultList = session.createQuery("from Schedule").list();
             session.getTransaction().commit();
-            dedication = (Dedication) resultList.get(0);
-            return dedication;
+            return resultList;
         }
         catch (HibernateException he)
         {
             return null;
         }
     }
-    
-     public boolean deleteByFieldID(Integer fid)
+
+    public Schedule selectByName(String sname)
     {
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            SQLQuery q = session.createSQLQuery("delete from dedication where field_id=:fid");
-            q.setParameter("fid", fid);
-            q.executeUpdate();
+            List resultList;
+            Query q =  session.createQuery("from Schedule s where s.name=:sn");
+            q.setParameter("sn", sname);
+            resultList = q.list();
+            Schedule s =(Schedule) resultList.get(0);
             session.getTransaction().commit();
-            return true;
+            return s;
         }
         catch (HibernateException he)
         {
-            return false;
+            return null;
         }
     }
-
 }
