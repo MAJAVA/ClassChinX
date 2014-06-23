@@ -292,14 +292,18 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
-        dashboardInboxDeleteMailDialogController = dashboardInboxDeleteMailDialogLoader.getController();
-        dashboardInboxDeleteMailDialogController.initialize(null, null);
-        dashboardInboxDeleteMailDialogController.setDashboardInboxDeleteDialogStage(dashboardInboxDeleteMailDialogStage);
+        if (inboxTableView.getSelectionModel().getSelectedIndex() != -1)
+        {
+            Mail m = inboxTableView.getSelectionModel().getSelectedItem();
+            dashboardInboxDeleteMailDialogController = dashboardInboxDeleteMailDialogLoader.getController();
+            dashboardInboxDeleteMailDialogController.initialize(null, null);
+            dashboardInboxDeleteMailDialogController.setDashboardInboxDeleteDialogStage(dashboardInboxDeleteMailDialogStage);
+            dashboardInboxDeleteMailDialogController.setMail(m);
+            dashboardInboxDeleteMailDialogStage.showAndWait();
 
-        dashboardInboxDeleteMailDialogStage.showAndWait();
-
-        updateInboxTableView();
-        updateOutboxTableView();
+            updateInboxTableView();
+            updateOutboxTableView();
+        }
     }
 
     @FXML
@@ -389,7 +393,6 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void newTermHBoxOnMouseClicked(MouseEvent event)
     {
-        //dashboardTermNewDialogController = new DashboardTermNewDialogController();
         dashboardTermNewDialogController = dashboardTermNewDailogLoader.getController();
         dashboardTermNewDialogController.initialize(null, null);
         dashboardTermNewDialogController.setDashboardTermNewDialogStage(dashboardTermNewDailogStage);

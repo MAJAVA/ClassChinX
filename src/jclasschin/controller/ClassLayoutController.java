@@ -41,36 +41,36 @@ import jclasschin.model.Login;
 public class ClassLayoutController implements Initializable
 {
 
-    private FXMLLoader classListNewDialogLoader, classListEditDialogLoader,
+    private final FXMLLoader classListNewDialogLoader, classListEditDialogLoader,
             classListDeleteDialogLoader, classDedicateNewDialogLoader, classDedicateEditDialogLoader,
             classDedicateDeleteDialogLoader, classScheduleNewDialogLoader, classScheduleEditDialogLoader,
             classScheduleDeleteDialogLoader;
 
-    private AnchorPane classListNewDialogLayout, classListEditDialogLayout,
+    private final AnchorPane classListNewDialogLayout, classListEditDialogLayout,
             classListDeleteDialogLayout, classDedicateNewDialogLayout, classDedicateEditDialogLayout,
             classDedicateDeleteDialogLayout, classScheduleDeleteDialogLayout;
 
-    private ScrollPane classScheduleNewDialogLayout, classScheduleEditDialogLayout;
+    private final ScrollPane classScheduleNewDialogLayout, classScheduleEditDialogLayout;
 
-    private Scene classListNewDialogScene, classListEditDialogScene,
+    private final Scene classListNewDialogScene, classListEditDialogScene,
             classListDeleteDialogScene, classDedicateNewDialogScene, classDedicateEditDialogScene,
             classDedicateDeleteDialogScene, classScheduleNewDialogScene, classScheduleEditDialogScene,
             classScheduleDeleteDialogScene;
 
-    private Stage classListNewDialogStage, classListEditDialogStage,
+    private final Stage classListNewDialogStage, classListEditDialogStage,
             classListDeleteDialogStage, classDedicateNewDialogStage, classDedicateEditDialogStage,
             classDedicateDeleteDialogStage, classScheduleNewDialogStage, classScheduleEditDialogStage,
             classScheduleDeleteDialogStage;
 
-    private ClassListNewDialogController classListNewDialogController;
-    private ClassListEditDialogController classListEditDialogController;
-    private ClassListDeleteDialogController classListDeleteDialogController;
-    private ClassDedicateNewDialogController classDedicateNewDialogController;
-    private ClassDedicateEditDialogController classDedicateEditDialogController;
-    private ClassDedicateDeleteDialogController classDedicateDeleteDialogController;
-    private ClassScheduleNewDialogController classScheduleNewDialogController;
-    private ClassScheduleEditDialogController classScheduleEditDialogController;
-    private ClassScheduleDeleteDialogController classScheduleDeleteDialogController;
+    private final ClassListNewDialogController classListNewDialogController;
+    private final ClassListEditDialogController classListEditDialogController;
+    private final ClassListDeleteDialogController classListDeleteDialogController;
+    private final ClassDedicateNewDialogController classDedicateNewDialogController;
+    private final ClassDedicateEditDialogController classDedicateEditDialogController;
+    private final ClassDedicateDeleteDialogController classDedicateDeleteDialogController;
+    private final ClassScheduleNewDialogController classScheduleNewDialogController;
+    private final ClassScheduleEditDialogController classScheduleEditDialogController;
+    private final ClassScheduleDeleteDialogController classScheduleDeleteDialogController;
 
     @FXML
     private TableView<Classroom> classTableView;
@@ -294,7 +294,7 @@ public class ClassLayoutController implements Initializable
     private void newDedicateHBoxOnMouseClicked(MouseEvent event)
     {
         classDedicateNewDialogController.setClassDedicateNewDialogStage(classDedicateNewDialogStage);
-        classDedicateNewDialogController.createClassDedicateCheckListBox();
+        classDedicateNewDialogController.initDialog();
         classDedicateNewDialogStage.showAndWait();
         updateDedicationTableView();
     }

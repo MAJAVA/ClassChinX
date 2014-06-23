@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.controller;
 
 import java.net.URL;
@@ -34,6 +33,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Mail;
+import jclasschin.model.MailManager;
 
 /**
  * FXML Controller class
@@ -42,9 +42,10 @@ import jclasschin.entity.Mail;
  */
 public class DashboardInboxDeleteDialogController implements Initializable
 {
+
     private Stage dashboardInboxDeleteDialogStage;
     private Mail mail;
-    
+
     @FXML
     private HBox yesHBox;
     @FXML
@@ -61,7 +62,7 @@ public class DashboardInboxDeleteDialogController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }    
+    }
 
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
@@ -76,6 +77,8 @@ public class DashboardInboxDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        MailManager mailManager = new MailManager();
+        mailManager.deleteForInbox(mail.getId());
         dashboardInboxDeleteDialogStage.close();
     }
 
@@ -104,7 +107,8 @@ public class DashboardInboxDeleteDialogController implements Initializable
     }
 
     /**
-     * @param dashboardInboxDeleteDialogStage the dashboardInboxDeleteDialogStage to set
+     * @param dashboardInboxDeleteDialogStage the
+     * dashboardInboxDeleteDialogStage to set
      */
     public void setDashboardInboxDeleteDialogStage(Stage dashboardInboxDeleteDialogStage)
     {
@@ -126,5 +130,5 @@ public class DashboardInboxDeleteDialogController implements Initializable
     {
         this.mail = mail;
     }
-    
+
 }

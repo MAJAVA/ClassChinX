@@ -48,7 +48,6 @@ import jclasschin.entity.Dedication;
 import jclasschin.entity.Field;
 import jclasschin.model.ClassManager;
 import jclasschin.model.DedicationManager;
-import jclasschin.model.FieldManager;
 import org.controlsfx.control.CheckListView;
 
 /**
@@ -67,7 +66,6 @@ public class ClassDedicateEditDialogController implements Initializable
     Label fieldLabel = new Label("رشته :");
     Label classLabel = new Label("کلاس ها :");
     CheckListView<String> checkListView;
-
     ObservableList<String> selectedClass;
     ArrayList<String> oldClass = new ArrayList<>();
 
@@ -91,24 +89,6 @@ public class ClassDedicateEditDialogController implements Initializable
         // TODO
         String css = JClassChin.class.getResource("gallery/css/CSS.css").toString();
         classDedicateEditDialogAnchorPane.getStylesheets().add(css);
-
-//        
-//        checkListView=new CheckListView<>();
-////        fillFieldComboBox();
-////        fillClassCheckListView();
-//
-//        fieldComboBox.setMinWidth(200);
-//        fieldComboBox.setMaxWidth(200);
-//
-//        checkListView.setMinWidth(200);
-//        checkListView.setMaxWidth(200);
-//
-//        gridPane.add(fieldLabel, 0, 0);
-//        gridPane.add(fieldComboBox, 1, 0);
-//        gridPane.add(classLabel, 0, 1);
-//        gridPane.add(checkListView, 1, 1);
-//        classDedicateEditDialogAnchorPane.getChildren().add(gridPane);
-//        classDedicateEditDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
     }
 
     @FXML
@@ -126,40 +106,6 @@ public class ClassDedicateEditDialogController implements Initializable
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
         classDedicateEditDialogStage.close();
-    }
-
-    void initDialog()
-    {
-
-        if (classDedicateEditDialogAnchorPane.getChildren().contains(gridPane))
-        {
-            classDedicateEditDialogAnchorPane.getChildren().remove(1);
-        }
-        gridPane = new GridPane();
-        gridPane.setAlignment(Pos.TOP_CENTER);
-        gridPane.setLayoutX(30);
-        gridPane.setLayoutY(30);
-        gridPane.setVgap(15);
-        gridPane.setHgap(15);
-
-        fillFieldComboBox();
-        fillClassCheckListView();
-
-        fieldComboBox.setMinWidth(200);
-        fieldComboBox.setMaxWidth(200);
-
-        checkListView.setMinWidth(200);
-        checkListView.setMaxWidth(200);
-
-        gridPane.add(fieldLabel, 0, 0);
-        gridPane.add(fieldComboBox, 1, 0);
-        gridPane.add(classLabel, 0, 1);
-        gridPane.add(checkListView, 1, 1);
-        classDedicateEditDialogAnchorPane.getChildren().add(gridPane);
-        classDedicateEditDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-
-//        fillFieldComboBox();
-//        fillClassCheckListView();
     }
 
     /**
@@ -195,17 +141,40 @@ public class ClassDedicateEditDialogController implements Initializable
         this.editableField = eitableField;
     }
 
+    void initDialog()
+    {
+
+        if (classDedicateEditDialogAnchorPane.getChildren().contains(gridPane))
+        {
+            classDedicateEditDialogAnchorPane.getChildren().remove(1);
+        }
+        gridPane = new GridPane();
+        gridPane.setAlignment(Pos.TOP_CENTER);
+        gridPane.setLayoutX(30);
+        gridPane.setLayoutY(30);
+        gridPane.setVgap(15);
+        gridPane.setHgap(15);
+
+        fillFieldComboBox();
+        fillClassCheckListView();
+
+        fieldComboBox.setMinWidth(200);
+        fieldComboBox.setMaxWidth(200);
+
+        checkListView.setMinWidth(200);
+        checkListView.setMaxWidth(200);
+
+        gridPane.add(fieldLabel, 0, 0);
+        gridPane.add(fieldComboBox, 1, 0);
+        gridPane.add(classLabel, 0, 1);
+        gridPane.add(checkListView, 1, 1);
+        classDedicateEditDialogAnchorPane.getChildren().add(gridPane);
+        classDedicateEditDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+    }
+
     private void fillFieldComboBox()
     {
-//        fieldComboBox.getItems().clear();
-//        fieldComboBox.setPromptText("انتخاب نمایید . . .");
-//
-//        FieldManager fieldManager = new FieldManager();
-//        List fl = fieldManager.selectAll();
-//        fl.stream().forEach((f) ->
-//        {
-//            fieldComboBox.getItems().add(((Field) f).getName());
-//        });
         fieldComboBox.setValue(editableField.getName());
         fieldComboBox.setDisable(true);
     }

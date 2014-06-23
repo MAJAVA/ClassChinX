@@ -64,7 +64,6 @@ public class ClassDedicateNewDialogController implements Initializable
     Label fieldLabel = new Label("رشته :");
     Label classLabel = new Label("کلاس ها :");
     CheckListView<String> checkListView;
-
     ObservableList<String> selectedClass;
 
     @FXML
@@ -112,16 +111,6 @@ public class ClassDedicateNewDialogController implements Initializable
 
     }
 
-    public ClassDedicateNewDialogController()
-    {
-        /* any thing */
-    }
-
-    public void createClassDedicateCheckListBox()
-    {
-        fillFieldComboBox();
-        fillClassCheckListView();
-    }
 
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
@@ -157,6 +146,13 @@ public class ClassDedicateNewDialogController implements Initializable
     {
         this.classDedicateNewDialogStage = classDedicateNewDialogStage;
     }
+    
+    
+    public void initDialog()
+    {
+        fillFieldComboBox();
+        fillClassCheckListView();
+    }
 
     private void fillFieldComboBox()
     {
@@ -172,7 +168,6 @@ public class ClassDedicateNewDialogController implements Initializable
 
     private void fillClassCheckListView()
     {
-        
         ObservableList<String> classList = FXCollections.observableArrayList();
         ClassManager classManager = new ClassManager();
         List cl = classManager.selectAll();
@@ -181,17 +176,11 @@ public class ClassDedicateNewDialogController implements Initializable
             classList.add(((Classroom) c).getName());
         });
         checkListView = new CheckListView<>(classList);
-        checkListView.getCheckModel().clearSelection();
-        
-        checkListView.getCheckModel().getSelectedItems().addListener(new ListChangeListener<String>()
+        checkListView.getCheckModel().clearSelection(); 
+        checkListView.getCheckModel().getSelectedItems().addListener((ListChangeListener.Change<? extends String> c) ->
         {
-            @Override
-            public void onChanged(ListChangeListener.Change<? extends String> c)
-            {
-                selectedClass=(ObservableList<String>) c.getList();
-            }
+            selectedClass=(ObservableList<String>) c.getList();
         });
-
     }
 
 }
