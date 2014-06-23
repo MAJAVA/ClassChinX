@@ -77,6 +77,8 @@ public class ScheduleLayoutController implements Initializable
     private TableColumn<?, ?> courseTableColumn;
     @FXML
     private TableColumn<?, ?> professorTableColumn;
+    @FXML
+    private HBox printHBox;
 
     public ScheduleLayoutController() throws IOException
     {
@@ -165,6 +167,11 @@ public class ScheduleLayoutController implements Initializable
     }
 
     void updateScheduleTableView()
+    {
+    }
+
+    @FXML
+    private void printHBoxOnMouseClicked(MouseEvent event)
     {
     }
 
