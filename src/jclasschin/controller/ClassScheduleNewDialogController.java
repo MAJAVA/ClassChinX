@@ -24,13 +24,10 @@
 package jclasschin.controller;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -42,10 +39,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import jclasschin.JClassChin;
-import jclasschin.model.Effect;
-import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.textfield.CustomTextField;
+import jclasschin.model.ScheduleManager;
+import jclasschin.util.Effect;
 
 /**
  * FXML Controller class
@@ -54,6 +51,9 @@ import org.controlsfx.control.textfield.CustomTextField;
  */
 public class ClassScheduleNewDialogController implements Initializable
 {
+    private Stage classScheduleNewDialogStage;
+    private ScheduleManager scheduleManager;
+    
     GridPane gridPane;
     int periodsNumber;
     Label[] periodTitle;
@@ -170,11 +170,39 @@ public class ClassScheduleNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        String [] startOfPeriod = new String[periodsNumber];
+        String [] endOfPeriod = new String[periodsNumber];
+        for (int i = 0; i < periodsNumber; i++)
+        {
+            startOfPeriod[i]  = startOfPeriodTextField[i].getText();
+            endOfPeriod[i] = endOfPeriodTextField[i].getText();
+        }
+        scheduleManager = new ScheduleManager();
+        scheduleManager.insert(scheduleNameTextField.getText(), periodsNumber, startOfPeriod, endOfPeriod);
+        classScheduleNewDialogStage.close();
+        
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        classScheduleNewDialogStage.close();
+    }
+
+    /**
+     * @return the classScheduleNewDialogStage
+     */
+    public Stage getClassScheduleNewDialogStage()
+    {
+        return classScheduleNewDialogStage;
+    }
+
+    /**
+     * @param classScheduleNewDialogStage the classScheduleNewDialogStage to set
+     */
+    public void setClassScheduleNewDialogStage(Stage classScheduleNewDialogStage)
+    {
+        this.classScheduleNewDialogStage = classScheduleNewDialogStage;
     }
 
 }

@@ -33,14 +33,15 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import jclasschin.JClassChin;
-import jclasschin.model.Effect;
+import jclasschin.util.Effect;
 
 /**
  * FXML Controller class
  *
  * @author Ali
  */
-public class PreloaderLayoutController implements Initializable {
+public class PreloaderLayoutController implements Initializable
+{
 
     private BorderPane objectLayout;
 //    private AnchorPane preloaderLayout;
@@ -55,7 +56,8 @@ public class PreloaderLayoutController implements Initializable {
     @FXML
     private ProgressIndicator progressIndicator;
 
-    public PreloaderLayoutController() throws IOException {
+    public PreloaderLayoutController() throws IOException
+    {
 //
 //        mainLayoutLoader = new FXMLLoader(JClassChin.class.getResource("view/MainLayout.fxml"));
 //        mainLayout = (BorderPane) mainLayoutLoader.load();
@@ -70,12 +72,14 @@ public class PreloaderLayoutController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         // TODO
         progressIndicator.setProgress(0.001F);
     }
 
-    public void start() {
+    public void start()
+    {
         new Effect().fadeInTransition(loginLayout, 1000);
         objectLayout.setCenter(loginLayout);
         loginLayoutController.setObjectLayout(objectLayout);
@@ -83,7 +87,8 @@ public class PreloaderLayoutController implements Initializable {
         loginLayoutController.start();
     }
 
-    public void setObjectLayout(BorderPane objectLayout) {
+    public void setObjectLayout(BorderPane objectLayout)
+    {
         this.objectLayout = objectLayout;
     }
 

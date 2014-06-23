@@ -31,6 +31,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import jclasschin.entity.Schedule;
 
 /**
  * FXML Controller class
@@ -39,6 +41,9 @@ import javafx.scene.layout.HBox;
  */
 public class ClassScheduleDeleteDialogController implements Initializable
 {
+    private Stage classScheduleDeleteDialogStage;
+    private Schedule schedule;
+    
     @FXML
     private HBox yesHBox;
     @FXML
@@ -70,6 +75,8 @@ public class ClassScheduleDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        
+        getClassScheduleDeleteDialogStage().close();
     }
 
     @FXML
@@ -85,6 +92,39 @@ public class ClassScheduleDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        getClassScheduleDeleteDialogStage().close();
+    }
+
+    /**
+     * @return the classScheduleDeleteDialogStage
+     */
+    public Stage getClassScheduleDeleteDialogStage()
+    {
+        return classScheduleDeleteDialogStage;
+    }
+
+    /**
+     * @param classScheduleDeleteDialogStage the classScheduleDeleteDialogStage to set
+     */
+    public void setClassScheduleDeleteDialogStage(Stage classScheduleDeleteDialogStage)
+    {
+        this.classScheduleDeleteDialogStage = classScheduleDeleteDialogStage;
+    }
+
+    /**
+     * @return the schedule
+     */
+    public Schedule getSchedule()
+    {
+        return schedule;
+    }
+
+    /**
+     * @param schedule the schedule to set
+     */
+    public void setSchedule(Schedule schedule)
+    {
+        this.schedule = schedule;
     }
     
 }

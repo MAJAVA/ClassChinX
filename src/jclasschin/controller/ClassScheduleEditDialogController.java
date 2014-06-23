@@ -31,9 +31,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import jclasschin.entity.Period;
+import jclasschin.entity.Schedule;
 
 /**
  * FXML Controller class
@@ -42,6 +48,10 @@ import javafx.scene.layout.GridPane;
  */
 public class ClassScheduleEditDialogController implements Initializable
 {
+    private Stage classScheduleEditDialogStage;
+    private Schedule schedule;
+    private Period period;
+    
     @FXML
     private ScrollPane classScheduleNewDialogScrollPane;
     @FXML
@@ -54,6 +64,14 @@ public class ClassScheduleEditDialogController implements Initializable
     private TextField periodsNumberTextField;
     @FXML
     private GridPane periodsGridPane;
+    @FXML
+    private HBox okHBox;
+    @FXML
+    private ImageView okImageView;
+    @FXML
+    private HBox cancelHBox;
+    @FXML
+    private ImageView cancelImageView;
 
     /**
      * Initializes the controller class.
@@ -76,6 +94,51 @@ public class ClassScheduleEditDialogController implements Initializable
 
     void initDialog()
     {
+    }
+
+    /**
+     * @return the classScheduleEditDialogStage
+     */
+    public Stage getClassScheduleEditDialogStage()
+    {
+        return classScheduleEditDialogStage;
+    }
+
+    /**
+     * @param classScheduleEditDialogStage the classScheduleEditDialogStage to set
+     */
+    public void setClassScheduleEditDialogStage(Stage classScheduleEditDialogStage)
+    {
+        this.classScheduleEditDialogStage = classScheduleEditDialogStage;
+    }
+
+    @FXML
+    private void okHBoxOnMouseClicked(MouseEvent event)
+    {
+        classScheduleEditDialogStage.close();
+        
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseClicked(MouseEvent event)
+    {
+         classScheduleEditDialogStage.close();
+    }
+
+    /**
+     * @return the schedule
+     */
+    public Schedule getSchedule()
+    {
+        return schedule;
+    }
+
+    /**
+     * @param schedule the schedule to set
+     */
+    public void setSchedule(Schedule schedule)
+    {
+        this.schedule = schedule;
     }
     
 }

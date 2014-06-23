@@ -37,7 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import jclasschin.JClassChin;
-import jclasschin.model.Effect;
+import jclasschin.util.Effect;
 import jclasschin.model.Login;
 import jclasschin.util.Utilities;
 

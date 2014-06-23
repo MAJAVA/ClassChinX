@@ -23,7 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import jclasschin.JClassChin;
 import jclasschin.entity.User;
-import jclasschin.model.Effect;
+import jclasschin.util.Effect;
 //import org.controlsfx.control.Notifications;
 
 /**
@@ -421,6 +421,7 @@ public class MainLayoutController implements Initializable
         classHBoxOnMouseClickedFlag = true;
         classLayoutController.updateClassListTableView();
         classLayoutController.updateDedicationTableView();
+        classLayoutController.updateScheduleTableView();
     }
 
     @FXML

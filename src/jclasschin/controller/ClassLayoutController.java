@@ -1,7 +1,6 @@
 package jclasschin.controller;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +9,12 @@ import java.util.Set;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,13 +26,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import jclasschin.JClassChin;
 import jclasschin.entity.Classroom;
-import jclasschin.entity.Course;
 import jclasschin.entity.Dedication;
 import jclasschin.entity.Field;
+import jclasschin.entity.Schedule;
 import jclasschin.model.ClassManager;
-import jclasschin.model.CourseManager;
+import jclasschin.model.CtacssManager;
 import jclasschin.model.FieldManager;
-import jclasschin.model.Login;
+import jclasschin.model.ScheduleManager;
 
 /**
  * FXML Controller class
@@ -99,6 +100,19 @@ public class ClassLayoutController implements Initializable
     private TableColumn<Field, Integer> dClassNumberTableColumn;
     @FXML
     private TableColumn<Field, String[]> dClassListTableColumn;
+
+    @FXML
+    private TableView<Schedule> scheduleTableView;
+    @FXML
+    private TableColumn<Schedule, Integer> schIdTableColumn;
+    @FXML
+    private TableColumn<Schedule, String> schNameTableColumn;
+    @FXML
+    private TableColumn<Schedule, Integer> schNumberOfPeriodTableColumn;
+    @FXML
+    private TableColumn<Schedule, Set> schPeriodsTableColumn;
+    @FXML
+    private ComboBox<String> currentScheduleComboBox;
 
     public ClassLayoutController() throws IOException
     {
@@ -397,27 +411,75 @@ public class ClassLayoutController implements Initializable
 
     }
 
-@FXML
+    @FXML
     private void newScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        classScheduleNewDialogController.setClassScheduleNewDialogStage(classScheduleNewDialogStage);
         classScheduleNewDialogController.initDialog();
         classScheduleNewDialogStage.showAndWait();
+        updateScheduleTableView();
 
     }
 
     @FXML
     private void editScheduleHBoxOnMouseClicked(MouseEvent event)
     {
-        classScheduleEditDialogController.initDialog();
-        classScheduleEditDialogStage.showAndWait();
+        if (scheduleTableView.getSelectionModel().getSelectedIndex() != -1)
+        {
+            Schedule s = scheduleTableView.getSelectionModel().getSelectedItem();
+            classScheduleEditDialogController.setClassScheduleEditDialogStage(classScheduleEditDialogStage);
+            classScheduleEditDialogController.setSchedule(s);
+            classScheduleEditDialogController.initDialog();
+            classScheduleEditDialogStage.showAndWait();
+            updateScheduleTableView();
+            
+        }
     }
 
     @FXML
     private void deleteScheduleHBoxOnMouseClicked(MouseEvent event)
     {
-        classScheduleDeleteDialogStage.showAndWait();
+        if (scheduleTableView.getSelectionModel().getSelectedIndex() != -1)
+        {
+            Schedule s = scheduleTableView.getSelectionModel().getSelectedItem();
+            classScheduleDeleteDialogController.setClassScheduleDeleteDialogStage(classScheduleDeleteDialogStage);
+            classScheduleDeleteDialogController.setSchedule(s);
+            //classScheduleDeleteDialogController.initDialog();
+            classScheduleDeleteDialogStage.showAndWait();
+            updateScheduleTableView();
+            
+        }
 
     }
 
+    public void updateScheduleTableView()
+    {
+        currentScheduleComboBox.getItems().clear();
+        ScheduleManager scheduleManager = new ScheduleManager();
+        List l = scheduleManager.selectAllSchedule();
+        ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
 
+        schIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        schNameTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getName()));
+        schNumberOfPeriodTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, Integer> s)
+                -> new ReadOnlyObjectWrapper(s.getValue().getNumberOfPeriods()));
+        schPeriodsTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, Set> s)
+                -> new ReadOnlyObjectWrapper(s.getValue().getPeriods()));
+
+        l.stream().forEach((s) ->
+        {
+            scheduleList.add((Schedule) s);
+            currentScheduleComboBox.getItems().add(((Schedule) s).getName());
+        });
+        scheduleTableView.setItems(scheduleList);
+        new CtacssManager().initCurrentSchedule();
+        currentScheduleComboBox.setValue(CtacssManager.currentSchedule.getName());
+    }
+
+    @FXML
+    private void classScheduleTabOnSelectionChanged(Event event)
+    {
+        CtacssManager cm = new CtacssManager();
+        cm.updateCurrentSchedule(currentScheduleComboBox.getValue());
+    }
 }

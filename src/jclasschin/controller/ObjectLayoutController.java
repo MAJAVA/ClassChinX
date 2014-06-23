@@ -31,7 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import jclasschin.JClassChin;
-import jclasschin.model.Effect;
+import jclasschin.util.Effect;
 
 /**
  * FXML Controller class
