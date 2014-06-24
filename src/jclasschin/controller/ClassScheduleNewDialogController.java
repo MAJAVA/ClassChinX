@@ -99,6 +99,7 @@ public class ClassScheduleNewDialogController implements Initializable
         classScheduleNewDialogScrollPane.getStylesheets().add(css);
         timeTooltip=new Tooltip("زمان را به شیوه 00:00 وارد کنید\nبرای مثال 11:40");
         timeTooltip.setTextAlignment(TextAlignment.CENTER);
+        
     }
 
     @FXML

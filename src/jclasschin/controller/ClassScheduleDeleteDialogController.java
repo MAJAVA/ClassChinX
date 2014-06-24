@@ -33,6 +33,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Schedule;
+import jclasschin.model.ScheduleManager;
 
 /**
  * FXML Controller class
@@ -75,7 +76,8 @@ public class ClassScheduleDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
-        
+        ScheduleManager scheduleManager = new ScheduleManager();
+        scheduleManager.delete(schedule.getId());
         getClassScheduleDeleteDialogStage().close();
     }
 

@@ -66,6 +66,23 @@ public class ScheduleManager
         }
 
     }
+    
+    public boolean delete(Integer schId)
+    {
+         try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            schedule = (Schedule) session.load(Schedule.class, schId);
+            session.delete(schedule);
+            session.getTransaction().commit();
+            return true;
+        }
+        catch (HibernateException he)
+        {
+            return false;
+        }
+    }
 
     public List selectAllSchedule()
     {
