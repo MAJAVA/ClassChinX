@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.controller;
 
 import java.net.URL;
@@ -36,6 +35,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import jclasschin.model.TermManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -44,10 +45,10 @@ import jclasschin.model.TermManager;
  */
 public class DashboardTermNewDialogController implements Initializable
 {
-    
+
     private Stage dashboardTermNewDialogStage;
-    
-    
+    private ValidationSupport validationSupport = new ValidationSupport();
+
     @FXML
     private TextField termNameTextField;
     @FXML
@@ -67,7 +68,7 @@ public class DashboardTermNewDialogController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }    
+    }
 
     @FXML
     private void okHBoxOnMouseExited(MouseEvent event)
@@ -82,43 +83,25 @@ public class DashboardTermNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-         TermManager termManager;
-        if (getTermNameTextField().getText() == null || "".equals(getTermNameTextField().getText()))
-        {
-//            programMessageLable.setTextFill(Color.RED);
-//            programMessageLable.setText("Field Name can not be NULL!");
+        TermManager termManager;
 
-        }
-        else if (getTermNameTextField().getText().matches("\\d*"))
+        if (validationSupport.isInvalid())
         {
-//            programMessageLable.setTextFill(Color.RED);
-//            programMessageLable.setText("Field Name can not be only number!");
-            
-        }
-        else if (getTermNameTextField().getText().matches("\\d+[a-zA-Z_$1-9]*"))
-        {
-//            programMessageLable.setTextFill(Color.RED);
-//            programMessageLable.setText("Field Name can not be start with number!");
-            
+            MainLayoutController.statusProperty.setValue("لطفا نام ترم را وارد کنید.");
         }
         else
         {
             termManager = new TermManager();
             if (termManager.insert(getTermNameTextField().getText()))
             {
-                System.out.println(getTermNameTextField().getText());
-//                programMessageLable.setTextFill(Color.GREEN);
-//                programMessageLable.setText("New Field add successfully!!!");
-                getTermNameTextField().setText("");
-                
-                dashboardTermNewDialogStage.close();
-                
+                MainLayoutController.statusProperty.setValue("ترم جدید با موفقیت ثبت شد!");
+
             }
             else
             {
-//                programMessageLable.setTextFill(Color.RED);
-//                programMessageLable.setText("Failed to add New Field!");
+                MainLayoutController.statusProperty.setValue("خطا در افزودن ترم جدید- لطفا مجددا تلاش نمایید.");
             }
+            dashboardTermNewDialogStage.close();
         }
 
     }
@@ -136,6 +119,7 @@ public class DashboardTermNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات افزودن ترم جدید لغو شد.");
         dashboardTermNewDialogStage.close();
     }
 
@@ -162,5 +146,12 @@ public class DashboardTermNewDialogController implements Initializable
     {
         return termNameTextField;
     }
-  
+
+    public void initDialog()
+    {
+        termNameTextField.setPromptText("برای مثال 90-1");
+        termNameTextField.setText(null);
+        validationSupport.registerValidator(termNameTextField,
+                Validator.createEmptyValidator("نام ترم الزامی است"));
+    }
 }

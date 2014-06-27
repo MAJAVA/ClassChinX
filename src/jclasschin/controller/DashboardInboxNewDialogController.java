@@ -40,6 +40,9 @@ import jclasschin.entity.User;
 import jclasschin.model.Login;
 import jclasschin.model.MailManager;
 import jclasschin.model.UserManager;
+import org.controlsfx.validation.ValidationMessage;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -49,6 +52,7 @@ import jclasschin.model.UserManager;
 public class DashboardInboxNewDialogController implements Initializable
 {
 
+    private ValidationSupport validationSupport = new ValidationSupport();
     private Stage dashboardIboxNewDialogStage;
     private Mail mail;
 
@@ -79,16 +83,32 @@ public class DashboardInboxNewDialogController implements Initializable
     @FXML
     private void okHboxOnMouseClicked(MouseEvent event)
     {
-        MailManager mailManager = new MailManager();
-        String[] s = toComboBox.getValue().split(" @ ");
-        mailManager.insert(s[1], subjectTextField.getText(), messegeTextArea.getText());
-        dashboardIboxNewDialogStage.close();
+
+        if (!validationSupport.isInvalid())
+        {
+            MailManager mailManager = new MailManager();
+            String[] s = toComboBox.getValue().split(" @ ");
+            if (mailManager.insert(s[1], subjectTextField.getText(), messegeTextArea.getText()))
+            {
+                MainLayoutController.statusProperty.setValue("نامه شما ارسال شد!");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("ارسال نامه با شکست مواجه شد.");
+            }
+            dashboardIboxNewDialogStage.close();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("فیلد های الزامی را تکمیل فرمایید.");
+        }
     }
 
     @FXML
     private void cancelHboxOnMouseClicked(MouseEvent event)
     {
-        
+
+        MainLayoutController.statusProperty.setValue("ارسال جدید لغو شد.");
         dashboardIboxNewDialogStage.close();
     }
 
@@ -111,8 +131,19 @@ public class DashboardInboxNewDialogController implements Initializable
     public void initDialog()
     {
         subjectTextField.setText("");
+        subjectTextField.setPromptText("موضوع را وارد نمایید.");
+
         messegeTextArea.setText("");
+        messegeTextArea.setPromptText("متن نامه کمتر از یکصد حرف می باشد.");
         fillToComboBox();
+
+        validationSupport.registerValidator(toComboBox,
+                Validator.createEmptyValidator("نام گیرنده الزامی است"));
+        validationSupport.registerValidator(subjectTextField,
+                Validator.createEmptyValidator("موضوع الزامی است"));
+        validationSupport.registerValidator(messegeTextArea,
+                Validator.createEmptyValidator("متن الزامی است"));
+
     }
 
     private void fillToComboBox()
@@ -131,8 +162,8 @@ public class DashboardInboxNewDialogController implements Initializable
             userList.stream().forEach((u) ->
             {
                 toComboBox.getItems().add((((User) u).getPerson().getFirstName()) + " "
-                        + (((User) u).getPerson().getLastName())+ " @ " +
-                        (((User) u).getUsername()));
+                        + (((User) u).getPerson().getLastName()) + " @ "
+                        + (((User) u).getUsername()));
             });
         }
     }

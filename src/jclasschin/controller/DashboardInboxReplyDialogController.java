@@ -37,6 +37,8 @@ import javafx.stage.Stage;
 import jclasschin.entity.Mail;
 import jclasschin.model.Login;
 import jclasschin.model.MailManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  *
@@ -45,6 +47,7 @@ import jclasschin.model.MailManager;
 public class DashboardInboxReplyDialogController implements Initializable
 {
 
+    private ValidationSupport validationSupport = new ValidationSupport();
     private Stage dashboardInboxReplyMailDialogStage;
     private Mail mail;
 
@@ -75,14 +78,29 @@ public class DashboardInboxReplyDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        MailManager mailManager = new MailManager();
-        mailManager.insertForReply(mail.getPersonBySenderPersonId(), subjectTextField.getText(), messegeTextArea.getText());
-        dashboardInboxReplyMailDialogStage.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("فیلد های اجباری را تکمیل فرمایید.");
+        }
+        else
+        {
+            MailManager mailManager = new MailManager();
+            if(mailManager.insertForReply(mail.getPersonBySenderPersonId(), subjectTextField.getText(), messegeTextArea.getText()))
+            {
+                MainLayoutController.statusProperty.setValue("نامه شما ارسال شد!");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("ارسال نامه با شکست مواجه شد.");
+            }
+            dashboardInboxReplyMailDialogStage.close();
+        }
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("پاسخ به نامه لغو شد.");
         dashboardInboxReplyMailDialogStage.close();
     }
 
@@ -108,6 +126,13 @@ public class DashboardInboxReplyDialogController implements Initializable
         messegeTextArea.setText("");
         fillToComboBox();
         subjectTextField.setText("پاسخ به : " + mail.getType());
+
+        validationSupport.registerValidator(toComboBox,
+                Validator.createEmptyValidator("نام گیرنده الزامی است"));
+        validationSupport.registerValidator(subjectTextField,
+                Validator.createEmptyValidator("موضوع الزامی است"));
+        validationSupport.registerValidator(messegeTextArea,
+                Validator.createEmptyValidator("متن الزامی است"));
     }
 
     private void fillToComboBox()

@@ -186,6 +186,7 @@ public class GroupsLayoutController implements Initializable
         courseNewDialogController.initDialog();
         courseNewDialogStage.showAndWait();
         updateCourseTableView();
+       
 
     }
 

@@ -35,6 +35,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Term;
 import jclasschin.model.TermManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -44,6 +46,7 @@ import jclasschin.model.TermManager;
 public class DashboardTermEditDialogController implements Initializable
 {
 
+    ValidationSupport validationSupport = new ValidationSupport();
     private Stage dashboardTermEditDialogStage;
     private Term editableTerm;
     private TermManager termManager = new TermManager();
@@ -83,12 +86,24 @@ public class DashboardTermEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        if (termNameTextField.getText() != null)
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا نام ترم را وارد نمایید.");
+        }
+        else
         {
             termManager = new TermManager();
-            termManager.update(editableTerm.getId(), termNameTextField.getText());
+            if (termManager.update(editableTerm.getId(), termNameTextField.getText()))
+            {
+                MainLayoutController.statusProperty.setValue("بروز رسانی نام ترم با موفقیت انجام شد!");
+            }
+            else
+            {
+                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی با شکست مواجه شد. لطفا مجددا تلاش کنید");
+            }
+            dashboardTermEditDialogStage.close();
         }
-        dashboardTermEditDialogStage.close();
+
     }
 
     @FXML
@@ -104,6 +119,7 @@ public class DashboardTermEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروز رسانی ترم لغو شد.");
         dashboardTermEditDialogStage.close();
     }
 
@@ -138,6 +154,15 @@ public class DashboardTermEditDialogController implements Initializable
     public void setEditableTerm(Term editableTerm)
     {
         this.editableTerm = editableTerm;
+
+    }
+
+    public void initDialog()
+    {
+        termNameTextField.setPromptText("برای مثال 90-1");
+        termNameTextField.setText(null);
+        validationSupport.registerValidator(termNameTextField,
+                Validator.createEmptyValidator("نام ترم الزامی است"));
         termNameTextField.setText(this.editableTerm.getName());
     }
 

@@ -14,9 +14,9 @@
   <bottom>
     <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="45.0" prefWidth="1245.0" BorderPane.alignment="CENTER">
       <children>
-        <Label id="dateTimeLabel" fx:id="statusBarLable" layoutX="40.0" layoutY="8.0" text="نوار وضعیت" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="1130.0" AnchorPane.topAnchor="10.0">
+        <Label id="dateTimeLabel" fx:id="statusBarLable" layoutX="40.0" layoutY="8.0" text="نوار وضعیت" textFill="#ff5803" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="44.0" AnchorPane.topAnchor="10.0">
                <font>
-                  <Font name="B Nazanin" size="20.0" />
+                  <Font name="B Nazanin Bold" size="16.0" />
                </font></Label>
         <Separator prefWidth="1245.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       </children>
@@ -25,7 +25,7 @@
   <left>
     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="241.0" rotate="0.0" BorderPane.alignment="CENTER">
       <children>
-        <VBox id="VBox" alignment="CENTER_LEFT" depthTest="INHERIT" fillWidth="true" spacing="15.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="29.0">
+        <VBox id="VBox" alignment="CENTER_LEFT" depthTest="INHERIT" fillWidth="true" spacing="15.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="29.0">
           <children>
             <HBox id="HBox" fx:id="dashboardHBox" alignment="CENTER_LEFT" onMouseClicked="#dashboardHBoxOnMouseClicked" onMouseEntered="#dashboardHBoxOnMouseEntered" onMouseExited="#dashboardHBoxOnMouseExited" prefHeight="60.0" prefWidth="149.0" spacing="10.0">
               <children>
@@ -53,7 +53,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#usersHBoxOnMouseClicked" onMouseEntered="#usersHBoxOnMouseEntered" onMouseExited="#usersHBoxOnMouseExited" spacing="10.0">
+            <HBox id="HBox" fx:id="usersHBox" alignment="CENTER_LEFT" onMouseClicked="#usersHBoxOnMouseClicked" onMouseEntered="#usersHBoxOnMouseEntered" onMouseExited="#usersHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="usersImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -66,7 +66,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#groupsHBoxOnMouseClicked" onMouseEntered="#groupsHBoxOnMouseEntered" onMouseExited="#groupsHBoxOnMouseExited" spacing="10.0">
+            <HBox id="HBox" fx:id="groupsHBox" alignment="CENTER_LEFT" onMouseClicked="#groupsHBoxOnMouseClicked" onMouseEntered="#groupsHBoxOnMouseEntered" onMouseExited="#groupsHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="groupsImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -79,7 +79,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#classHBoxOnMouseClicked" onMouseEntered="#classHBoxOnMouseEntered" onMouseExited="#classHBoxOnMouseExited" spacing="10.0">
+            <HBox id="HBox" fx:id="classHBox" alignment="CENTER_LEFT" onMouseClicked="#classHBoxOnMouseClicked" onMouseEntered="#classHBoxOnMouseEntered" onMouseExited="#classHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="classImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -92,7 +92,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#scheduleHBoxOnMouseClicked" onMouseEntered="#scheduleHBoxOnMouseEntered" onMouseExited="#scheduleHBoxOnMouseExited" spacing="10.0">
+            <HBox id="HBox" fx:id="classChinHBox" alignment="CENTER_LEFT" onMouseClicked="#scheduleHBoxOnMouseClicked" onMouseEntered="#scheduleHBoxOnMouseEntered" onMouseExited="#scheduleHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="scheduleImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -105,7 +105,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" alignment="CENTER_LEFT" onMouseClicked="#reportHBoxOnMouseClicked" onMouseEntered="#reportHBoxOnMouseEntered" onMouseExited="#reportHBoxOnMouseExited" spacing="10.0">
+            <HBox id="HBox" fx:id="reportHBox" alignment="CENTER_LEFT" onMouseClicked="#reportHBoxOnMouseClicked" onMouseEntered="#reportHBoxOnMouseEntered" onMouseExited="#reportHBoxOnMouseExited" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="reportsImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -119,6 +119,16 @@
               </children>
             </HBox>
           </children>
+               <effect>
+                  <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="30.23" surfaceScale="0.92">
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant color="#3a7a2a" />
+                     </light>
+                  </Lighting>
+               </effect>
         </VBox>
         <Separator orientation="VERTICAL" prefHeight="613.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="237.0" AnchorPane.topAnchor="-3.0" />
       </children>

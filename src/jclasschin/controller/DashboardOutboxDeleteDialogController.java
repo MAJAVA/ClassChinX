@@ -77,7 +77,14 @@ public class DashboardOutboxDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         MailManager mailManager = new MailManager();
-        mailManager.deleteForOutbox(mail.getId());
+        if(mailManager.deleteForOutbox(mail.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("حذف نامه با موفقیت انجام شد.");
+        }
+         else
+        {
+             MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
+        }
         dashboardOutboxDeleteDialogStage.close();
     }
 
@@ -94,6 +101,7 @@ public class DashboardOutboxDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
         dashboardOutboxDeleteDialogStage.close();
     }
 
@@ -102,6 +110,7 @@ public class DashboardOutboxDeleteDialogController implements Initializable
      */
     public Stage getDashboardOutboxDeleteDialogStage()
     {
+        
         return dashboardOutboxDeleteDialogStage;
     }
 

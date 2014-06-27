@@ -56,7 +56,6 @@ import jclasschin.JClassChin;
 import jclasschin.entity.Mail;
 import jclasschin.entity.Status;
 import jclasschin.entity.Term;
-import jclasschin.entity.User;
 import jclasschin.model.CtacssManager;
 import jclasschin.model.MailManager;
 import jclasschin.model.StatusManager;
@@ -135,8 +134,7 @@ public class DashboardLayoutController implements Initializable
     private TableColumn<Term, String> termIdTableColumn;
     @FXML
     private TableColumn<Term, String> termNameTableColumn;
-    
-    
+
     @FXML
     private TableColumn<Mail, Integer> idTableColumn;
     @FXML
@@ -153,18 +151,17 @@ public class DashboardLayoutController implements Initializable
     private TableColumn<Mail, String> outboxDateTableColumn;
     @FXML
     private TableColumn<Mail, String> outboxMessegeTableColumn;
-    
-    
+
     @FXML
     private TableView<Status> statusTableView;
     @FXML
-    private TableColumn<Status,Integer> statusIdTableColumn;
+    private TableColumn<Status, Integer> statusIdTableColumn;
     @FXML
     private TableColumn<Status, String> statusFieldTableColumn;
     @FXML
-    private TableColumn<Status,String> statusLastUpdateTableColumn;
+    private TableColumn<Status, String> statusLastUpdateTableColumn;
     @FXML
-    private TableColumn<Status,Boolean> statusStateTableColumn;
+    private TableColumn<Status, Boolean> statusStateTableColumn;
 
     public DashboardLayoutController() throws IOException
     {
@@ -427,7 +424,8 @@ public class DashboardLayoutController implements Initializable
     {
         /* Refersh status table */
         updateStatusTableView();
-        
+        MainLayoutController.statusProperty.setValue("جدول وضعیت بروز رسانی شد.");
+
     }
 
     @FXML
@@ -436,7 +434,9 @@ public class DashboardLayoutController implements Initializable
         dashboardTermNewDialogController = dashboardTermNewDailogLoader.getController();
         dashboardTermNewDialogController.initialize(null, null);
         dashboardTermNewDialogController.setDashboardTermNewDialogStage(dashboardTermNewDailogStage);
+        dashboardTermNewDialogController.initDialog();
         dashboardTermNewDailogStage.showAndWait();
+
         updateTermTableView();
     }
 
@@ -446,11 +446,12 @@ public class DashboardLayoutController implements Initializable
         if (termTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Term t = termTableView.getSelectionModel().getSelectedItem();
-            //dashboardTermEditDialogController = new DashboardTermEditDialogController();
+
             dashboardTermEditDialogController = dashboardTermEditDailogLoader.getController();
             dashboardTermEditDialogController.initialize(null, null);
             dashboardTermEditDialogController.setDashboardTermEditDialogStage(dashboardTermEditDailogStage);
             dashboardTermEditDialogController.setEditableTerm(t);
+            dashboardTermEditDialogController.initDialog();
             dashboardTermEditDailogStage.showAndWait();
 
             updateTermTableView();
@@ -483,7 +484,7 @@ public class DashboardLayoutController implements Initializable
 
         termIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         termNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        
+
         l.stream().forEach((t) ->
         {
             termList.add((Term) t);
@@ -533,13 +534,12 @@ public class DashboardLayoutController implements Initializable
         });
         outboxTableView.setItems(mailList);
     }
-    
 
     public void updateStatusTableView()
     {
         StatusManager statusManager = new StatusManager();
         List l = statusManager.selectAllByTerm(CtacssManager.currentTerm.getName());
-        
+
         ObservableList<Status> statusList = FXCollections.observableArrayList();
         statusIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         statusFieldTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getField().getName()));
@@ -547,7 +547,7 @@ public class DashboardLayoutController implements Initializable
         statusLastUpdateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getLastUpdate()));
         statusStateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, Boolean> s) ->
         {
-            return new ReadOnlyObjectWrapper(s.getValue().getState()? "تایید نشده":"تایید شده");
+            return new ReadOnlyObjectWrapper(s.getValue().getState() ? "تایید شده" : "تایید نشده");
         });
 
         l.stream().forEach((s) ->
@@ -567,42 +567,28 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void currentTermComboBoxOnAction(ActionEvent event)
     {
-//        CtacssManager cm = new CtacssManager();
-//        cm.updateCurrentTerm(currentTermComboBox.getValue());
-//        System.out.println(CtacssManager.currentTerm.getName());
-//        System.out.println("khodaaaaaaaaa");
-
-//        currentTermComboBox.valueProperty().addListener(new ChangeListener<String>()
-//        {
-//            @Override
-//            public void changed(ObservableValue ov, String t, String t1)
-//            {
-//                CtacssManager cm = new CtacssManager();
-//                cm.updateCurrentTerm(currentTermComboBox.getValue());
-//                System.out.println(CtacssManager.currentTerm.getName());
-//                System.out.println("chesshaaammmmmm");
-//            }
-//        });
     }
 
     @FXML
     private void currentTermComboBoxOnContextMenuRequested(ContextMenuEvent event)
     {
-
     }
 
     @FXML
     private void termTabOnClose(Event event)
     {
-
     }
 
     @FXML
     private void termTabOnSelectionChanged(Event event)
     {
         CtacssManager cm = new CtacssManager();
-        cm.updateCurrentTerm(currentTermComboBox.getValue());
-        System.out.println(CtacssManager.currentTerm.getName());
+        if (currentTermComboBox.getValue() == null ? CtacssManager.currentTerm.getName() != null : !currentTermComboBox.getValue().equals(CtacssManager.currentTerm.getName()))
+        {
+            cm.updateCurrentTerm(currentTermComboBox.getValue());
+            System.out.println(CtacssManager.currentTerm.getName());
+            MainLayoutController.statusProperty.setValue("ترم جاری سیستم بروز شد.");
+        }
     }
-    
+
 }

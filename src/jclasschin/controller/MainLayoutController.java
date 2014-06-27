@@ -27,6 +27,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.adapter.JavaBeanStringProperty;
+import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -54,6 +59,8 @@ import jclasschin.util.Utilities;
  */
 public class MainLayoutController implements Initializable
 {
+
+    public static StringProperty statusProperty = new SimpleStringProperty();
 
     private BorderPane objectLayout;
     private BorderPane mainLayout;
@@ -136,6 +143,16 @@ public class MainLayoutController implements Initializable
     public Label statusBarLable;
     @FXML
     private Label welcomeLable;
+    @FXML
+    private HBox usersHBox;
+    @FXML
+    private HBox groupsHBox;
+    @FXML
+    private HBox classHBox;
+    @FXML
+    private HBox classChinHBox;
+    @FXML
+    private HBox reportHBox;
 
     public MainLayoutController() throws IOException
     {
@@ -220,19 +237,27 @@ public class MainLayoutController implements Initializable
         dashboardImageView.setImage(homeButtonOnMouseClicked);
         dashboardHBoxOnMouseClickedFlag = true;
 
-        
-
         dashboardLayoutController.updateTermTableView();
         dashboardLayoutController.updateInboxTableView();
         dashboardLayoutController.updateOutboxTableView();
         dashboardLayoutController.updateStatusTableView();
-        
+
         welcomeLable.setText(Login.loggedUser.getPerson().getTitle() + " [ "
-                + Login.loggedUser.getPerson().getFirstName() + " " + 
-                Login.loggedUser.getPerson().getLastName() +" ] "+ "خوش آمدید!");
-        
+                + Login.loggedUser.getPerson().getFirstName() + " "
+                + Login.loggedUser.getPerson().getLastName() + " ] " + "خوش آمدید!");
+
         dataAndTimeLable.setText(Utilities.getCurrentShamsidate());
-        
+
+        statusProperty.setValue("آماده . . .");
+        statusBarLable.textProperty().bind(statusProperty);
+        //statusBarLable.textFillProperty().bind(objectLayout);
+
+        if (Login.loggedUser.getPerson().getJob().getId() != 1)
+        {
+            fieldsHBox.setDisable(true);
+            fieldsHBox.setVisible(false);
+        }
+
     }
 
     private void resetAllButtons()

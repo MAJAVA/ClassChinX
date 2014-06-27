@@ -24,6 +24,7 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Term;
+import jclasschin.model.CtacssManager;
 import jclasschin.model.TermManager;
 
 /**
@@ -81,8 +83,23 @@ public class DashboardTermDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         termManager = new TermManager();
-        termManager.delete(editableTerm.getId());
-        dashboardTermDeleteDailogStage.close();
+        if (Objects.equals(CtacssManager.currentTerm.getId(), editableTerm.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("نمی توانید ترم جاری سیستم را حذف نمایید. ابتدا ترم جاری را تعویض کنید.");
+        }
+        else
+        {
+            if (termManager.delete(editableTerm.getId()))
+            {
+                MainLayoutController.statusProperty.setValue("ترم [ " + editableTerm.getName() + " ] با موفقیت حذف شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات حذف ترم با شکست مواجه شد.");
+            }
+            dashboardTermDeleteDailogStage.close();
+        }
+
     }
 
     @FXML
@@ -98,6 +115,7 @@ public class DashboardTermDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف ترم لغو شد.");
         dashboardTermDeleteDailogStage.close();
     }
 
@@ -132,7 +150,6 @@ public class DashboardTermDeleteDialogController implements Initializable
     public void setEditableTerm(Term editableTerm)
     {
         this.editableTerm = editableTerm;
-//        programMessageLable.setText("Are you sure to delete term " + editableTerm.getName() +" ? ");
 
     }
 

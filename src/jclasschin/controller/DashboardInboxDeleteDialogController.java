@@ -23,6 +23,7 @@
  */
 package jclasschin.controller;
 
+import com.sun.javaws.Main;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -78,7 +79,15 @@ public class DashboardInboxDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         MailManager mailManager = new MailManager();
-        mailManager.deleteForInbox(mail.getId());
+        
+        if(mailManager.deleteForInbox(mail.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("حذف نامه با موفقیت انجام شد.");
+        }
+        else
+        {
+             MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
+        }
         dashboardInboxDeleteDialogStage.close();
     }
 
@@ -95,6 +104,7 @@ public class DashboardInboxDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف نامه لغو شد.");
         dashboardInboxDeleteDialogStage.close();
     }
 
