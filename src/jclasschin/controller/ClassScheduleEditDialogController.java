@@ -25,6 +25,7 @@ package jclasschin.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -42,6 +43,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javax.persistence.metamodel.PluralAttribute;
 import jclasschin.JClassChin;
 import jclasschin.entity.Period;
 import jclasschin.entity.Schedule;
@@ -126,6 +128,8 @@ public class ClassScheduleEditDialogController implements Initializable
         periodsGridPane.getChildren().clear();
         periodsNumber = Integer.parseInt(periodsNumberTextField.getText());
         ArrayList<Period> p = new ArrayList<>(schedule.getPeriods());
+        Collections.sort(p, (Period pi1, Period pi2) -> pi1.getId().compareTo(pi2.getId()));
+        
 
         periodTitle = new Label[periodsNumber];
         fromLable = new Label[periodsNumber];
@@ -135,7 +139,7 @@ public class ClassScheduleEditDialogController implements Initializable
 
         for (int i = 0; i < periodsNumber; i++)
         {
-            periodTitle[i] = new Label("بازه" + p.get(i).getId() + " :");
+            periodTitle[i] = new Label("بازه " + (i+1) + " :");
             fromLable[i] = new Label("از");
 
             startOfPeriodTextField[i] = new TextField();
