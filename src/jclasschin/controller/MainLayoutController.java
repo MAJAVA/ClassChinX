@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.controller;
 
 import java.io.IOException;
@@ -43,7 +42,9 @@ import javafx.util.Duration;
 import jclasschin.JClassChin;
 import jclasschin.entity.User;
 import jclasschin.model.CtacssManager;
+import jclasschin.model.Login;
 import jclasschin.util.Effect;
+import jclasschin.util.Utilities;
 //import org.controlsfx.control.Notifications;
 
 /**
@@ -53,7 +54,6 @@ import jclasschin.util.Effect;
  */
 public class MainLayoutController implements Initializable
 {
-
 
     private BorderPane objectLayout;
     private BorderPane mainLayout;
@@ -134,7 +134,8 @@ public class MainLayoutController implements Initializable
     private HBox fieldsHBox;
     @FXML
     public Label statusBarLable;
-	
+    @FXML
+    private Label welcomeLable;
 
     public MainLayoutController() throws IOException
     {
@@ -218,11 +219,20 @@ public class MainLayoutController implements Initializable
         mainLayout.setCenter(dashboardLayout);
         dashboardImageView.setImage(homeButtonOnMouseClicked);
         dashboardHBoxOnMouseClickedFlag = true;
-         
+
+        
+
         dashboardLayoutController.updateTermTableView();
         dashboardLayoutController.updateInboxTableView();
         dashboardLayoutController.updateOutboxTableView();
         dashboardLayoutController.updateStatusTableView();
+        
+        welcomeLable.setText(Login.loggedUser.getPerson().getTitle() + " [ "
+                + Login.loggedUser.getPerson().getFirstName() + " " + 
+                Login.loggedUser.getPerson().getLastName() +" ] "+ "خوش آمدید!");
+        
+        dataAndTimeLable.setText(Utilities.getCurrentShamsidate());
+        
     }
 
     private void resetAllButtons()
@@ -252,10 +262,11 @@ public class MainLayoutController implements Initializable
             classImageView.setImage(classButton);
             classHBoxOnMouseClickedFlag = false;
         }
-        else if (scheduleHBoxOnMouseClickedFlag) {
+        else if (scheduleHBoxOnMouseClickedFlag)
+        {
             scheduleImageView.setImage(scheduleButton);
             scheduleHBoxOnMouseClickedFlag = false;
-        } 
+        }
 //		else if (reportsHBoxOnMouseClickedFlag) {
 //            reportsImageView.setImage(reportButton);
 //            reportsHBoxOnMouseClickedFlag = false;
@@ -304,12 +315,12 @@ public class MainLayoutController implements Initializable
         mainLayout.setCenter(dashboardLayout);
         dashboardImageView.setImage(homeButtonOnMouseClicked);
         dashboardHBoxOnMouseClickedFlag = true;
-        
+
         dashboardLayoutController.updateTermTableView();
         dashboardLayoutController.updateInboxTableView();
         dashboardLayoutController.updateOutboxTableView();
         dashboardLayoutController.updateStatusTableView();
-       
+
     }
 
     //___________________________________________________________________
@@ -376,7 +387,7 @@ public class MainLayoutController implements Initializable
         mainLayout.setCenter(usersLayout);
         usersImageView.setImage(userButtonOnMouseClicked);
         usersHBoxOnMouseClickedFlag = true;
-       usersLayoutController.updateUsersTableView();
+        usersLayoutController.updateUsersTableView();
     }
 
 //___________________________________________________________________
@@ -454,7 +465,7 @@ public class MainLayoutController implements Initializable
         scheduleHBoxOnMouseClickedFlag = true;
         scheduleLayoutController.updateScheduleTableView();
         new CtacssManager().initCurrentSchedule();
-        
+
     }
 
     @FXML
@@ -463,7 +474,8 @@ public class MainLayoutController implements Initializable
         if (!scheduleHBoxOnMouseClickedFlag)
         {
             scheduleImageView.setImage(scheduleButton);
-        } else
+        }
+        else
         {
             scheduleImageView.setImage(scheduleButtonOnMouseClicked);
         }
@@ -503,7 +515,7 @@ public class MainLayoutController implements Initializable
     {
 //        reportsImageView.setImage(reportButtonOnMouseEntered);
     }
-	
+
     public void setObjectLayout(BorderPane objectLayout)
     {
         this.objectLayout = objectLayout;
