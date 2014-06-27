@@ -18,9 +18,9 @@
                   <columns>
                     <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="ردیف" />
                     <TableColumn fx:id="senderTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="177.0" text="از" />
-                    <TableColumn fx:id="subjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="178.0" text="موضوع" />
-                    <TableColumn fx:id="dateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="169.0" text="تاریخ" />
-                    <TableColumn fx:id="messegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="300.0" text="پیام" />
+                    <TableColumn fx:id="subjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="201.0" text="موضوع" />
+                    <TableColumn fx:id="dateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="146.0" text="تاریخ" />
+                    <TableColumn fx:id="messegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="375.0" text="پیام" />
                   </columns>
                 </TableView>
               </center>
@@ -85,9 +85,9 @@
                   <columns>
                     <TableColumn fx:id="outboxIdTableColumn" prefWidth="75.0" text="ردیف" />
                     <TableColumn fx:id="outboxReceiverTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="177.0" text="به" />
-                    <TableColumn fx:id="outboxSubjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="178.0" text="موضوع" />
-                    <TableColumn fx:id="outboxDateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="169.0" text="تاریخ" />
-                    <TableColumn fx:id="outboxMessegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="300.0" text="پیام" />
+                    <TableColumn fx:id="outboxSubjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="223.0" text="موضوع" />
+                    <TableColumn fx:id="outboxDateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="132.0" text="تاریخ" />
+                    <TableColumn fx:id="outboxMessegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="364.0" text="پیام" />
                   </columns>
                 </TableView>
               </center>
@@ -130,10 +130,10 @@
               <center>
                 <TableView fx:id="statusTableView" prefHeight="200.0" prefWidth="200.0">
                   <columns>
-                    <TableColumn prefWidth="75.0" text="شماره" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="177.0" text="رشته" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="178.0" text="تاریخ آخرین تغییر" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="169.0" text="حالت" />
+                    <TableColumn fx:id="statusIdTableColumn" prefWidth="75.0" text="شماره" />
+                    <TableColumn fx:id="statusFieldTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="226.0" text="رشته" />
+                    <TableColumn fx:id="statusLastUpdateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="350.0" text="تاریخ آخرین تغییر" />
+                    <TableColumn fx:id="statusStateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="178.0" text="حالت" />
                   </columns>
                 </TableView>
               </center>
@@ -164,7 +164,7 @@
                 <TableView fx:id="termTableView" prefHeight="200.0" prefWidth="200.0">
                   <columns>
                     <TableColumn fx:id="termIdTableColumn" prefWidth="75.0" text="ردیف" />
-                    <TableColumn fx:id="termNameTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="177.0" text="نام" />
+                    <TableColumn fx:id="termNameTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="253.0" text="نام" />
                   </columns>
                 </TableView>
               </center>

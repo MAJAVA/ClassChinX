@@ -30,6 +30,7 @@ import jclasschin.entity.Schedule;
 import jclasschin.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 /**
@@ -51,6 +52,7 @@ public class ScheduleManager
             session.beginTransaction();
             schedule = new Schedule(scheduleName, numberOfPeriod, null, null);
             session.save(schedule);
+            
             for (int i = 0; i < numberOfPeriod; i++)
             {
                 period = new Period(schedule, start[i], end[i], null);
@@ -66,15 +68,57 @@ public class ScheduleManager
         }
 
     }
-    
+
+    public boolean update(Schedule oldSchedule, String[] start, String[] end)
+    {
+        try
+        {
+            deleteByScheduleID(oldSchedule.getId());
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            schedule = (Schedule) session.load(Schedule.class, oldSchedule.getId());
+            
+            for (int i = 0; i < oldSchedule.getNumberOfPeriods(); i++)
+            {
+                period = new Period(schedule, start[i], end[i], null);
+                session.save(period);
+            }
+            session.getTransaction().commit();
+            return true;
+
+        }
+        catch (HibernateException he)
+        {
+            return false;
+        }
+    }
+
     public boolean delete(Integer schId)
     {
-         try
+        try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             schedule = (Schedule) session.load(Schedule.class, schId);
             session.delete(schedule);
+            session.getTransaction().commit();
+            return true;
+        }
+        catch (HibernateException he)
+        {
+            return false;
+        }
+    }
+
+    public boolean deleteByScheduleID(Integer sid)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            SQLQuery q = session.createSQLQuery("delete from period where schedule_id=:sid");
+            q.setParameter("sid", sid);
+            q.executeUpdate();
             session.getTransaction().commit();
             return true;
         }
@@ -108,12 +152,48 @@ public class ScheduleManager
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             List resultList;
-            Query q =  session.createQuery("from Schedule s where s.name=:sn");
+            Query q = session.createQuery("from Schedule s where s.name=:sn");
             q.setParameter("sn", sname);
             resultList = q.list();
-            Schedule s =(Schedule) resultList.get(0);
+            Schedule s = (Schedule) resultList.get(0);
             session.getTransaction().commit();
             return s;
+        }
+        catch (HibernateException he)
+        {
+            return null;
+        }
+    }
+    public List selectAllPeriod()
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List l = (List) session.createQuery("from Period").list();
+            session.getTransaction().commit();
+            return l;
+        }
+        catch (HibernateException he)
+        {
+            return null;
+        }
+    }
+    
+    public Period selectByPeriodStartAndEndAndScheduleID(String end, String start,Integer sid)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query q = session.createQuery("from Period p where p.start=:s and p.end=:e and p.schedule.id=:sid");
+            q.setParameter("s", start);
+            q.setParameter("e", end);
+            q.setParameter("sid", sid);
+            List l = q.list();
+            Period p =(Period) l.get(0);
+            session.getTransaction().commit();
+            return p;
         }
         catch (HibernateException he)
         {

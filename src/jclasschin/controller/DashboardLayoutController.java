@@ -1,4 +1,28 @@
 /*
+ * The MIT License
+ *
+ * Copyright 2014 HP.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/*
  * Complete fxids  and event functions on 1393-02-28 by Morteza!
  */
 package jclasschin.controller;
@@ -35,6 +59,7 @@ import jclasschin.entity.Term;
 import jclasschin.entity.User;
 import jclasschin.model.CtacssManager;
 import jclasschin.model.MailManager;
+import jclasschin.model.StatusManager;
 import jclasschin.model.TermManager;
 
 /**
@@ -110,8 +135,8 @@ public class DashboardLayoutController implements Initializable
     private TableColumn<Term, String> termIdTableColumn;
     @FXML
     private TableColumn<Term, String> termNameTableColumn;
-    @FXML
-    private TableView<Status> statusTableView;
+    
+    
     @FXML
     private TableColumn<Mail, Integer> idTableColumn;
     @FXML
@@ -128,6 +153,18 @@ public class DashboardLayoutController implements Initializable
     private TableColumn<Mail, String> outboxDateTableColumn;
     @FXML
     private TableColumn<Mail, String> outboxMessegeTableColumn;
+    
+    
+    @FXML
+    private TableView<Status> statusTableView;
+    @FXML
+    private TableColumn<Status,Integer> statusIdTableColumn;
+    @FXML
+    private TableColumn<Status, String> statusFieldTableColumn;
+    @FXML
+    private TableColumn<Status,String> statusLastUpdateTableColumn;
+    @FXML
+    private TableColumn<Status,Boolean> statusStateTableColumn;
 
     public DashboardLayoutController() throws IOException
     {
@@ -320,6 +357,7 @@ public class DashboardLayoutController implements Initializable
     private void refreshHBoxOnMouseClicked(MouseEvent event)
     {
         /* Refersh mail inbox table */
+        updateInboxTableView();
     }
 
     @FXML
@@ -388,6 +426,8 @@ public class DashboardLayoutController implements Initializable
     private void refresh2HBoxOnMouseClicked(MouseEvent event)
     {
         /* Refersh status table */
+        updateStatusTableView();
+        
     }
 
     @FXML
@@ -492,10 +532,29 @@ public class DashboardLayoutController implements Initializable
         });
         outboxTableView.setItems(mailList);
     }
+    
 
     public void updateStatusTableView()
     {
+        StatusManager statusManager = new StatusManager();
+        List l = statusManager.selectAllByTerm(CtacssManager.currentTerm.getName());
+        
+        ObservableList<Status> statusList = FXCollections.observableArrayList();
+        statusIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        statusFieldTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getField().getName()));
+        //statusTermTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getTerm().getName()));
+        statusLastUpdateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getLastUpdate()));
+        statusStateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, Boolean> s) ->
+        {
+            return new ReadOnlyObjectWrapper(s.getValue().getState()? "تایید نشده":"تایید شده");
+        });
 
+        l.stream().forEach((s) ->
+        {
+            statusList.add((Status) s);
+
+        });
+        statusTableView.setItems(statusList);
     }
 
     @FXML
@@ -544,4 +603,5 @@ public class DashboardLayoutController implements Initializable
         cm.updateCurrentTerm(currentTermComboBox.getValue());
         System.out.println(CtacssManager.currentTerm.getName());
     }
+    
 }

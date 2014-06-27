@@ -25,6 +25,7 @@ package jclasschin.model;
 
 import java.util.List;
 import jclasschin.entity.Coursetype;
+import jclasschin.entity.Weekday;
 import jclasschin.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -34,10 +35,11 @@ import org.hibernate.Session;
  *
  * @author HP
  */
-public class CourseTypeManager
+public class WeekDayManager
 {
 
-    private  Session session;
+    private Session session;
+    private Weekday weekday;
 
     public List selectAll()
     {
@@ -46,10 +48,8 @@ public class CourseTypeManager
 
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            List resultList = session.createQuery("from Coursetype").list();
+            List resultList = session.createQuery("from Weekday").list();
             session.getTransaction().commit();
-            //session.close();
-            //HibernateUtil.getSessionFactory().close();
             return resultList;
 
         }
@@ -60,19 +60,18 @@ public class CourseTypeManager
 
     }
 
-    public Coursetype selectByName(String type)
+    public Weekday selectByName(String dayname)
     {
         try
-        { 
+        {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Query q = session.createQuery("from Coursetype where type=:t");
-            q.setParameter("t", type);
+            Query q = session.createQuery("from Weekday w where w.dayName=:dn");
+            q.setParameter("dn", dayname);
             List resultList = q.list();
+            weekday = (Weekday) resultList.get(0);
             session.getTransaction().commit();
-            //session.close();
-            //HibernateUtil.getSessionFactory().close();
-            return (Coursetype) resultList.get(0);
+            return weekday;
 
         }
         catch (HibernateException he)
@@ -81,5 +80,4 @@ public class CourseTypeManager
         }
 
     }
-
 }

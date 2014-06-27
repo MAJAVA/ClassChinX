@@ -150,5 +150,24 @@ public class CourseManager
             return false;
         }
     }
+    
+    public Course selectByCourseName(String cname)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query q = session.createQuery("from Course c where c.name=:cfn");
+            q.setParameter("cfn", cname);
+            List resultList = q.list();
+            course = (Course) resultList.get(0);
+            session.getTransaction().commit();
+            return course;
+        }
+        catch (HibernateException he)
+        {
+            return null;
+        }
+    }
 
 }

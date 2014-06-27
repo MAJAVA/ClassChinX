@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 Ali.
+ * Copyright 2014 HP.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Cctm;
 import jclasschin.entity.Course;
-import jclasschin.entity.Coursetype;
-import jclasschin.entity.Ctacss;
 import jclasschin.entity.Dedication;
 import jclasschin.entity.Period;
 import jclasschin.entity.Person;
-import jclasschin.entity.Schedule;
 import jclasschin.entity.Weekday;
 import jclasschin.model.CCManager;
 import jclasschin.model.CourseManager;
@@ -55,13 +52,14 @@ import jclasschin.model.WeekDayManager;
 /**
  * FXML Controller class
  *
- * @author Ali
+ * @author HP
  */
-public class ScheduleNewDialogController implements Initializable
+public class ScheduleEditDialogController implements Initializable
 {
 
-    private Stage scheduleNewDialogStage;
-    private CCManager ccm;
+    private Stage scheduleEditDialogStage;
+    private Cctm editableCctm;
+
     @FXML
     private ComboBox<String> dayComboBox;
     @FXML
@@ -93,45 +91,66 @@ public class ScheduleNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        ccm = new CCManager();
-        ccm.insert(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue(),
-                courseComboBox.getValue(), professorComboBox.getValue());
-
+        CCManager ccm = new CCManager();
+        ccm.update(editableCctm.getId(), dayComboBox.getValue(), classComboBox.getValue(), 
+                timeComboBox.getValue(), courseComboBox.getValue(),professorComboBox.getValue());
+        
         StatusManager sm = new StatusManager();
         sm.insert();
-        
-        scheduleNewDialogStage.close();
+        scheduleEditDialogStage.close();
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
-        scheduleNewDialogStage.close();
+        scheduleEditDialogStage.close();
     }
 
     /**
-     * @return the scheduleNewDialogStage
+     * @return the scheduleEditDialogStage
      */
-    public Stage getScheduleNewDialogStage()
+    public Stage getScheduleEditDialogStage()
     {
-        return scheduleNewDialogStage;
+        return scheduleEditDialogStage;
     }
 
     /**
-     * @param scheduleNewDialogStage the scheduleNewDialogStage to set
+     * @param scheduleEditDialogStage the scheduleEditDialogStage to set
      */
-    public void setScheduleNewDialogStage(Stage scheduleNewDialogStage)
+    public void setScheduleEditDialogStage(Stage scheduleEditDialogStage)
     {
-        this.scheduleNewDialogStage = scheduleNewDialogStage;
+        this.scheduleEditDialogStage = scheduleEditDialogStage;
+    }
+
+    /**
+     * @return the editableCctm
+     */
+    public Cctm getEditableCctm()
+    {
+        return editableCctm;
+    }
+
+    /**
+     * @param editableCctm the editableCctm to set
+     */
+    public void setEditableCctm(Cctm editableCctm)
+    {
+        this.editableCctm = editableCctm;
     }
 
     void initDialog()
     {
+        okHBox.setDisable(false);
         fillDayComboBox();
         fillClassComboBox();
         fillTimeComboBox();
         fillCourseComboBox();
         fillProfessorComboBox();
+
+        if (!editableCctm.getDedication().getField().getName().equals(Login.loggedUserField))
+        {
+            okHBox.setDisable(true);
+        }
     }
 
     private void fillDayComboBox()
@@ -145,6 +164,7 @@ public class ScheduleNewDialogController implements Initializable
         {
             dayComboBox.getItems().add(((Weekday) wd).getDayName());
         });
+        dayComboBox.setValue(editableCctm.getWeekday().getDayName());
     }
 
     private void fillClassComboBox()
@@ -162,6 +182,7 @@ public class ScheduleNewDialogController implements Initializable
             }
 
         });
+        classComboBox.setValue(editableCctm.getDedication().getClassroom().getName());
     }
 
     private void fillTimeComboBox()
@@ -179,6 +200,7 @@ public class ScheduleNewDialogController implements Initializable
             }
 
         });
+        timeComboBox.setValue(editableCctm.getPeriod().getEnd() + " - " + editableCctm.getPeriod().getStart());
     }
 
     private void fillCourseComboBox()
@@ -191,6 +213,7 @@ public class ScheduleNewDialogController implements Initializable
         {
             courseComboBox.getItems().add(((Course) s).getName());
         });
+        courseComboBox.setValue(editableCctm.getCourse().getName());
     }
 
     private void fillProfessorComboBox()
@@ -201,8 +224,12 @@ public class ScheduleNewDialogController implements Initializable
         List l = pm.selectAllByFieldName(Login.loggedUserField);
         l.stream().forEach((p) ->
         {
-            professorComboBox.getItems().add(((Person) p).getId() + " - " + ((Person) p).getFirstName()
+            professorComboBox.getItems().add(((Person) p).getId()
+                    + " - " + ((Person) p).getFirstName()
                     + " " + ((Person) p).getLastName());
         });
+        professorComboBox.setValue(editableCctm.getPerson().getId()
+                + " - " + editableCctm.getPerson().getFirstName()
+                + " " + editableCctm.getPerson().getLastName());
     }
 }

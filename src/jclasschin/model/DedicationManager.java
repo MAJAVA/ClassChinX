@@ -84,7 +84,7 @@ public class DedicationManager
                 classroom = classManager.selectByName((String) sc);
                 dedication = new Dedication(CtacssManager.currentTerm, classroom, field, null);
                 session.save(dedication);
-            }); 
+            });
             session.getTransaction().commit();
             return true;
 
@@ -95,7 +95,28 @@ public class DedicationManager
         }
     }
 
-    private Dedication selcetDidicationByTermIdAndClassroomID(Integer fid, Integer cid)
+    public Dedication selectDedicationByTermAndFieldAndClassroom(Integer tid, String fid, String cid)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query q = session.createQuery("from Dedication d where d.term.id=:tid and d.field.name=:fid and d.classroom.name=:cid");
+            q.setParameter("tid", tid);
+            q.setParameter("fid", fid);
+            q.setParameter("cid", cid);
+            List resultList = q.list();
+            dedication = (Dedication) resultList.get(0);
+            session.getTransaction().commit();
+            return dedication;
+        }
+        catch (HibernateException he)
+        {
+            return null;
+        }
+    }
+
+    private Dedication selcetDedicationByFieldIdAndClassroomID(Integer fid, Integer cid)
     {
         try
         {
@@ -115,8 +136,8 @@ public class DedicationManager
             return null;
         }
     }
-    
-     public boolean deleteByFieldID(Integer fid)
+
+    public boolean deleteByFieldID(Integer fid)
     {
         try
         {
@@ -131,6 +152,22 @@ public class DedicationManager
         catch (HibernateException he)
         {
             return false;
+        }
+    }
+
+    public List selectAll()
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List l = (List) session.createQuery("from Dedication").list();
+            session.getTransaction().commit();
+            return l;
+        }
+        catch (HibernateException he)
+        {
+            return null;
         }
     }
 

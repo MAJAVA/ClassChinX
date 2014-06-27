@@ -24,6 +24,8 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,6 +45,7 @@ import javafx.stage.Stage;
 import jclasschin.JClassChin;
 import jclasschin.entity.Period;
 import jclasschin.entity.Schedule;
+import jclasschin.model.ScheduleManager;
 import jclasschin.util.Effect;
 
 /**
@@ -55,6 +58,7 @@ public class ClassScheduleEditDialogController implements Initializable
 
     private Stage classScheduleEditDialogStage;
     private Schedule schedule;
+    private ScheduleManager scheduleManager;
     private Period period;
 
     GridPane gridPane;
@@ -121,45 +125,33 @@ public class ClassScheduleEditDialogController implements Initializable
 
         periodsGridPane.getChildren().clear();
         periodsNumber = Integer.parseInt(periodsNumberTextField.getText());
+        ArrayList<Period> p = new ArrayList<>(schedule.getPeriods());
 
         periodTitle = new Label[periodsNumber];
-        for (int i = 0; i < periodsNumber; i++)
-        {
-            periodTitle[i] = new Label("بازه" + (i + 1) + " :");
-        }
-
         fromLable = new Label[periodsNumber];
-        for (int i = 0; i < periodsNumber; i++)
-        {
-            fromLable[i] = new Label("از");
-        }
-
         startOfPeriodTextField = new TextField[periodsNumber];
+        toLable = new Label[periodsNumber];
+        endOfPeriodTextField = new TextField[periodsNumber];
+
         for (int i = 0; i < periodsNumber; i++)
         {
+            periodTitle[i] = new Label("بازه" + p.get(i).getId() + " :");
+            fromLable[i] = new Label("از");
+
             startOfPeriodTextField[i] = new TextField();
             startOfPeriodTextField[i].setMaxWidth(75);
             startOfPeriodTextField[i].setPromptText("00:00");
             startOfPeriodTextField[i].setTooltip(timeTooltip);
-        }
+            startOfPeriodTextField[i].setText(p.get(i).getStart());
 
-        toLable = new Label[periodsNumber];
-        for (int i = 0; i < periodsNumber; i++)
-        {
             toLable[i] = new Label("تا");
-        }
 
-        endOfPeriodTextField = new TextField[periodsNumber];
-        for (int i = 0; i < periodsNumber; i++)
-        {
             endOfPeriodTextField[i] = new TextField();
             endOfPeriodTextField[i].setMaxWidth(75);
             endOfPeriodTextField[i].setPromptText("00:00");
             endOfPeriodTextField[i].setTooltip(timeTooltip);
-        }
+            endOfPeriodTextField[i].setText(p.get(i).getEnd());
 
-        for (int i = 0; i < periodsNumber; i++)
-        {
             int j = 0;
             new Effect().fadeInTransition(periodTitle[i], 500);
             periodsGridPane.add(periodTitle[i], j++, i);
@@ -172,9 +164,7 @@ public class ClassScheduleEditDialogController implements Initializable
             new Effect().fadeInTransition(endOfPeriodTextField[i], 500);
             periodsGridPane.add(endOfPeriodTextField[i], j++, i);
         }
-
         backwardSizerAnchorPane.setPrefHeight(periodsNumber * 56.5 + 80);
-
     }
 
     /**
@@ -197,7 +187,15 @@ public class ClassScheduleEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-
+        String[] startOfPeriod = new String[periodsNumber];
+        String[] endOfPeriod = new String[periodsNumber];
+        for (int i = 0; i < periodsNumber; i++)
+        {
+            startOfPeriod[i] = startOfPeriodTextField[i].getText();
+            endOfPeriod[i] = endOfPeriodTextField[i].getText();
+        }
+        scheduleManager = new ScheduleManager();
+        scheduleManager.update(schedule, startOfPeriod, endOfPeriod);
         classScheduleEditDialogStage.close();
     }
 
