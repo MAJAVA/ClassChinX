@@ -46,7 +46,7 @@ public class DashboardTermEditDialogController implements Initializable
 
     private Stage dashboardTermEditDialogStage;
     private Term editableTerm;
-    private TermManager termManager;
+    private TermManager termManager = new TermManager();
 
     @FXML
     private TextField termNameTextField;

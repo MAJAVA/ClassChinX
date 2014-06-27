@@ -114,7 +114,7 @@ public class GroupsProferssorsNewDialogController implements Initializable
     void initDialog()
     {
         titleComboBox.getItems().clear();
-        titleComboBox.getItems().addAll("آقا","خانم","دکتر","مهندس");
+        titleComboBox.getItems().addAll("آقای","خانم","دکتر","مهندس");
         firstNameTextField.setText("");
         lastNameTextField.setText("");
         phoneTextField.setText("");

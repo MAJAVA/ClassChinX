@@ -477,12 +477,13 @@ public class DashboardLayoutController implements Initializable
     public void updateTermTableView()
     {
         currentTermComboBox.getItems().clear();
-        //TermManager tm = new TermManager();
+        TermManager tm = new TermManager();
+        List l = tm.selectAll();
         ObservableList<Term> termList = FXCollections.observableArrayList();
 
         termIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         termNameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        List l = TermManager.selectAll();
+        
         l.stream().forEach((t) ->
         {
             termList.add((Term) t);

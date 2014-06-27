@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.controller;
 
 import java.net.URL;
@@ -43,11 +42,11 @@ import jclasschin.model.TermManager;
  */
 public class DashboardTermDeleteDialogController implements Initializable
 {
-    
+
     private Stage dashboardTermDeleteDailogStage;
     private Term editableTerm;
     private TermManager termManager;
-    
+
     @FXML
     private HBox yesHBox;
     @FXML
@@ -66,7 +65,7 @@ public class DashboardTermDeleteDialogController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }    
+    }
 
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
@@ -99,7 +98,7 @@ public class DashboardTermDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
-         dashboardTermDeleteDailogStage.close();
+        dashboardTermDeleteDailogStage.close();
     }
 
     /**
@@ -111,7 +110,8 @@ public class DashboardTermDeleteDialogController implements Initializable
     }
 
     /**
-     * @param dashboardTermDeleteDailogStage the dashboardTermDeleteDailogStage to set
+     * @param dashboardTermDeleteDailogStage the dashboardTermDeleteDailogStage
+     * to set
      */
     public void setDashboardTermDeleteDailogStage(Stage dashboardTermDeleteDailogStage)
     {
@@ -133,7 +133,7 @@ public class DashboardTermDeleteDialogController implements Initializable
     {
         this.editableTerm = editableTerm;
 //        programMessageLable.setText("Are you sure to delete term " + editableTerm.getName() +" ? ");
-        
+
     }
-    
+
 }

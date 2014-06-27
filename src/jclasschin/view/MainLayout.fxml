@@ -14,7 +14,7 @@
   <bottom>
     <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="45.0" prefWidth="1245.0" BorderPane.alignment="CENTER">
       <children>
-        <Label id="dateTimeLabel" fx:id="statusBarLable" layoutX="40.0" layoutY="8.0" text="نوار وضعیت">
+        <Label id="dateTimeLabel" fx:id="statusBarLable" layoutX="40.0" layoutY="8.0" text="نوار وضعیت" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="1130.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="B Nazanin" size="20.0" />
                </font></Label>
@@ -130,11 +130,16 @@
   <top>
     <AnchorPane prefHeight="45.0" prefWidth="1245.0" BorderPane.alignment="CENTER">
       <children>
-        <Label id="dateTimeLabel" fx:id="dataAndTimeLable" layoutX="42.0" layoutY="8.0" text="تاریخ و زمان">
+        <Label id="dateTimeLabel" fx:id="dataAndTimeLable" layoutX="1130.0" layoutY="10.0" text="تاریخ و زمان" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="1130.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="B Nazanin" size="20.0" />
                </font></Label>
         <Separator prefWidth="1245.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0" />
+            <Label id="dateTimeLabel" fx:id="welcomeLable" layoutX="39.0" layoutY="10.0" text="خوش آمدید!" textAlignment="RIGHT" textFill="#0aa83c" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font name="B Nazanin" size="20.0" />
+               </font>
+            </Label>
       </children>
     </AnchorPane>
   </top>

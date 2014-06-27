@@ -123,6 +123,7 @@ public class LoginLayoutController implements Initializable
             objectLayout.setCenter(mainLayout);
             mainLayoutController.setObjectLayout(objectLayout);
             mainLayoutController.setLayout(mainLayout);
+            
             mainLayoutController.start();
         }
 

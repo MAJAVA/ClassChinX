@@ -143,7 +143,7 @@ public class UsersEditDialogController implements Initializable
     {
         clearDialogFields();
 
-        titleComboBox.getItems().addAll("آقا", "خانم", "دکتر", "مهندس");
+        titleComboBox.getItems().addAll("آقای", "خانم", "دکتر", "مهندس");
         titleComboBox.setValue(editableUser.getPerson().getTitle());
 
         FieldManager fm = new FieldManager();
