@@ -49,6 +49,8 @@ import jclasschin.entity.Period;
 import jclasschin.entity.Schedule;
 import jclasschin.model.ScheduleManager;
 import jclasschin.util.Effect;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -62,6 +64,8 @@ public class ClassScheduleEditDialogController implements Initializable
     private Schedule schedule;
     private ScheduleManager scheduleManager;
     private Period period;
+    private ValidationSupport validationSupport;
+    ArrayList<String> majavaTimes = new ArrayList<>();
 
     GridPane gridPane;
     int periodsNumber;
@@ -115,6 +119,35 @@ public class ClassScheduleEditDialogController implements Initializable
 
     void initDialog()
     {
+        for (int i = 0; i < 24; i++)
+        {
+            for (int j = 0; j < 60; j++)
+            {
+                if (i < 10)
+                {
+                    if (j < 10)
+                    {
+                        majavaTimes.add("0" + i + ":" + "0" + j);
+                    }
+                    else
+                    {
+                        majavaTimes.add("0" + i + ":" + j);
+                    }
+                }
+                else
+                {
+                    if (j < 10)
+                    {
+                        majavaTimes.add(i + ":" + "0" + j);
+                    }
+                    else
+                    {
+                        majavaTimes.add(i + ":" + j);
+                    }
+                }
+            }
+        }
+
         String css = JClassChin.class.getResource("gallery/css/CSS.css").toString();
         classScheduleNewDialogScrollPane.getStylesheets().add(css);
         timeTooltip = new Tooltip("زمان را به شیوه 00:00 وارد کنید\nبرای مثال 11:40");
@@ -126,10 +159,11 @@ public class ClassScheduleEditDialogController implements Initializable
         periodsNumberTextField.setDisable(true);
 
         periodsGridPane.getChildren().clear();
+        validationSupport = new ValidationSupport();
+
         periodsNumber = Integer.parseInt(periodsNumberTextField.getText());
         ArrayList<Period> p = new ArrayList<>(schedule.getPeriods());
         Collections.sort(p, (Period pi1, Period pi2) -> pi1.getId().compareTo(pi2.getId()));
-        
 
         periodTitle = new Label[periodsNumber];
         fromLable = new Label[periodsNumber];
@@ -139,7 +173,7 @@ public class ClassScheduleEditDialogController implements Initializable
 
         for (int i = 0; i < periodsNumber; i++)
         {
-            periodTitle[i] = new Label("بازه " + (i+1) + " :");
+            periodTitle[i] = new Label("بازه " + (i + 1) + " :");
             fromLable[i] = new Label("از");
 
             startOfPeriodTextField[i] = new TextField();
@@ -147,6 +181,7 @@ public class ClassScheduleEditDialogController implements Initializable
             startOfPeriodTextField[i].setPromptText("00:00");
             startOfPeriodTextField[i].setTooltip(timeTooltip);
             startOfPeriodTextField[i].setText(p.get(i).getStart());
+            validationSupport.registerValidator(startOfPeriodTextField[i], Validator.createEqualsValidator("مقدار نامعتبر است", majavaTimes));
 
             toLable[i] = new Label("تا");
 
@@ -155,6 +190,7 @@ public class ClassScheduleEditDialogController implements Initializable
             endOfPeriodTextField[i].setPromptText("00:00");
             endOfPeriodTextField[i].setTooltip(timeTooltip);
             endOfPeriodTextField[i].setText(p.get(i).getEnd());
+            validationSupport.registerValidator(endOfPeriodTextField[i], Validator.createEqualsValidator("مقدار نامعتبر است", majavaTimes));
 
             int j = 0;
             new Effect().fadeInTransition(periodTitle[i], 500);
@@ -191,21 +227,36 @@ public class ClassScheduleEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        String[] startOfPeriod = new String[periodsNumber];
-        String[] endOfPeriod = new String[periodsNumber];
-        for (int i = 0; i < periodsNumber; i++)
+        if (validationSupport.isInvalid())
         {
-            startOfPeriod[i] = startOfPeriodTextField[i].getText();
-            endOfPeriod[i] = endOfPeriodTextField[i].getText();
+            MainLayoutController.statusProperty.setValue("مقادیر بازه های زمانی را معتبر وارد نمایید.");
         }
-        scheduleManager = new ScheduleManager();
-        scheduleManager.update(schedule, startOfPeriod, endOfPeriod);
-        classScheduleEditDialogStage.close();
+        else
+        {
+            String[] startOfPeriod = new String[periodsNumber];
+            String[] endOfPeriod = new String[periodsNumber];
+            for (int i = 0; i < periodsNumber; i++)
+            {
+                startOfPeriod[i] = startOfPeriodTextField[i].getText();
+                endOfPeriod[i] = endOfPeriodTextField[i].getText();
+            }
+            scheduleManager = new ScheduleManager();
+            if(scheduleManager.update(schedule, startOfPeriod, endOfPeriod))
+            {
+                MainLayoutController.statusProperty.setValue("بروز رسانی بازه های زمانی با موفقیت انجام شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات بروز رسانی بازه های زمانی با شکست مواجه شد.");
+            }
+            classScheduleEditDialogStage.close();
+        }
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروز رسانی بازه های زمانی لغو شد.");
         classScheduleEditDialogStage.close();
     }
 

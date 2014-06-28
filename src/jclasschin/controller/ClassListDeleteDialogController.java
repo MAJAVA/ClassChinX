@@ -56,6 +56,8 @@ public class ClassListDeleteDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -77,7 +79,14 @@ public class ClassListDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         classManager = new ClassManager();
-        classManager.delete(editableClass.getId());
+       if( classManager.delete(editableClass.getId()))
+       {
+           MainLayoutController.statusProperty.setValue("کلاس با موفقیت حذف شد.");
+       }
+       else
+       {
+           MainLayoutController.statusProperty.setValue("عملیات حذف کلاس با شکست مواجه شد.");
+       }
         classListDeleteDialogStage.close();
     }
 
@@ -94,6 +103,7 @@ public class ClassListDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف کلاس لغو شد.");
         classListDeleteDialogStage.close();
     }
 

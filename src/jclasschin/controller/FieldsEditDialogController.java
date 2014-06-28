@@ -34,6 +34,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Field;
 import jclasschin.model.FieldManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -43,11 +45,11 @@ import jclasschin.model.FieldManager;
 public class FieldsEditDialogController implements Initializable
 {
 
+    private ValidationSupport validationSupport = new ValidationSupport();
     private Stage fieldsEditDialogStage;
     private Field field;
     private FieldManager fieldManager;
 
-//    private TextField fieldNameTextField;
     @FXML
     private HBox okHBox;
     @FXML
@@ -58,6 +60,7 @@ public class FieldsEditDialogController implements Initializable
     private ImageView cancelImageView;
     @FXML
     private TextField fieldNameTextField;
+
     /**
      * Initializes the controller class.
      */
@@ -81,14 +84,25 @@ public class FieldsEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        if (fieldNameTextField.getText() != null)
+        if (validationSupport.isInvalid())
         {
+            MainLayoutController.statusProperty.setValue("نام رشته را وارد نمایید.");
+        }
+        else
+        {
+
             fieldManager = new FieldManager();
-            fieldManager.update(field.getId(), fieldNameTextField.getText());
-            
+            if(fieldManager.update(field.getId(), fieldNameTextField.getText()))
+            {
+                MainLayoutController.statusProperty.setValue("رشته با موفقیت بروزرسانی شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات بروز رسانی رشته با شکست مواجه شد.");
+            }
             fieldsEditDialogStage.close();
         }
-        
+
     }
 
     @FXML
@@ -104,6 +118,7 @@ public class FieldsEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروز رسانی رشته لغو شد.");
         fieldsEditDialogStage.close();
     }
 
@@ -111,8 +126,8 @@ public class FieldsEditDialogController implements Initializable
      * @return the fieldsEditDialogStage
      */
     public Stage getFieldsEditDialogStage()
-    { 
-            return fieldsEditDialogStage; 
+    {
+        return fieldsEditDialogStage;
     }
 
     /**
@@ -137,7 +152,15 @@ public class FieldsEditDialogController implements Initializable
     public void setField(Field field)
     {
         this.field = field;
+
+    }
+
+    public void initDialog()
+    {
+        fieldNameTextField.setPromptText("مهندسی نرم افزار");
         fieldNameTextField.setText(this.field.getName());
+        validationSupport.registerValidator(fieldNameTextField,
+                Validator.createEmptyValidator("نام رشته الزامی است"));
     }
 
 }

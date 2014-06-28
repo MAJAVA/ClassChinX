@@ -123,7 +123,7 @@ public class ClassLayoutController implements Initializable
     @FXML
     private TableColumn<Field, Integer> dClassNumberTableColumn;
     @FXML
-    private TableColumn<Field, String[]> dClassListTableColumn;
+    private TableColumn<Field, String> dClassListTableColumn;
 
     @FXML
     private TableView<Schedule> scheduleTableView;
@@ -134,7 +134,7 @@ public class ClassLayoutController implements Initializable
     @FXML
     private TableColumn<Schedule, Integer> schNumberOfPeriodTableColumn;
     @FXML
-    private TableColumn<Schedule, Set> schPeriodsTableColumn;
+    private TableColumn<Schedule, String> schPeriodsTableColumn;
     @FXML
     private ComboBox<String> currentScheduleComboBox;
 
@@ -385,38 +385,13 @@ public class ClassLayoutController implements Initializable
 
     public void updateDedicationTableView()
     {
-
         FieldManager fieldManager = new FieldManager();
 
         List dField = fieldManager.selectAllDedicatedField();
-        ArrayList<Dedication> al = new ArrayList();
-        ArrayList<String> al2 = new ArrayList();
-        ArrayList<String> al3 = new ArrayList();
-        al2.clear();
-        al3.clear();
-        al3.add(0, " ");
-
-        dField.stream().forEach((f) ->
+        dField.stream().forEach((df) ->
         {
-            al.addAll(((Field) f).getDedications());
+            ((Field)df).initMajava();
         });
-
-        dField.stream().forEach((f) ->
-        {
-            al.stream().forEach((d) ->
-            {
-                al2.add(d.getClassroom().getName());
-            });
-        });
-
-        String string = "";
-        for (String al21 : al2)
-        {
-            string += al21;
-            string += " , ";
-        }
-        al3.set(0, string);
-        System.out.println(string);
 
         ObservableList<Field> fieldList = FXCollections.observableArrayList();
 
@@ -424,8 +399,8 @@ public class ClassLayoutController implements Initializable
         dFieldTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, String> f) -> new ReadOnlyObjectWrapper(f.getValue().getName()));
         dClassNumberTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, Integer> f)
                 -> new ReadOnlyObjectWrapper(f.getValue().getDedications().size()));
-        dClassListTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, String[]> f)
-                -> new ReadOnlyObjectWrapper(f.getValue().getDedications()));
+        dClassListTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, String> f)
+                -> new ReadOnlyObjectWrapper(f.getValue().majava1String));
 
         dField.stream().forEach((f) ->
         {
@@ -481,14 +456,19 @@ public class ClassLayoutController implements Initializable
         currentScheduleComboBox.getItems().clear();
         ScheduleManager scheduleManager = new ScheduleManager();
         List l = scheduleManager.selectAllSchedule();
+        l.stream().forEach((p) ->
+        {
+            ((Schedule)p).initMajava();
+        });
+        
         ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
 
         schIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         schNameTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getName()));
         schNumberOfPeriodTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, Integer> s)
                 -> new ReadOnlyObjectWrapper(s.getValue().getNumberOfPeriods()));
-        schPeriodsTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, Set> s)
-                -> new ReadOnlyObjectWrapper(s.getValue().getPeriods()));
+        schPeriodsTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Schedule, String> s)
+                -> new ReadOnlyObjectWrapper(s.getValue().majava2String));
 
         l.stream().forEach((s) ->
         {

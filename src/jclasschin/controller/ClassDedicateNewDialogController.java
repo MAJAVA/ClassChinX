@@ -24,6 +24,8 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -43,11 +45,14 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.JClassChin;
 import jclasschin.entity.Classroom;
+import jclasschin.entity.Dedication;
 import jclasschin.entity.Field;
 import jclasschin.model.ClassManager;
 import jclasschin.model.DedicationManager;
 import jclasschin.model.FieldManager;
 import org.controlsfx.control.CheckListView;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -57,9 +62,10 @@ import org.controlsfx.control.CheckListView;
 public class ClassDedicateNewDialogController implements Initializable
 {
 
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage classDedicateNewDialogStage;
     private DedicationManager dedicationManager;
-     private GridPane gridPane;
+    private GridPane gridPane;
 
     ComboBox<String> fieldComboBox = new ComboBox<>();
     Label fieldLabel = new Label("رشته :");
@@ -93,19 +99,35 @@ public class ClassDedicateNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        // selectedClass = checkListView.getCheckModel().getSelectedItems();
-        //selectedClass2=checkListView.ge
-
-        dedicationManager = new DedicationManager();
-        dedicationManager.insert(fieldComboBox.getValue(), (List) selectedClass);
-
-        classDedicateNewDialogStage.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا یک رشته را انتخاب نمایید.");
+        }
+        else if(selectedClass==null || selectedClass.isEmpty())
+        {
+            MainLayoutController.statusProperty.setValue("انتخاب حداقل یک کلاس الزامی است.");
+        }
+        else
+        {
+            dedicationManager = new DedicationManager();
+            
+            if(dedicationManager.insert(fieldComboBox.getValue(), (List) selectedClass))
+            {
+                MainLayoutController.statusProperty.setValue("تخصیص با موفقیت انجام شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات تخصیص با شکست مواجه شد.");
+            }
+            classDedicateNewDialogStage.close();
+        }
 
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات تخصیص لغو شد.");
         classDedicateNewDialogStage.close();
     }
 
@@ -154,6 +176,8 @@ public class ClassDedicateNewDialogController implements Initializable
         classDedicateNewDialogAnchorPane.getChildren().add(gridPane);
         classDedicateNewDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
+        validationSupport.registerValidator(fieldComboBox, Validator.createEmptyValidator("نام رشته الزامی است."));
+
     }
 
     private void fillFieldComboBox()
@@ -173,6 +197,8 @@ public class ClassDedicateNewDialogController implements Initializable
         ObservableList<String> classList = FXCollections.observableArrayList();
         ClassManager classManager = new ClassManager();
         List cl = classManager.selectAll();
+        Collections.sort(cl, (Classroom pi1, Classroom pi2) -> pi1.getName().compareTo(pi2.getName()));
+        
         cl.stream().forEach((c) ->
         {
             classList.add(((Classroom) c).getName());

@@ -34,6 +34,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.model.ClassManager;
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -42,6 +45,8 @@ import jclasschin.model.ClassManager;
  */
 public class ClassListNewDialogController implements Initializable
 {
+
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage classListNewDialogStage;
     private ClassManager classManager;
 
@@ -68,6 +73,8 @@ public class ClassListNewDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -78,15 +85,34 @@ public class ClassListNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        if(capacityTextField.getText()==null || "".equals(capacityTextField.getText()))
+        {
+            capacityTextField.setText("0");
+        }
         classManager = new ClassManager();
-        classManager.insert(classNameTextField.getText(),floorTextField.getText(),Integer.parseInt(capacityTextField.getText()),
-                whiteBoardCheckBox.isSelected(),blackBoardCheckBox.isSelected(),videoProjectorCheckBox.isSelected());
-        classListNewDialogStage.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا نام کلاس را وارد نمایید.");
+        }
+        else
+        {
+            if (classManager.insert(classNameTextField.getText(), floorTextField.getText(), Integer.parseInt(capacityTextField.getText()),
+                    whiteBoardCheckBox.isSelected(), blackBoardCheckBox.isSelected(), videoProjectorCheckBox.isSelected()))
+            {
+                MainLayoutController.statusProperty.setValue("کلاس جدید با موفقیت ثبت شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیاتت درج کلاس جدید با شکست مواجه شد.");
+            }
+            classListNewDialogStage.close();
+        }
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات ثبت کلاس جدید لغو شد.");
         classListNewDialogStage.close();
     }
 
@@ -114,7 +140,9 @@ public class ClassListNewDialogController implements Initializable
         whiteBoardCheckBox.setSelected(true);
         blackBoardCheckBox.setSelected(false);
         videoProjectorCheckBox.setSelected(false);
-        
+
+        validationSupport.registerValidator(classNameTextField, Validator.createEmptyValidator("نام کلاس الزامی است."));
+
     }
 
 }

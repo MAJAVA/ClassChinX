@@ -101,7 +101,7 @@ public class DashboardOutboxDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
-        MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
+        MainLayoutController.statusProperty.setValue("عملیات حذف نامه لغو شد.");
         dashboardOutboxDeleteDialogStage.close();
     }
 

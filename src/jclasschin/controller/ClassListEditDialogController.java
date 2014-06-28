@@ -35,6 +35,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Classroom;
 import jclasschin.model.ClassManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -44,10 +46,11 @@ import jclasschin.model.ClassManager;
 public class ClassListEditDialogController implements Initializable
 {
 
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage classEditDialogStage;
     private Classroom editableClass;
     private ClassManager classManager;
-    
+
     @FXML
     private TextField floorTextField;
     @FXML
@@ -77,20 +80,39 @@ public class ClassListEditDialogController implements Initializable
     {
         // TODO
     }
-    
+
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        ClassManager cm = new ClassManager();
-        cm.update(editableClass.getId(),classNameTextField.getText(),floorTextField.getText(),Integer.parseInt(capacityTextField.getText()),
-                videoProjectorCheckBox.isSelected(),whiteBoardCheckBox.isSelected(),blackBoardCheckBox.isSelected());
-       
-        classEditDialogStage.close();
+        if (capacityTextField.getText() == null || "".equals(capacityTextField.getText()))
+        {
+            capacityTextField.setText("0");
+        }
+        classManager = new ClassManager();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا نام کلاس را وارد نمایید.");
+        }
+        else
+        {
+            ClassManager cm = new ClassManager();
+            if(cm.update(editableClass.getId(), classNameTextField.getText(), floorTextField.getText(), Integer.parseInt(capacityTextField.getText()),
+                    videoProjectorCheckBox.isSelected(), whiteBoardCheckBox.isSelected(), blackBoardCheckBox.isSelected()))
+            {
+                MainLayoutController.statusProperty.setValue("بروز رسانی کلاس با موفقیت انجام شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات بروز رسانی کلاس با شکست مواجه شد.");
+            }
+            classEditDialogStage.close();
+        }
     }
-    
+
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروزرسانی کلاس لغو شد.");
         classEditDialogStage.close();
     }
 
@@ -99,6 +121,7 @@ public class ClassListEditDialogController implements Initializable
      */
     public Stage getClassEditDialogStage()
     {
+        
         return classEditDialogStage;
     }
 
@@ -125,7 +148,7 @@ public class ClassListEditDialogController implements Initializable
     {
         this.editableClass = editableClass;
     }
-    
+
     public void initDialog()
     {
         classNameTextField.setText(editableClass.getName());
@@ -134,6 +157,8 @@ public class ClassListEditDialogController implements Initializable
         videoProjectorCheckBox.setSelected(editableClass.getDataProjector());
         whiteBoardCheckBox.setSelected(editableClass.getWhiteboard());
         blackBoardCheckBox.setSelected(editableClass.getBlackboard());
+
+        validationSupport.registerValidator(classNameTextField, Validator.createEmptyValidator("نام کلاس الزامی است."));
     }
-    
+
 }

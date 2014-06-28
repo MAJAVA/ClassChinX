@@ -10,7 +10,7 @@
   <children>
     <TabPane prefHeight="614.0" prefWidth="991.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
-        <Tab text="نامه های دریافتی">
+        <Tab fx:id="inboxTab" text="نامه های دریافتی">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
@@ -77,7 +77,7 @@
             </BorderPane>
           </content>
         </Tab>
-        <Tab text="نامه های ارسالی">
+        <Tab fx:id="outboxTab" text="نامه های ارسالی">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
@@ -124,7 +124,7 @@
             </BorderPane>
           </content>
         </Tab>
-        <Tab text="وضعیت">
+        <Tab fx:id="statusTab" text="وضعیت">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
@@ -157,7 +157,7 @@
             </BorderPane>
           </content>
         </Tab>
-        <Tab onClosed="#termTabOnClose" onSelectionChanged="#termTabOnSelectionChanged" text="ترم">
+        <Tab fx:id="termTab" onClosed="#termTabOnClose" onSelectionChanged="#termTabOnSelectionChanged" text="ترم">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>

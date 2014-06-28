@@ -255,7 +255,8 @@ public class MainLayoutController implements Initializable
         if (Login.loggedUser.getPerson().getJob().getId() != 1)
         {
             fieldsHBox.setDisable(true);
-            fieldsHBox.setVisible(false);
+            usersHBox.setDisable(true);
+            classHBox.setDisable(true);       
         }
 
     }
@@ -345,7 +346,7 @@ public class MainLayoutController implements Initializable
         dashboardLayoutController.updateInboxTableView();
         dashboardLayoutController.updateOutboxTableView();
         dashboardLayoutController.updateStatusTableView();
-
+        statusProperty.setValue("کلاس چین < پیشخوان");
     }
 
     //___________________________________________________________________
@@ -381,6 +382,8 @@ public class MainLayoutController implements Initializable
         /* update field tableview  */
         FieldsLayoutController flc = fieldsLayoutLoader.getController();
         flc.updateFieldTableView();
+        
+        statusProperty.setValue("کلاس چین < مدیریت رشته ها");
     }
 
     //___________________________________________________________________
@@ -413,6 +416,8 @@ public class MainLayoutController implements Initializable
         usersImageView.setImage(userButtonOnMouseClicked);
         usersHBoxOnMouseClickedFlag = true;
         usersLayoutController.updateUsersTableView();
+        
+        statusProperty.setValue("کلاس چین < مدیریت کاربران");
     }
 
 //___________________________________________________________________
@@ -446,6 +451,8 @@ public class MainLayoutController implements Initializable
         groupsHBoxOnMouseClickedFlag = true;
         groupsLayoutController.updateCourseTableView();
         groupsLayoutController.updateProfTableView();
+        
+        statusProperty.setValue("کلاس چین < مدیریت گروه های درسی");
     }
 
     @FXML
@@ -478,6 +485,8 @@ public class MainLayoutController implements Initializable
         classLayoutController.updateClassListTableView();
         classLayoutController.updateDedicationTableView();
         classLayoutController.updateScheduleTableView();
+        
+        statusProperty.setValue("کلاس چین < مدیریت کلاس ها، تخصیصات و بازه های زمان");
     }
 
     @FXML
@@ -490,6 +499,8 @@ public class MainLayoutController implements Initializable
         scheduleHBoxOnMouseClickedFlag = true;
         scheduleLayoutController.updateScheduleTableView();
         new CtacssManager().initCurrentSchedule();
+        
+        statusProperty.setValue("کلاس چین < کلاس چین !");
 
     }
 

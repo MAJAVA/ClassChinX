@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.controller;
 
 import java.net.URL;
@@ -33,6 +32,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Schedule;
+import jclasschin.model.CtacssManager;
 import jclasschin.model.ScheduleManager;
 
 /**
@@ -42,9 +42,10 @@ import jclasschin.model.ScheduleManager;
  */
 public class ClassScheduleDeleteDialogController implements Initializable
 {
+
     private Stage classScheduleDeleteDialogStage;
     private Schedule schedule;
-    
+
     @FXML
     private HBox yesHBox;
     @FXML
@@ -61,7 +62,7 @@ public class ClassScheduleDeleteDialogController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-    }    
+    }
 
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
@@ -77,8 +78,22 @@ public class ClassScheduleDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         ScheduleManager scheduleManager = new ScheduleManager();
-        scheduleManager.delete(schedule.getId());
-        getClassScheduleDeleteDialogStage().close();
+        if (CtacssManager.currentSchedule.getName().equals(schedule.getName()))
+        {
+            MainLayoutController.statusProperty.setValue("نمی توانید دوره زمانی جاری سیستم را حذف کنید!");
+        }
+        else
+        {
+            if (scheduleManager.delete(schedule.getId()))
+            {
+                MainLayoutController.statusProperty.setValue("دوره زمانی با موفقیت حذف شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات حذف دوره زمانی با شکست مواجه شد.");
+            }
+            getClassScheduleDeleteDialogStage().close();
+        }
     }
 
     @FXML
@@ -94,6 +109,7 @@ public class ClassScheduleDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف دوره زمانی لغو شد.");
         getClassScheduleDeleteDialogStage().close();
     }
 
@@ -106,7 +122,8 @@ public class ClassScheduleDeleteDialogController implements Initializable
     }
 
     /**
-     * @param classScheduleDeleteDialogStage the classScheduleDeleteDialogStage to set
+     * @param classScheduleDeleteDialogStage the classScheduleDeleteDialogStage
+     * to set
      */
     public void setClassScheduleDeleteDialogStage(Stage classScheduleDeleteDialogStage)
     {
@@ -128,5 +145,5 @@ public class ClassScheduleDeleteDialogController implements Initializable
     {
         this.schedule = schedule;
     }
-    
+
 }

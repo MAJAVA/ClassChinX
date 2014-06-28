@@ -77,7 +77,14 @@ public class GroupsProferssorsDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         personManager = new PersonManager();
-        personManager.delete(editablePerson.getId());
+        if(personManager.delete(editablePerson.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("استاد با موفقیت حذف شد.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف استاد با شکست مواجه شد.");
+        }
         groupProferssorsDeleteDialogStage.close();
     }
 
@@ -94,6 +101,7 @@ public class GroupsProferssorsDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف استاد لغو شد.");
         groupProferssorsDeleteDialogStage.close();
     }
 

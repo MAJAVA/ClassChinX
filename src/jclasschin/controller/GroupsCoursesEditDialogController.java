@@ -38,6 +38,8 @@ import jclasschin.entity.Course;
 import jclasschin.entity.Coursetype;
 import jclasschin.model.CourseManager;
 import jclasschin.model.CourseTypeManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -47,6 +49,7 @@ import jclasschin.model.CourseTypeManager;
 public class GroupsCoursesEditDialogController implements Initializable
 {
 
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage groupsCoursesEditDialogStage;
     private Course editableCourse;
 
@@ -76,13 +79,28 @@ public class GroupsCoursesEditDialogController implements Initializable
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
         CourseManager cm = new CourseManager();
-        cm.update(editableCourse.getId(),typeComboBox.getValue(),nameTextField.getText());
-        groupsCoursesEditDialogStage.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا فیلدهای الزامی را پر نمایید.");
+        }
+        else
+        {
+            if(cm.update(editableCourse.getId(), typeComboBox.getValue(), nameTextField.getText()))
+            {
+                MainLayoutController.statusProperty.setValue("درس با موفقیت بروز رسانی شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات بروز رسانی درس با شکست مواجه شد.");
+            }
+            groupsCoursesEditDialogStage.close();
+        }
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروز رسانی درس لغو شد.");
         groupsCoursesEditDialogStage.close();
     }
 
@@ -132,6 +150,10 @@ public class GroupsCoursesEditDialogController implements Initializable
         });
 
         typeComboBox.setValue(editableCourse.getCoursetype().getType());
+
+        validationSupport.registerValidator(nameTextField, Validator.createEmptyValidator("عنوان درس الزامی است"));
+        validationSupport.registerValidator(typeComboBox, Validator.createEmptyValidator("نوع درس الزامی است"));
+
     }
 
 }

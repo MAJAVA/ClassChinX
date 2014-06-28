@@ -37,6 +37,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Person;
 import jclasschin.model.PersonManager;
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -45,6 +48,8 @@ import jclasschin.model.PersonManager;
  */
 public class GroupsProferssorsNewDialogController implements Initializable
 {
+
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage groupProferssorsNewDialogStage;
     private Person person;
     private PersonManager personManager;
@@ -83,15 +88,37 @@ public class GroupsProferssorsNewDialogController implements Initializable
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
         personManager = new PersonManager();
-        personManager.insert(titleComboBox.getValue(), firstNameTextField.getText(), 
-                lastNameTextField.getText(),maleSexRadioButton.isSelected(), phoneTextField.getText());
-        
-        groupProferssorsNewDialogStage.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("فیلدهای الزامی را پر نمایید.");
+        }
+        else if (!phoneTextField.getText().matches("\\d*"))
+        {
+            MainLayoutController.statusProperty.setValue("شماره تلفن بایستی فقط عدد باشد.");
+        }
+        else if (phoneTextField.getText().length() > 11)
+        {
+            MainLayoutController.statusProperty.setValue("شماره تلفن بایستی حداکثر 11 رقم باشد.");
+        }
+        else
+        {
+            if(personManager.insert(titleComboBox.getValue(), firstNameTextField.getText(),
+                    lastNameTextField.getText(), maleSexRadioButton.isSelected(), phoneTextField.getText())){
+                MainLayoutController.statusProperty.setValue("استاد جدید با موفقیت ثبت شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات ثبت استاد جدید با شکست مواجه شد.");            
+            }
+            groupProferssorsNewDialogStage.close();
+        }
+
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات ثبت استاد جدید لغو شد.");
         groupProferssorsNewDialogStage.close();
     }
 
@@ -104,7 +131,8 @@ public class GroupsProferssorsNewDialogController implements Initializable
     }
 
     /**
-     * @param groupProferssorsNewDialogStage the groupProferssorsNewDialogStage to set
+     * @param groupProferssorsNewDialogStage the groupProferssorsNewDialogStage
+     * to set
      */
     public void setGroupProferssorsNewDialogStage(Stage groupProferssorsNewDialogStage)
     {
@@ -114,16 +142,22 @@ public class GroupsProferssorsNewDialogController implements Initializable
     void initDialog()
     {
         titleComboBox.getItems().clear();
-        titleComboBox.getItems().addAll("آقای","خانم","دکتر","مهندس");
+        titleComboBox.getItems().addAll("آقای", "خانم", "دکتر", "مهندس");
         firstNameTextField.setText("");
         lastNameTextField.setText("");
         phoneTextField.setText("");
-        
+
         ToggleGroup toggleGroup = new ToggleGroup();
         maleSexRadioButton.setToggleGroup(toggleGroup);
         femaleSexRadioButton.setToggleGroup(toggleGroup);
-        maleSexRadioButton.setSelected(false);
+        maleSexRadioButton.setSelected(true);
         femaleSexRadioButton.setSelected(false);
+
+        validationSupport.registerValidator(phoneTextField, false, Validator.createEmptyValidator("می توانید بعدا وارد نمایید", Severity.WARNING));
+        validationSupport.registerValidator(titleComboBox, Validator.createEmptyValidator("عنوان الزامی است"));
+        validationSupport.registerValidator(firstNameTextField, Validator.createEmptyValidator("نام الزامی است"));
+        validationSupport.registerValidator(lastNameTextField, Validator.createEmptyValidator("نام خانوادگی الزامی است"));
+
     }
 
 }

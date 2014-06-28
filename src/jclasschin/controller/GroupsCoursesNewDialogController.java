@@ -37,6 +37,8 @@ import javafx.stage.Stage;
 import jclasschin.entity.Coursetype;
 import jclasschin.model.CourseManager;
 import jclasschin.model.CourseTypeManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -46,6 +48,7 @@ import jclasschin.model.CourseTypeManager;
 public class GroupsCoursesNewDialogController implements Initializable
 {
 
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage groupsCoursesNewDialog;
 
     @FXML
@@ -63,6 +66,8 @@ public class GroupsCoursesNewDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -73,14 +78,30 @@ public class GroupsCoursesNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        CourseManager cm = new CourseManager();
-        cm.insert(nameTextField.getText(), typeComboBox.getValue());
-        groupsCoursesNewDialog.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا فیلدهای الزامی را پر نمایید.");
+        }
+        else
+        {
+            CourseManager cm = new CourseManager();
+            if(cm.insert(nameTextField.getText(), typeComboBox.getValue()))
+            {
+                MainLayoutController.statusProperty.setValue("درس جدید با موفقیت افزوده شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات ثبت درس جدید با شکست مواجه شد.");
+            }
+            groupsCoursesNewDialog.close();
+        }
+
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات ثبت درس جدید لغو شد.");
         groupsCoursesNewDialog.close();
     }
 
@@ -111,5 +132,8 @@ public class GroupsCoursesNewDialogController implements Initializable
         {
             typeComboBox.getItems().add(((Coursetype) ct).getType());
         });
+
+        validationSupport.registerValidator(nameTextField, Validator.createEmptyValidator("عنوان درس الزامی است"));
+        validationSupport.registerValidator(typeComboBox, Validator.createEmptyValidator("نوع درس الزامی است"));
     }
 }

@@ -37,6 +37,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Person;
 import jclasschin.model.PersonManager;
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -46,6 +49,7 @@ import jclasschin.model.PersonManager;
 public class GroupsProferssorsEditDialogController implements Initializable
 {
 
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage groupProferssorsEditDialogStage;
     private Person editablePerson;
     private PersonManager personManager;
@@ -84,14 +88,38 @@ public class GroupsProferssorsEditDialogController implements Initializable
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
         personManager = new PersonManager();
-        personManager.update(editablePerson.getId(),titleComboBox.getValue(),firstNameTextField.getText(),
-                lastNameTextField.getText(),phoneTextField.getText(),maleSexRadioButton.isSelected());
-        groupProferssorsEditDialogStage.close();
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("فیلدهای الزامی را پر نمایید.");
+        }
+        else if (!phoneTextField.getText().matches("\\d*"))
+        {
+            MainLayoutController.statusProperty.setValue("شماره تلفن بایستی فقط عدد باشد.");
+        }
+        else if (phoneTextField.getText().length() > 11)
+        {
+            MainLayoutController.statusProperty.setValue("شماره تلفن بایستی حداکثر 11 رقم باشد.");
+        }
+        else
+        {
+            if (personManager.update(editablePerson.getId(), titleComboBox.getValue(), firstNameTextField.getText(),
+                    lastNameTextField.getText(), phoneTextField.getText(), maleSexRadioButton.isSelected()))
+            {
+                MainLayoutController.statusProperty.setValue("استاد با موفقیت بروز رسانی شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات بروز رسانی استاد با شکست مواجه شد.");
+            }
+            groupProferssorsEditDialogStage.close();
+        }
+
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروز رسانی استاد لغو شد.");
         groupProferssorsEditDialogStage.close();
     }
 
@@ -140,7 +168,7 @@ public class GroupsProferssorsEditDialogController implements Initializable
         ToggleGroup toggleGroup = new ToggleGroup();
         maleSexRadioButton.setToggleGroup(toggleGroup);
         femaleSexRadioButton.setToggleGroup(toggleGroup);
-        
+
         if (editablePerson.isSex())
         {
             maleSexRadioButton.setSelected(true);
@@ -149,5 +177,11 @@ public class GroupsProferssorsEditDialogController implements Initializable
         {
             femaleSexRadioButton.setSelected(true);
         }
+        validationSupport.registerValidator(phoneTextField, false, Validator.createEmptyValidator("می توانید بعدا وارد نمایید", Severity.WARNING));
+        validationSupport.registerValidator(titleComboBox, Validator.createEmptyValidator("عنوان الزامی است"));
+        validationSupport.registerValidator(firstNameTextField, Validator.createEmptyValidator("نام الزامی است"));
+        validationSupport.registerValidator(lastNameTextField, Validator.createEmptyValidator("نام خانوادگی الزامی است"));
+
     }
+
 }

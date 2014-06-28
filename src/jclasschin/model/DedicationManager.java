@@ -24,6 +24,7 @@
 package jclasschin.model;
 
 import java.util.List;
+import java.util.function.Consumer;
 import jclasschin.entity.Classroom;
 import jclasschin.entity.Dedication;
 import jclasschin.entity.Field;
@@ -43,27 +44,30 @@ public class DedicationManager
     private Dedication dedication;
     private Session session;
     private Field field;
-    private FieldManager fieldManager = new FieldManager();
+    private final FieldManager fieldManager = new FieldManager();
     private Classroom classroom;
-    private ClassManager classManager = new ClassManager();
+    private final ClassManager classManager = new ClassManager();
 
     public boolean insert(String fieldName, List selectedClass)
     {
+         
         field = fieldManager.selectByName(fieldName);
+        deleteByFieldID(field.getId());
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
-            selectedClass.stream().forEach((sc) ->
+            selectedClass.stream().forEach((Object sc) ->
             {
                 classroom = classManager.selectByName((String) sc);
                 dedication = new Dedication(CtacssManager.currentTerm, classroom, field, null);
+
                 session.save(dedication);
+
             });
             session.getTransaction().commit();
             return true;
-
         }
         catch (HibernateException he)
         {
@@ -79,7 +83,7 @@ public class DedicationManager
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            selectedClass.stream().forEach((sc) ->
+            selectedClass.stream().forEach((Object sc) ->
             {
                 classroom = classManager.selectByName((String) sc);
                 dedication = new Dedication(CtacssManager.currentTerm, classroom, field, null);
@@ -87,7 +91,6 @@ public class DedicationManager
             });
             session.getTransaction().commit();
             return true;
-
         }
         catch (HibernateException he)
         {
@@ -106,9 +109,17 @@ public class DedicationManager
             q.setParameter("fid", fid);
             q.setParameter("cid", cid);
             List resultList = q.list();
-            dedication = (Dedication) resultList.get(0);
-            session.getTransaction().commit();
-            return dedication;
+            if (resultList == null || resultList.isEmpty())
+            {
+                session.getTransaction().commit();
+                return null;
+            }
+            else
+            {
+                Dedication d = (Dedication) resultList.get(0);
+                session.getTransaction().commit();
+                return d;
+            }
         }
         catch (HibernateException he)
         {

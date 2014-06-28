@@ -36,6 +36,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.model.FieldManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -45,8 +47,8 @@ import jclasschin.model.FieldManager;
 public class FieldsNewDialogController implements Initializable
 {
 
+    private ValidationSupport validationSupport = new ValidationSupport();
     private Stage newFieldDialogStage;
-
     private FieldManager fieldManager;
 
     private final Image okButton, okButtonOnMouseEntered, okButtonOnMouseClicked,
@@ -110,13 +112,26 @@ public class FieldsNewDialogController implements Initializable
 //
 //        } else {
         fieldManager = new FieldManager();
-        fieldManager.insert(fieldNameTextField.getText());
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("نام رشته را وارد نمایید.");
+        }
+        else
+        {
+            if (fieldManager.insert(fieldNameTextField.getText()))
+            {
+                MainLayoutController.statusProperty.setValue("رشته جدید با موفقیت افزوده شد!");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات افزودن رشته جدید با شکست مواجه شد.");
+            }
+            newFieldDialogStage.close();
+        }
+
             //      programMessageLable.setTextFill(Color.GREEN);
 //                programMessageLable.setText("New Field add successfully!!!");
         //fieldNameTextField.setText("");
-
-        newFieldDialogStage.close();
-
 //                programMessageLable.setTextFill(Color.RED);
 //                programMessageLable.setText("Failed to add New Field!");
 //        }
@@ -137,6 +152,7 @@ public class FieldsNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات افزودن رشته جدید لغو شد.");
         newFieldDialogStage.close();
     }
 
@@ -168,4 +184,11 @@ public class FieldsNewDialogController implements Initializable
         this.newFieldDialogStage = newFieldDialogStage;
     }
 
+    public void initDialog()
+    {
+        fieldNameTextField.setPromptText("مهندسی نرم افزار");
+        fieldNameTextField.setText(null);
+        validationSupport.registerValidator(fieldNameTextField,
+                Validator.createEmptyValidator("نام رشته الزامی است"));
+    }
 }

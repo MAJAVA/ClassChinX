@@ -41,6 +41,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -57,6 +58,7 @@ import jclasschin.entity.Mail;
 import jclasschin.entity.Status;
 import jclasschin.entity.Term;
 import jclasschin.model.CtacssManager;
+import jclasschin.model.Login;
 import jclasschin.model.MailManager;
 import jclasschin.model.StatusManager;
 import jclasschin.model.TermManager;
@@ -162,6 +164,14 @@ public class DashboardLayoutController implements Initializable
     private TableColumn<Status, String> statusLastUpdateTableColumn;
     @FXML
     private TableColumn<Status, Boolean> statusStateTableColumn;
+    @FXML
+    private Tab inboxTab;
+    @FXML
+    private Tab outboxTab;
+    @FXML
+    private Tab statusTab;
+    @FXML
+    private Tab termTab;
 
     public DashboardLayoutController() throws IOException
     {
@@ -264,6 +274,7 @@ public class DashboardLayoutController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+
     }
 
     @FXML
@@ -355,6 +366,7 @@ public class DashboardLayoutController implements Initializable
     {
         /* Refersh mail inbox table */
         updateInboxTableView();
+        MainLayoutController.statusProperty.setValue("صندوق نامه های دریافتی بروز شد.");
     }
 
     @FXML
@@ -477,6 +489,12 @@ public class DashboardLayoutController implements Initializable
 
     public void updateTermTableView()
     {
+        if (Login.loggedUser.getPerson().getJob().getId() != 1)
+        {
+            statusTab.setDisable(true);
+            termTab.setDisable(true);
+        }
+
         currentTermComboBox.getItems().clear();
         TermManager tm = new TermManager();
         List l = tm.selectAll();

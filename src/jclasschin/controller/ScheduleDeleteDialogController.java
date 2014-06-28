@@ -79,10 +79,17 @@ public class ScheduleDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         CCManager ccm = new CCManager();
-        ccm.delete(editableCctm.getId());
+        if (ccm.delete(editableCctm.getId()))
+        {
+            StatusManager sm = new StatusManager();
+            sm.insert();
+            MainLayoutController.statusProperty.setValue("برنامه با موفقیت حذف شد.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف برنامه با شکست مواجه شد.");
+        }
 
-        StatusManager sm = new StatusManager();
-        sm.insert();
         scheduleDeleteDialogStage.close();
     }
 
@@ -99,6 +106,7 @@ public class ScheduleDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف برنامه لغو شد.");
         scheduleDeleteDialogStage.close();
     }
 
@@ -140,6 +148,7 @@ public class ScheduleDeleteDialogController implements Initializable
         if (!editableCctm.getDedication().getField().getName().equals(Login.loggedUserField))
         {
             yesHBox.setDisable(true);
+            MainLayoutController.statusProperty.setValue("شما قادر به حذف برنامه دیگر رشته ها نیستید!");
         }
     }
 

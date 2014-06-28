@@ -33,6 +33,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.User;
 import jclasschin.model.UserManager;
+import org.controlsfx.validation.ValidationSupport;
 
 /**
  * FXML Controller class
@@ -41,11 +42,12 @@ import jclasschin.model.UserManager;
  */
 public class UsersDeleteDialogController implements Initializable
 {
-
+    
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage usersEditDialogStage;
     private User editableUser;
     private UserManager userManager;
-
+    
     @FXML
     private HBox yesHBox;
     @FXML
@@ -63,39 +65,47 @@ public class UsersDeleteDialogController implements Initializable
     {
         // TODO
     }
-
+    
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
     }
-
+    
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
-
+        
     }
-
+    
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         userManager = new UserManager();
-        userManager.delete(editableUser.getPerson().getId());
+        if (userManager.delete(editableUser.getPerson().getId()))
+        {
+            MainLayoutController.statusProperty.setValue("حذف کاربر با موفقیت انجام شد.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف کاربر با شکست مواجه شد.");
+        }
         usersEditDialogStage.close();
     }
-
+    
     @FXML
     private void noHBoxOnMouseExited(MouseEvent event)
     {
     }
-
+    
     @FXML
     private void noHBoxOnMouseEntered(MouseEvent event)
     {
     }
-
+    
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف کاربر لغو شد.");
         usersEditDialogStage.close();
     }
 
@@ -130,5 +140,5 @@ public class UsersDeleteDialogController implements Initializable
     {
         this.editableUser = editableUser;
     }
-
+    
 }

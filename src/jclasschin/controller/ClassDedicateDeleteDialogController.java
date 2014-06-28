@@ -67,20 +67,27 @@ public class ClassDedicateDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
-        
+
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
-        
+
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         dedicationManager = new DedicationManager();
-        dedicationManager.deleteByFieldID(editableField.getId());
+        if (dedicationManager.deleteByFieldID(editableField.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("حذف تخصیص با موفقیت صورت گرفت.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف تخصیص با شکست مواجه شد.");
+        }
         classDedicateDeleteDialogStage.close();
     }
 
@@ -97,6 +104,7 @@ public class ClassDedicateDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف تخصیص لغو شد.");
         classDedicateDeleteDialogStage.close();
     }
 
@@ -109,8 +117,8 @@ public class ClassDedicateDeleteDialogController implements Initializable
     }
 
     /**
-     * @param classDedicateDeleteDialogStage the classDedicateDeleteDialogStage to
- set
+     * @param classDedicateDeleteDialogStage the classDedicateDeleteDialogStage
+     * to set
      */
     public void setClassDedicateDeleteDialogStage(Stage classDedicateDeleteDialogStage)
     {

@@ -24,6 +24,7 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -92,17 +93,25 @@ public class ScheduleEditDialogController implements Initializable
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
         CCManager ccm = new CCManager();
-        ccm.update(editableCctm.getId(), dayComboBox.getValue(), classComboBox.getValue(), 
-                timeComboBox.getValue(), courseComboBox.getValue(),professorComboBox.getValue());
-        
-        StatusManager sm = new StatusManager();
-        sm.insert();
+        if (ccm.update(editableCctm.getId(), dayComboBox.getValue(), classComboBox.getValue(),
+                timeComboBox.getValue(), courseComboBox.getValue(), professorComboBox.getValue()))
+        {
+            StatusManager sm = new StatusManager();
+            sm.insert();
+            MainLayoutController.statusProperty.setValue("برنامه با موفقیت بروز رسانی شد.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("بروز رسانی برنامه با شکست مواجه شد.");
+        }
+
         scheduleEditDialogStage.close();
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروز رسانی برنامه لغو شد.");
         scheduleEditDialogStage.close();
     }
 
@@ -150,6 +159,7 @@ public class ScheduleEditDialogController implements Initializable
         if (!editableCctm.getDedication().getField().getName().equals(Login.loggedUserField))
         {
             okHBox.setDisable(true);
+            MainLayoutController.statusProperty.setValue("شما تنها قادر به ویرایش برنامه های رشته خود هستید!");
         }
     }
 
@@ -160,6 +170,7 @@ public class ScheduleEditDialogController implements Initializable
         dayComboBox.setPromptText("انتخاب نمایید . . .");
 
         List l = wdm.selectAll();
+        Collections.sort(l, (Weekday pi1, Weekday pi2) -> pi1.getId().compareTo(pi2.getId()));
         l.stream().forEach((wd) ->
         {
             dayComboBox.getItems().add(((Weekday) wd).getDayName());
@@ -173,6 +184,8 @@ public class ScheduleEditDialogController implements Initializable
         classComboBox.setPromptText("انتخاب نمایید . . .");
         DedicationManager dm = new DedicationManager();
         List l = dm.selectAll();
+        Collections.sort(l, (Dedication pi1, Dedication pi2) -> pi1.getClassroom().getName().compareTo(pi2.getClassroom().getName()));
+
         l.stream().forEach((d) ->
         {
             if (((Dedication) d).getField().getName().equals(Login.loggedUserField)
@@ -191,6 +204,8 @@ public class ScheduleEditDialogController implements Initializable
         timeComboBox.setPromptText("انتخاب نمایید . . .");
         ScheduleManager sm = new ScheduleManager();
         List l = sm.selectAllPeriod();
+        Collections.sort(l, (Period pi1, Period pi2) -> pi1.getId().compareTo(pi2.getId()));
+
         l.stream().forEach((s) ->
         {
             if (((Period) s).getSchedule().getName().equals(CtacssManager.currentSchedule.getName()))
@@ -209,6 +224,7 @@ public class ScheduleEditDialogController implements Initializable
         courseComboBox.setPromptText("انتخاب نمایید . . .");
         CourseManager cm = new CourseManager();
         List l = cm.selectAllByFieldName(Login.loggedUserField);
+        Collections.sort(l, (Course pi1, Course pi2) -> pi1.getName().compareTo(pi2.getName()));
         l.stream().forEach((s) ->
         {
             courseComboBox.getItems().add(((Course) s).getName());
@@ -222,6 +238,7 @@ public class ScheduleEditDialogController implements Initializable
         professorComboBox.setPromptText("انتخاب نمایید . . .");
         PersonManager pm = new PersonManager();
         List l = pm.selectAllByFieldName(Login.loggedUserField);
+        Collections.sort(l, (Person pi1, Person pi2) -> pi1.getId().compareTo(pi2.getId()));
         l.stream().forEach((p) ->
         {
             professorComboBox.getItems().add(((Person) p).getId()

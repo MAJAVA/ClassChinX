@@ -25,6 +25,7 @@ package jclasschin.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -57,7 +58,7 @@ import org.controlsfx.control.CheckListView;
  */
 public class ClassDedicateEditDialogController implements Initializable
 {
-
+    
     private Stage classDedicateEditDialogStage;
     private DedicationManager dedicationManager;
     private Field editableField;
@@ -68,7 +69,7 @@ public class ClassDedicateEditDialogController implements Initializable
     CheckListView<String> checkListView;
     ObservableList<String> selectedClass;
     ArrayList<String> oldClass = new ArrayList<>();
-
+    
     @FXML
     private AnchorPane classDedicateEditDialogAnchorPane;
     @FXML
@@ -90,18 +91,33 @@ public class ClassDedicateEditDialogController implements Initializable
         String css = JClassChin.class.getResource("gallery/css/CSS.css").toString();
         classDedicateEditDialogAnchorPane.getStylesheets().add(css);
     }
-
+    
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        dedicationManager = new DedicationManager();
-        dedicationManager.update(editableField.getId(), fieldComboBox.getValue(), (List) selectedClass);
-        classDedicateEditDialogStage.close();
+        if (selectedClass == null || selectedClass.isEmpty())
+        {
+            MainLayoutController.statusProperty.setValue("انتخاب حداقل یک کلاس الزامی است.");
+        }
+        else
+        {
+            dedicationManager = new DedicationManager();
+            if (dedicationManager.update(editableField.getId(), fieldComboBox.getValue(), (List) selectedClass))
+            {
+                MainLayoutController.statusProperty.setValue("بروزرسانی تخصیص با موفقیت انجام گرفت.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("بروز رسانی تخصیص با شکست مواجه شد.");
+            }
+            classDedicateEditDialogStage.close();
+        }
     }
-
+    
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات بروزرسانی تخصیص لغو شد.");
         classDedicateEditDialogStage.close();
     }
 
@@ -137,10 +153,10 @@ public class ClassDedicateEditDialogController implements Initializable
     {
         this.editableField = eitableField;
     }
-
+    
     void initDialog()
     {
-
+        
         if (classDedicateEditDialogAnchorPane.getChildren().contains(gridPane))
         {
             classDedicateEditDialogAnchorPane.getChildren().remove(1);
@@ -151,48 +167,49 @@ public class ClassDedicateEditDialogController implements Initializable
         gridPane.setLayoutY(30);
         gridPane.setVgap(15);
         gridPane.setHgap(15);
-
+        
         fillFieldComboBox();
         fillClassCheckListView();
-
+        
         fieldComboBox.setMinWidth(200);
         fieldComboBox.setMaxWidth(200);
-
+        
         checkListView.setMinWidth(200);
         checkListView.setMaxWidth(200);
-
+        
         gridPane.add(fieldLabel, 0, 0);
         gridPane.add(fieldComboBox, 1, 0);
         gridPane.add(classLabel, 0, 1);
         gridPane.add(checkListView, 1, 1);
         classDedicateEditDialogAnchorPane.getChildren().add(gridPane);
         classDedicateEditDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-
+        
     }
-
+    
     private void fillFieldComboBox()
     {
         fieldComboBox.setValue(editableField.getName());
         fieldComboBox.setDisable(true);
     }
-
+    
     private void fillClassCheckListView()
     {
         ObservableList<String> classList = FXCollections.observableArrayList();
         ClassManager classManager = new ClassManager();
         List cl = classManager.selectAll();
+        Collections.sort(cl, (Classroom pi1, Classroom pi2) -> pi1.getName().compareTo(pi2.getName()));
         cl.stream().forEach((c) ->
         {
             classList.add(((Classroom) c).getName());
         });
         checkListView = new CheckListView<>(classList);
-
+        
         editableField.getDedications().stream().forEach((d) ->
         {
             checkListView.getCheckModel().select(((Dedication) d).getClassroom().getName());
             oldClass.add(((Dedication) d).getClassroom().getName());
         });
-
+        
         checkListView.getCheckModel().getSelectedItems().addListener((ListChangeListener.Change<? extends String> c) ->
         {
             selectedClass = (ObservableList<String>) c.getList();

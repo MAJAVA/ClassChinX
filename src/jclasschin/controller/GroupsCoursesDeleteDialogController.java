@@ -56,6 +56,8 @@ public class GroupsCoursesDeleteDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -77,7 +79,14 @@ public class GroupsCoursesDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         CourseManager cm = new CourseManager();
-        cm.delete(editableCourse.getId());
+        if (cm.delete(editableCourse.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("درس با موفقیت حذف شد.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف درس با شکست مواجه شد.");
+        }
         groupsCoursesDeleteDialogStage.close();
     }
 
@@ -94,6 +103,7 @@ public class GroupsCoursesDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف درس لغو شد.");
         groupsCoursesDeleteDialogStage.close();
     }
 
@@ -106,8 +116,7 @@ public class GroupsCoursesDeleteDialogController implements Initializable
     }
 
     /**
-     * @param groupsCoursesEditDialogStage the groupsCoursesEditDialogStage to
-     * set
+     * @param groupsCoursesDeleteDialogStage
      */
     public void setGroupsCoursesDeleteDialogStage(Stage groupsCoursesDeleteDialogStage)
     {

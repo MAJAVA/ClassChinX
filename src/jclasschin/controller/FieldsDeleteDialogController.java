@@ -80,7 +80,14 @@ public class FieldsDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         fieldManager = new FieldManager();
-        fieldManager.delete(field.getId());
+        if(fieldManager.delete(field.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("رشته " + field.getName() +" با موفقیت حذف شد.");
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف رشته با شکست مواجه شد.");
+        }
         
         fieldsDeleteDialogStage.close();
     }
@@ -98,6 +105,7 @@ public class FieldsDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات حذف رشته لغو شد.");
         fieldsDeleteDialogStage.close();
     }
 

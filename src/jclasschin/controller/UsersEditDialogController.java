@@ -36,10 +36,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import jclasschin.entity.Field;
 import jclasschin.entity.Job;
@@ -47,6 +49,9 @@ import jclasschin.entity.User;
 import jclasschin.model.FieldManager;
 import jclasschin.model.JobManager;
 import jclasschin.model.UserManager;
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -55,13 +60,14 @@ import jclasschin.model.UserManager;
  */
 public class UsersEditDialogController implements Initializable
 {
-
+    
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage usersEditDialogStage;
     private User editableUser;
     private UserManager userManager;
-
+    
     private ToggleGroup sexToggleGroup, activeToggleGroup;
-
+    
     @FXML
     private TextField lastNameTextField;
     @FXML
@@ -103,23 +109,55 @@ public class UsersEditDialogController implements Initializable
     {
         // TODO
     }
-
+    
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-
+        
         userManager = new UserManager();
-        userManager.update(editableUser.getId(), editableUser.getPerson().getId(), titleComboBox.getValue(),
-                firstNameTextField.getText(), lastNameTextField.getText(), maleSexRadioButton.isSelected(),
-                phoneTextField.getText(), userNameTextField.getText(), passwordField.getText(),
-                activeRadioButton.isSelected(), jobComboBox.getValue(), fieldComboBox.getValue());
-
-        usersEditDialogStage.close();
+        
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("فیلدهای الزامی را پر نمایید.");
+        }
+        else if (!phoneTextField.getText().matches("\\d*"))
+        {
+            MainLayoutController.statusProperty.setValue("شماره تلفن بایستی فقط عدد باشد.");
+        }
+        else if (phoneTextField.getText().length() > 11)
+        {
+            MainLayoutController.statusProperty.setValue("شماره تلفن بایستی حداکثر 11 رقم باشد.");
+        }
+        else if (userNameTextField.getText().length() < 4)
+        {
+            MainLayoutController.statusProperty.setValue("شناسه بایستی حداقل 4 حرف باشد.");
+        }
+        else if (passwordField.getText().length() < 4)
+        {
+            MainLayoutController.statusProperty.setValue("گذرواژه بایستی حداقل 4 حرف باشد.");
+        }
+        else
+        {
+            
+            if (userManager.update(editableUser.getId(), editableUser.getPerson().getId(), titleComboBox.getValue(),
+                    firstNameTextField.getText(), lastNameTextField.getText(), maleSexRadioButton.isSelected(),
+                    phoneTextField.getText(), userNameTextField.getText(), passwordField.getText(),
+                    activeRadioButton.isSelected(), jobComboBox.getValue(), fieldComboBox.getValue()))
+            {
+                MainLayoutController.statusProperty.setValue("ویرایش کاربر با موفقیت انجام شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات ویرایش کاربر با شکست مواجه شد.");
+            }
+            usersEditDialogStage.close();
+        }
     }
-
+    
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات ویرایش کاربر با لغو شد.");
         usersEditDialogStage.close();
     }
 
@@ -138,14 +176,14 @@ public class UsersEditDialogController implements Initializable
     {
         this.usersEditDialogStage = usersEditDialogStage;
     }
-
+    
     void initDialog()
     {
         clearDialogFields();
-
+        
         titleComboBox.getItems().addAll("آقای", "خانم", "دکتر", "مهندس");
         titleComboBox.setValue(editableUser.getPerson().getTitle());
-
+        
         FieldManager fm = new FieldManager();
         List fl = fm.selectAll();
         fl.stream().forEach((f) ->
@@ -153,7 +191,7 @@ public class UsersEditDialogController implements Initializable
             fieldComboBox.getItems().add(((Field) f).getName());
         });
         fieldComboBox.setValue(editableUser.getPerson().getField().getName());
-
+        
         JobManager jm = new JobManager();
         List jl = jm.selectAll();
         jl.stream().forEach((j) ->
@@ -161,7 +199,7 @@ public class UsersEditDialogController implements Initializable
             jobComboBox.getItems().add(((Job) j).getTitle());
         });
         jobComboBox.setValue(editableUser.getPerson().getJob().getTitle());
-
+        
         sexToggleGroup = new ToggleGroup();
         maleSexRadioButton.setToggleGroup(sexToggleGroup);
         femaleSexRadioButton.setToggleGroup(sexToggleGroup);
@@ -173,7 +211,7 @@ public class UsersEditDialogController implements Initializable
         {
             femaleSexRadioButton.setSelected(true);
         }
-
+        
         activeToggleGroup = new ToggleGroup();
         activeRadioButton.setToggleGroup(activeToggleGroup);
         deActiveRadioButton.setToggleGroup(activeToggleGroup);
@@ -185,30 +223,46 @@ public class UsersEditDialogController implements Initializable
         {
             deActiveRadioButton.setSelected(true);
         }
-
+        
         userNameTextField.setText(editableUser.getUsername());
         passwordField.setText(editableUser.getPassword());
-
+        
         userNameTextField.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         passwordField.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        
+        validationSupport.registerValidator(jobComboBox, Validator.createEmptyValidator("سمت الزامی است", Severity.ERROR));
+        validationSupport.registerValidator(phoneTextField, false, Validator.createEmptyValidator("می توانید بعدا وارد نمایید", Severity.WARNING));
+        validationSupport.registerValidator(titleComboBox, Validator.createEmptyValidator("عنوان الزامی است"));
+        validationSupport.registerValidator(firstNameTextField, Validator.createEmptyValidator("نام الزامی است"));
+        validationSupport.registerValidator(lastNameTextField, Validator.createEmptyValidator("نام خانوادگی الزامی است"));
+        validationSupport.registerValidator(passwordField, Validator.createEmptyValidator("گذرواژه الزامی است"));
+        validationSupport.registerValidator(userNameTextField, Validator.createEmptyValidator("شناسه الزامی است"));
+        validationSupport.registerValidator(fieldComboBox, Validator.createEmptyValidator("رشته الزامی است"));
+        
     }
-
+    
     private void clearDialogFields()
     {
         titleComboBox.getItems().clear();
         fieldComboBox.getItems().clear();
         jobComboBox.getItems().clear();
-
+        
         firstNameTextField.setText(editableUser.getPerson().getFirstName());
         lastNameTextField.setText(editableUser.getPerson().getLastName());
         phoneTextField.setText(editableUser.getPerson().getPhone());
-        phoneTextField.setPrefColumnCount(11);
-
-        // phoneTextField.getText().length()>11
+        
+        Tooltip t2 = new Tooltip("برای مثال 09136809110");
+        t2.setTextAlignment(TextAlignment.CENTER);
+        phoneTextField.setTooltip(t2);
+        
+        Tooltip t1 = new Tooltip("ترکیبی از اعداد و الفبای انگلیسی\n با طول حداقل چهار حرف ");
+        t1.setTextAlignment(TextAlignment.CENTER);
         phoneTextField.setPromptText("حداکثر طول مجاز 11 عدد است.");
         userNameTextField.setText("");
+        userNameTextField.setTooltip(t1);
         passwordField.setText("");
-
+        passwordField.setTooltip(t1);
+        
     }
 
     /**
@@ -226,7 +280,7 @@ public class UsersEditDialogController implements Initializable
     {
         this.editableUser = editableUser;
     }
-
+    
     @FXML
     private void phoneTextFieldOnKeyTyped(KeyEvent event)
     {
@@ -237,12 +291,12 @@ public class UsersEditDialogController implements Initializable
 //        }
 //        else if(phoneTextField.getText().length() > 11)
 //            phoneTextField.setText(stringTyped);
-
-        if (phoneTextField.getText().length() > 11)
-        {
-            String s = phoneTextField.getText();
-            String substring = s.substring(0, 11);
-            phoneTextField.setText(substring);
-        }
+//
+//        if (phoneTextField.getText().length() > 11)
+//        {
+//            String s = phoneTextField.getText();
+//            String substring = s.substring(0, 11);
+//            phoneTextField.setText(substring);
+//        }
     }
 }

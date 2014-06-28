@@ -24,6 +24,8 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -33,14 +35,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import jclasschin.entity.Cctm;
 import jclasschin.entity.Course;
-import jclasschin.entity.Coursetype;
-import jclasschin.entity.Ctacss;
 import jclasschin.entity.Dedication;
 import jclasschin.entity.Period;
 import jclasschin.entity.Person;
-import jclasschin.entity.Schedule;
 import jclasschin.entity.Weekday;
 import jclasschin.model.CCManager;
 import jclasschin.model.CourseManager;
@@ -51,6 +49,8 @@ import jclasschin.model.PersonManager;
 import jclasschin.model.ScheduleManager;
 import jclasschin.model.StatusManager;
 import jclasschin.model.WeekDayManager;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 /**
  * FXML Controller class
@@ -60,8 +60,10 @@ import jclasschin.model.WeekDayManager;
 public class ScheduleNewDialogController implements Initializable
 {
 
+    private final ValidationSupport validationSupport = new ValidationSupport();
     private Stage scheduleNewDialogStage;
     private CCManager ccm;
+
     @FXML
     private ComboBox<String> dayComboBox;
     @FXML
@@ -94,18 +96,32 @@ public class ScheduleNewDialogController implements Initializable
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
         ccm = new CCManager();
-        ccm.insert(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue(),
-                courseComboBox.getValue(), professorComboBox.getValue());
+        if (validationSupport.isInvalid())
+        {
+            MainLayoutController.statusProperty.setValue("لطفا فیلدهای الزامی را تکمیل نمایید.");
+        }
+        else
+        {
+            if (ccm.insert(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue(),
+                    courseComboBox.getValue(), professorComboBox.getValue()))
+            {
+                StatusManager sm = new StatusManager();
+                sm.insert();
+                MainLayoutController.statusProperty.setValue("برنامه جدید ثبت شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات ثبت برنامه جدید با شکست مواجه شد.");
+            }
 
-        StatusManager sm = new StatusManager();
-        sm.insert();
-        
-        scheduleNewDialogStage.close();
+            scheduleNewDialogStage.close();
+        }
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        MainLayoutController.statusProperty.setValue("عملیات ثبت برنامه جدید لغو شد.");
         scheduleNewDialogStage.close();
     }
 
@@ -132,6 +148,13 @@ public class ScheduleNewDialogController implements Initializable
         fillTimeComboBox();
         fillCourseComboBox();
         fillProfessorComboBox();
+
+        validationSupport.registerValidator(dayComboBox, Validator.createEmptyValidator("روز را وارد کنید."));
+        validationSupport.registerValidator(classComboBox, Validator.createEmptyValidator("کلاس را وارد کنید."));
+        validationSupport.registerValidator(timeComboBox, Validator.createEmptyValidator("زمان را وارد کنید."));
+        validationSupport.registerValidator(courseComboBox, Validator.createEmptyValidator("درس را وارد کنید."));
+        validationSupport.registerValidator(professorComboBox, Validator.createEmptyValidator("استاد را وارد کنید."));
+
     }
 
     private void fillDayComboBox()
@@ -141,6 +164,7 @@ public class ScheduleNewDialogController implements Initializable
         dayComboBox.setPromptText("انتخاب نمایید . . .");
 
         List l = wdm.selectAll();
+        Collections.sort(l, (Weekday pi1, Weekday pi2) -> pi1.getId().compareTo(pi2.getId()));
         l.stream().forEach((wd) ->
         {
             dayComboBox.getItems().add(((Weekday) wd).getDayName());
@@ -153,6 +177,7 @@ public class ScheduleNewDialogController implements Initializable
         classComboBox.setPromptText("انتخاب نمایید . . .");
         DedicationManager dm = new DedicationManager();
         List l = dm.selectAll();
+        Collections.sort(l, (Dedication pi1, Dedication pi2) -> pi1.getClassroom().getName().compareTo(pi2.getClassroom().getName()));
         l.stream().forEach((d) ->
         {
             if (((Dedication) d).getField().getName().equals(Login.loggedUserField)
@@ -170,6 +195,8 @@ public class ScheduleNewDialogController implements Initializable
         timeComboBox.setPromptText("انتخاب نمایید . . .");
         ScheduleManager sm = new ScheduleManager();
         List l = sm.selectAllPeriod();
+        Collections.sort(l, (Period pi1, Period pi2) -> pi1.getId().compareTo(pi2.getId()));
+
         l.stream().forEach((s) ->
         {
             if (((Period) s).getSchedule().getName().equals(CtacssManager.currentSchedule.getName()))
@@ -187,6 +214,7 @@ public class ScheduleNewDialogController implements Initializable
         courseComboBox.setPromptText("انتخاب نمایید . . .");
         CourseManager cm = new CourseManager();
         List l = cm.selectAllByFieldName(Login.loggedUserField);
+        Collections.sort(l, (Course pi1, Course pi2) -> pi1.getName().compareTo(pi2.getName()));
         l.stream().forEach((s) ->
         {
             courseComboBox.getItems().add(((Course) s).getName());
@@ -199,6 +227,7 @@ public class ScheduleNewDialogController implements Initializable
         professorComboBox.setPromptText("انتخاب نمایید . . .");
         PersonManager pm = new PersonManager();
         List l = pm.selectAllByFieldName(Login.loggedUserField);
+        Collections.sort(l, (Person pi1, Person pi2) -> pi1.getId().compareTo(pi2.getId()));
         l.stream().forEach((p) ->
         {
             professorComboBox.getItems().add(((Person) p).getId() + " - " + ((Person) p).getFirstName()
