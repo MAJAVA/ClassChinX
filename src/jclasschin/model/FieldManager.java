@@ -160,5 +160,22 @@ public class FieldManager
         }
 
     }
+    
+    public List selectAllNotDedicatedField()
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List resultList = session.createQuery("from Field f where size(f.dedications) = 0").list();
+            session.getTransaction().commit();
+            return resultList;
+        }
+        catch (HibernateException he)
+        {
+            return null;
+        }
+
+    }
 
 }

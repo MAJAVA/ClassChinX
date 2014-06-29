@@ -34,6 +34,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Field;
 import jclasschin.model.FieldManager;
+import jclasschin.model.Login;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
@@ -63,6 +64,8 @@ public class FieldsEditDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -152,15 +155,20 @@ public class FieldsEditDialogController implements Initializable
     public void setField(Field field)
     {
         this.field = field;
-
     }
 
     public void initDialog()
     {
+        okHBox.setDisable(false);
         fieldNameTextField.setPromptText("مهندسی نرم افزار");
         fieldNameTextField.setText(this.field.getName());
         validationSupport.registerValidator(fieldNameTextField,
                 Validator.createEmptyValidator("نام رشته الزامی است"));
+        if(Login.loggedUserField == null ? field.getName() == null : Login.loggedUserField.equals(field.getName()))
+        {
+            MainLayoutController.statusProperty.setValue("قادر به ویرایش رشته جاری خود نیستید!");
+            okHBox.setDisable(true);
+        }
     }
 
 }

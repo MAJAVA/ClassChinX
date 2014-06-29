@@ -153,13 +153,16 @@ public class ScheduleEditDialogController implements Initializable
 
     void initDialog()
     {
+
+        courseComboBox.setDisable(false);
+        professorComboBox.setDisable(false);
         okHBox.setDisable(false);
         fillDayComboBox();
         fillClassComboBox();
         fillTimeComboBox();
         fillCourseComboBox();
         fillProfessorComboBox();
-        
+
         dayComboBox.setDisable(true);
         classComboBox.setDisable(true);
         timeComboBox.setDisable(true);

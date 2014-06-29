@@ -83,6 +83,8 @@ public class ClassDedicateEditDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -207,6 +209,7 @@ public class ClassDedicateEditDialogController implements Initializable
         editableField.getDedications().stream().forEach((d) ->
         {
             checkListView.getCheckModel().select(((Dedication) d).getClassroom().getName());
+            
             oldClass.add(((Dedication) d).getClassroom().getName());
         });
         

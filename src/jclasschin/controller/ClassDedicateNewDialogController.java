@@ -185,7 +185,7 @@ public class ClassDedicateNewDialogController implements Initializable
         fieldComboBox.getItems().clear();
         fieldComboBox.setPromptText("انتخاب نمایید . . .");
         FieldManager fieldManager = new FieldManager();
-        List fl = fieldManager.selectAll();
+        List fl = fieldManager.selectAllNotDedicatedField();
         fl.stream().forEach((f) ->
         {
             fieldComboBox.getItems().add(((Field) f).getName());

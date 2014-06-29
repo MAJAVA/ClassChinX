@@ -32,7 +32,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.Field;
+import jclasschin.model.CtacssManager;
 import jclasschin.model.FieldManager;
+import jclasschin.model.Login;
 
 /**
  * FXML Controller class
@@ -80,16 +82,22 @@ public class FieldsDeleteDialogController implements Initializable
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
         fieldManager = new FieldManager();
-        if(fieldManager.delete(field.getId()))
+        if (field.getName() == null ? Login.loggedUserField == null : field.getName().equals(Login.loggedUserField))
         {
-            MainLayoutController.statusProperty.setValue("رشته " + field.getName() +" با موفقیت حذف شد.");
+            MainLayoutController.statusProperty.setValue("قادر به حذف رشته جاری خود نیستید!");
         }
         else
         {
-            MainLayoutController.statusProperty.setValue("عملیات حذف رشته با شکست مواجه شد.");
+            if (fieldManager.delete(field.getId()))
+            {
+                MainLayoutController.statusProperty.setValue("رشته " + field.getName() + " با موفقیت حذف شد.");
+            }
+            else
+            {
+                MainLayoutController.statusProperty.setValue("عملیات حذف رشته با شکست مواجه شد.");
+            }
+            fieldsDeleteDialogStage.close();
         }
-        
-        fieldsDeleteDialogStage.close();
     }
 
     @FXML
