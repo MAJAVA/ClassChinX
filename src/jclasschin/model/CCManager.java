@@ -33,6 +33,7 @@ import jclasschin.entity.Person;
 import jclasschin.entity.Weekday;
 import jclasschin.util.HibernateUtil;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -147,8 +148,9 @@ public class CCManager
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-
-            List resultList = session.createQuery("from Cctm").list();
+            Query q = session.createQuery("from Cctm c where c.dedication.term.name =:tn");
+            q.setParameter("tn", CtacssManager.currentTerm.getName());
+            List resultList = q.list();
 
             session.getTransaction().commit();
             return resultList;
@@ -156,6 +158,51 @@ public class CCManager
         catch (HibernateException he)
         {
             return null;
+        }
+    }
+
+    public List selectAllByLike(String filterProperty, String likeValue)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            String query = "from Cctm c where c." + filterProperty + " like '" + likeValue + "%'" + " and c.dedication.term.name =:tn";
+            Query q = session.createQuery(query);
+            q.setParameter("tn", CtacssManager.currentTerm.getName());
+            List resultList = q.list();
+
+            session.getTransaction().commit();
+            return resultList;
+        }
+        catch (HibernateException he)
+        {
+            return null;
+        }
+    }
+
+    public int checkExist(String day, String className, String time)
+    {
+        String[] sePeriod = time.split(" - ");
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            Query q = session.createQuery("from Cctm c where c.weekday.dayName=:dn and c.dedication.classroom.name=:cn "
+                    + "and c.period.start=:tn and c.dedication.term.name=:tena");
+            q.setParameter("dn", day);
+            q.setParameter("cn", className);
+            q.setParameter("tn", sePeriod[1]);
+            q.setParameter("tena", CtacssManager.currentTerm.getName());
+            List l = q.list();
+            session.getTransaction().commit();
+            return l.size();
+        }
+        catch (HibernateException he)
+        {
+            return 1;
         }
     }
 

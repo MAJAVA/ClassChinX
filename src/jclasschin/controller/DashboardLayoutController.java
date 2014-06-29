@@ -172,6 +172,10 @@ public class DashboardLayoutController implements Initializable
     private Tab statusTab;
     @FXML
     private Tab termTab;
+    @FXML
+    private HBox refresh3HBox;
+    @FXML
+    private HBox refresh4HBox;
 
     public DashboardLayoutController() throws IOException
     {
@@ -366,6 +370,8 @@ public class DashboardLayoutController implements Initializable
     {
         /* Refersh mail inbox table */
         updateInboxTableView();
+        updateOutboxTableView();
+        updateStatusTableView();
         MainLayoutController.statusProperty.setValue("صندوق نامه های دریافتی بروز شد.");
     }
 
@@ -436,6 +442,8 @@ public class DashboardLayoutController implements Initializable
     {
         /* Refersh status table */
         updateStatusTableView();
+        updateInboxTableView();
+        updateOutboxTableView();
         MainLayoutController.statusProperty.setValue("جدول وضعیت بروز رسانی شد.");
 
     }
@@ -476,7 +484,6 @@ public class DashboardLayoutController implements Initializable
         if (termTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Term t = termTableView.getSelectionModel().getSelectedItem();
-            //dashboardTermDeleteDialogController = new DashboardTermDeleteDialogController();
             dashboardTermDeleteDialogController = dashboardTermDeleteDailogLoader.getController();
             dashboardTermDeleteDialogController.initialize(null, null);
             dashboardTermDeleteDialogController.setDashboardTermDeleteDailogStage(dashboardTermDeleteDailogStage);
@@ -512,6 +519,7 @@ public class DashboardLayoutController implements Initializable
         termTableView.setItems(termList);
         new CtacssManager().initCurrentTerm();
         currentTermComboBox.setValue(CtacssManager.currentTerm.getName());
+        MainLayoutController.currentTermProperty.setValue(currentTermComboBox.getValue());
     }
 
     public void updateInboxTableView()
@@ -600,12 +608,53 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void termTabOnSelectionChanged(Event event)
     {
+    }
+
+    @FXML
+    private void refresh3HBoxMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void refresh3HBoxMouseEntered(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void refresh3HBoxOnMouseClicked(MouseEvent event)
+    {
+        /* Refersh mail outbox table */
+        updateOutboxTableView();
+        updateInboxTableView();
+        updateStatusTableView();
+        MainLayoutController.statusProperty.setValue("صندوق نامه های ارسالی بروز شد.");
+    }
+
+    @FXML
+    private void refresh4HBoxMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void refresh4HBoxMouseEntered(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void refresh4HBoxOnMouseClicked(MouseEvent event)
+    {
         CtacssManager cm = new CtacssManager();
         if (currentTermComboBox.getValue() == null ? CtacssManager.currentTerm.getName() != null : !currentTermComboBox.getValue().equals(CtacssManager.currentTerm.getName()))
         {
             cm.updateCurrentTerm(currentTermComboBox.getValue());
             System.out.println(CtacssManager.currentTerm.getName());
             MainLayoutController.statusProperty.setValue("ترم جاری سیستم بروز شد.");
+            MainLayoutController.currentTermProperty.setValue(currentTermComboBox.getValue());
+            
+            updateInboxTableView();
+            updateOutboxTableView();
+            updateStatusTableView();
+            //updateTermTableView();
         }
     }
 

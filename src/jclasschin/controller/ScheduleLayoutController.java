@@ -30,13 +30,18 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -54,23 +59,23 @@ import jclasschin.model.CCManager;
  */
 public class ScheduleLayoutController implements Initializable
 {
-    
+
     private final FXMLLoader scheduleNewDialogLoader, scheduleEditDialogLoader, scheduleDeleteDialogLoader;
     private final AnchorPane scheduleNewDialogLayout, scheduleEditDialogLayout, scheduleDeleteDialogLayout;
     private final Scene scheduleNewDialogScene, scheduleEditDialogScene, scheduleDeleteDialogScene;
     private final Stage scheduleNewDialogStage, scheduleEditDialogStage, scheduleDeleteDialogStage;
-    
+
     private final ScheduleNewDialogController scheduleNewDialogController;
     private final ScheduleEditDialogController scheduleEditDialogController;
     private final ScheduleDeleteDialogController scheduleDeleteDialogController;
-    
+
     @FXML
     private HBox newHBox;
     @FXML
     private HBox editHBox;
     @FXML
     private HBox deleteHBox;
-    
+
     @FXML
     private TableView<Cctm> scheduleTableView;
     @FXML
@@ -87,7 +92,11 @@ public class ScheduleLayoutController implements Initializable
     private TableColumn<Cctm, String> professorTableColumn;
     @FXML
     private HBox printHBox;
-    
+    @FXML
+    private ComboBox<String> filterComboBox;
+    @FXML
+    private TextField filterTextField;
+
     public ScheduleLayoutController() throws IOException
     {
 
@@ -102,7 +111,7 @@ public class ScheduleLayoutController implements Initializable
         scheduleNewDialogStage.initOwner(JClassChin.getMainStage());
         scheduleNewDialogStage.setResizable(false);
         scheduleNewDialogStage.initStyle(StageStyle.UTILITY);
-        
+
         scheduleNewDialogController = scheduleNewDialogLoader.getController();
 
         /* Edit Schedule */
@@ -116,7 +125,7 @@ public class ScheduleLayoutController implements Initializable
         scheduleEditDialogStage.initOwner(JClassChin.getMainStage());
         scheduleEditDialogStage.setResizable(false);
         scheduleEditDialogStage.initStyle(StageStyle.UTILITY);
-        
+
         scheduleEditDialogController = scheduleEditDialogLoader.getController();
 
         /*  Delete Schedule */
@@ -130,29 +139,33 @@ public class ScheduleLayoutController implements Initializable
         scheduleDeleteDialogStage.initOwner(JClassChin.getMainStage());
         scheduleDeleteDialogStage.setResizable(false);
         scheduleDeleteDialogStage.initStyle(StageStyle.UTILITY);
-        
+
         scheduleDeleteDialogController = scheduleDeleteDialogLoader.getController();
     }
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        filterComboBox.getItems().addAll("روز", "کلاس", "زمان", "درس", "استاد");
+        filterComboBox.setValue("روز");
     }
-    
+
     @FXML
     private void newHBoxOnMouseExited(MouseEvent event)
     {
     }
-    
+
     @FXML
     private void newHBoxOnMouseEntered(MouseEvent event)
     {
     }
-    
+
     @FXML
     private void newHBoxOnMouseClicked(MouseEvent event)
     {
@@ -161,7 +174,7 @@ public class ScheduleLayoutController implements Initializable
         scheduleNewDialogStage.showAndWait();
         updateScheduleTableView();
     }
-    
+
     @FXML
     private void editHBoxOnMouseClicked(MouseEvent event)
     {
@@ -175,7 +188,7 @@ public class ScheduleLayoutController implements Initializable
             updateScheduleTableView();
         }
     }
-    
+
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
@@ -188,14 +201,14 @@ public class ScheduleLayoutController implements Initializable
             scheduleDeleteDialogStage.showAndWait();
             updateScheduleTableView();
         }
-        
+
     }
-    
+
     void updateScheduleTableView()
     {
         CCManager ccm = new CCManager();
         List l = ccm.selectAll();
-        
+
         ObservableList<Cctm> cctmList = FXCollections.observableArrayList();
         idTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         dayTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getWeekday().getDayName()));
@@ -203,19 +216,85 @@ public class ScheduleLayoutController implements Initializable
         timeTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getPeriod().getEnd() + " - " + c.getValue().getPeriod().getStart()));
         courseTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getCourse().getName()));
         professorTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getPerson().getFirstName() + " " + c.getValue().getPerson().getLastName()));
-        
+
         l.stream().forEach((c) ->
         {
             cctmList.add((Cctm) c);
         });
         scheduleTableView.setItems(cctmList);
-        
+
     }
-    
+
     @FXML
     private void printHBoxOnMouseClicked(MouseEvent event)
     {
         /*  ali's code!!!  */
     }
-    
+
+    @FXML
+    @SuppressWarnings("null")
+    private void filterTextFieldOnKeyTyped(KeyEvent event)
+    {
+        CCManager ccm = new CCManager();
+        List l = null;
+        
+        switch (filterComboBox.getValue())
+        {
+            case "روز":
+            {
+                l = ccm.selectAllByLike("weekday.dayName", filterTextField.getText());
+                break;
+            }
+            case "کلاس":
+            {
+                l = ccm.selectAllByLike("dedication.classroom.name", filterTextField.getText());
+                break;
+            }
+            case "زمان":
+            {
+                l = ccm.selectAllByLike("period.start", filterTextField.getText());
+                break;
+            }
+            case "درس":
+            {
+                l = ccm.selectAllByLike("course.name", filterTextField.getText());
+                break;
+            }
+            case "استاد":
+            {
+                l = ccm.selectAllByLike("person.lastName", filterTextField.getText());
+                break;
+            }
+            default:
+            {
+                l = ccm.selectAll();
+                break;
+            }
+        }
+
+        ObservableList<Cctm> cctmList = FXCollections.observableArrayList();
+        idTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        dayTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getWeekday().getDayName()));
+        classTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getDedication().getClassroom().getName()));
+        timeTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getPeriod().getEnd() + " - " + c.getValue().getPeriod().getStart()));
+        courseTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getCourse().getName()));
+        professorTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Cctm, String> c) -> new ReadOnlyObjectWrapper(c.getValue().getPerson().getFirstName() + " " + c.getValue().getPerson().getLastName()));
+
+        l.stream().forEach((c) ->
+        {
+            cctmList.add((Cctm) c);
+        });
+        scheduleTableView.setItems(cctmList);
+    }
+
+    @FXML
+    private void filterTextFieldOnInputMethodTextChanged(InputMethodEvent event)
+    {
+    }
+
+    @FXML
+    private void filterTextFieldOnAction(ActionEvent event)
+    {
+
+    }
 }

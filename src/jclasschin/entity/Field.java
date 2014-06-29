@@ -24,7 +24,7 @@ public class Field implements java.io.Serializable
 
     public Field()
     {
-
+        
     }
 
     public Field(String name)

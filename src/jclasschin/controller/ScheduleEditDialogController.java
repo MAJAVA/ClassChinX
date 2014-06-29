@@ -82,6 +82,9 @@ public class ScheduleEditDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -93,6 +96,7 @@ public class ScheduleEditDialogController implements Initializable
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
         CCManager ccm = new CCManager();
+
         if (ccm.update(editableCctm.getId(), dayComboBox.getValue(), classComboBox.getValue(),
                 timeComboBox.getValue(), courseComboBox.getValue(), professorComboBox.getValue()))
         {
@@ -104,8 +108,8 @@ public class ScheduleEditDialogController implements Initializable
         {
             MainLayoutController.statusProperty.setValue("بروز رسانی برنامه با شکست مواجه شد.");
         }
-
         scheduleEditDialogStage.close();
+
     }
 
     @FXML
@@ -155,10 +159,16 @@ public class ScheduleEditDialogController implements Initializable
         fillTimeComboBox();
         fillCourseComboBox();
         fillProfessorComboBox();
+        
+        dayComboBox.setDisable(true);
+        classComboBox.setDisable(true);
+        timeComboBox.setDisable(true);
 
         if (!editableCctm.getDedication().getField().getName().equals(Login.loggedUserField))
         {
             okHBox.setDisable(true);
+            courseComboBox.setDisable(true);
+            professorComboBox.setDisable(true);
             MainLayoutController.statusProperty.setValue("شما تنها قادر به ویرایش برنامه های رشته خود هستید!");
         }
     }

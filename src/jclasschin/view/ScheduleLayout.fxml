@@ -12,21 +12,21 @@
   <children>
     <BorderPane prefHeight="614.0" prefWidth="991.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <center>
-        <TableView fx:id="scheduleTableView" prefHeight="200.0" prefWidth="200.0">
+        <TableView fx:id="scheduleTableView" prefHeight="543.0" prefWidth="963.0">
           <columns>
-            <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="ردیف" />
-            <TableColumn fx:id="dayTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="140.0" text="روز" />
-                  <TableColumn fx:id="classTableColumn" prefWidth="140.0" text="کلاس" />
-                  <TableColumn fx:id="timeTableColumn" prefWidth="140.0" text="زمان" />
-                  <TableColumn fx:id="courseTableColumn" minWidth="0.0" prefWidth="240.0" text="درس" />
-                  <TableColumn fx:id="professorTableColumn" minWidth="0.0" prefWidth="240.0" text="استاد" />
+            <TableColumn fx:id="idTableColumn" prefWidth="75.0" resizable="false" text="ردیف" />
+            <TableColumn fx:id="dayTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="130.0" resizable="false" text="روز" />
+                  <TableColumn fx:id="classTableColumn" prefWidth="141.0" resizable="false" text="کلاس" />
+                  <TableColumn fx:id="timeTableColumn" prefWidth="177.0" resizable="false" text="زمان" />
+                  <TableColumn fx:id="courseTableColumn" minWidth="0.0" prefWidth="213.0" resizable="false" text="درس" />
+                  <TableColumn fx:id="professorTableColumn" minWidth="0.0" prefWidth="205.0" resizable="false" text="استاد" />
           </columns>
         </TableView>
       </center>
       <top>
         <AnchorPane prefHeight="71.0" prefWidth="991.0">
           <children>
-            <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
+            <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="670.0" AnchorPane.topAnchor="15.0">
               <children>
                 <HBox id="HBox" fx:id="newHBox" alignment="CENTER" onMouseClicked="#newHBoxOnMouseClicked" onMouseEntered="#newHBoxOnMouseEntered" onMouseExited="#newHBoxOnMouseExited" spacing="10.0">
                   <children>
@@ -60,7 +60,7 @@
                 </HBox>
               </children>
             </HBox>
-                  <HBox id="HBox" fx:id="printHBox" alignment="CENTER" layoutX="882.0" layoutY="16.0" onMouseClicked="#printHBoxOnMouseClicked" spacing="10.0">
+                  <HBox id="HBox" fx:id="printHBox" alignment="CENTER" layoutX="888.0" layoutY="15.0" onMouseClicked="#printHBoxOnMouseClicked" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="15.0">
                      <children>
                         <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                            <image>
@@ -68,6 +68,12 @@
                            </image>
                         </ImageView>
                         <Label text="چاپ" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="359.0" layoutY="23.0" spacing="20.0" AnchorPane.bottomAnchor="23.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="23.0">
+                     <children>
+                        <ComboBox fx:id="filterComboBox" layoutX="359.0" layoutY="24.0" promptText="فلیتر بر اساس . . ." />
+                        <TextField fx:id="filterTextField" layoutX="531.0" layoutY="23.0" onAction="#filterTextFieldOnAction" onInputMethodTextChanged="#filterTextFieldOnInputMethodTextChanged" onKeyTyped="#filterTextFieldOnKeyTyped" promptText="فیلتر کنید . . . " />
                      </children>
                   </HBox>
           </children>

@@ -59,8 +59,11 @@ import jclasschin.util.Utilities;
  */
 public class MainLayoutController implements Initializable
 {
+    /* Top and Down Statics Property */
 
     public static StringProperty statusProperty = new SimpleStringProperty();
+    public static StringProperty currentTermProperty = new SimpleStringProperty();
+    public static StringProperty currentScheduleProperty = new SimpleStringProperty();
 
     private BorderPane objectLayout;
     private BorderPane mainLayout;
@@ -153,6 +156,10 @@ public class MainLayoutController implements Initializable
     private HBox classChinHBox;
     @FXML
     private HBox reportHBox;
+    @FXML
+    private Label currentTermLabel;
+    @FXML
+    private Label currentScheduleLabel;
 
     public MainLayoutController() throws IOException
     {
@@ -237,27 +244,36 @@ public class MainLayoutController implements Initializable
         dashboardImageView.setImage(homeButtonOnMouseClicked);
         dashboardHBoxOnMouseClickedFlag = true;
 
-        dashboardLayoutController.updateTermTableView();
-        dashboardLayoutController.updateInboxTableView();
-        dashboardLayoutController.updateOutboxTableView();
-        dashboardLayoutController.updateStatusTableView();
-
         welcomeLable.setText(Login.loggedUser.getPerson().getTitle() + " [ "
                 + Login.loggedUser.getPerson().getFirstName() + " "
                 + Login.loggedUser.getPerson().getLastName() + " ] " + "خوش آمدید!");
 
-        dataAndTimeLable.setText(Utilities.getCurrentShamsidate());
+        dataAndTimeLable.setText(Utilities.getCurrentShamsiDate2());
 
         statusProperty.setValue("آماده . . .");
         statusBarLable.textProperty().bind(statusProperty);
         //statusBarLable.textFillProperty().bind(objectLayout);
 
+        currentTermProperty.setValue("در حال بار گذاری . . .");
+        currentTermLabel.textProperty().bind(currentTermProperty);
+
+        currentScheduleProperty.setValue("درحال بار گذاری . . .");
+        currentScheduleLabel.textProperty().bind(currentScheduleProperty);
+
         if (Login.loggedUser.getPerson().getJob().getId() != 1)
         {
             fieldsHBox.setDisable(true);
             usersHBox.setDisable(true);
-            classHBox.setDisable(true);       
+            classHBox.setDisable(true);
+            currentScheduleLabel.setDisable(true);
+            currentTermLabel.setDisable(true);
         }
+
+        dashboardLayoutController.updateTermTableView();
+        dashboardLayoutController.updateInboxTableView();
+        dashboardLayoutController.updateOutboxTableView();
+        dashboardLayoutController.updateStatusTableView();
+        classLayoutController.updateScheduleTableView();
 
     }
 
@@ -382,7 +398,7 @@ public class MainLayoutController implements Initializable
         /* update field tableview  */
         FieldsLayoutController flc = fieldsLayoutLoader.getController();
         flc.updateFieldTableView();
-        
+
         statusProperty.setValue("کلاس چین < مدیریت رشته ها");
     }
 
@@ -416,7 +432,7 @@ public class MainLayoutController implements Initializable
         usersImageView.setImage(userButtonOnMouseClicked);
         usersHBoxOnMouseClickedFlag = true;
         usersLayoutController.updateUsersTableView();
-        
+
         statusProperty.setValue("کلاس چین < مدیریت کاربران");
     }
 
@@ -451,7 +467,7 @@ public class MainLayoutController implements Initializable
         groupsHBoxOnMouseClickedFlag = true;
         groupsLayoutController.updateCourseTableView();
         groupsLayoutController.updateProfTableView();
-        
+
         statusProperty.setValue("کلاس چین < مدیریت گروه های درسی");
     }
 
@@ -485,7 +501,7 @@ public class MainLayoutController implements Initializable
         classLayoutController.updateClassListTableView();
         classLayoutController.updateDedicationTableView();
         classLayoutController.updateScheduleTableView();
-        
+
         statusProperty.setValue("کلاس چین < مدیریت کلاس ها، تخصیصات و بازه های زمان");
     }
 
@@ -499,7 +515,7 @@ public class MainLayoutController implements Initializable
         scheduleHBoxOnMouseClickedFlag = true;
         scheduleLayoutController.updateScheduleTableView();
         new CtacssManager().initCurrentSchedule();
-        
+
         statusProperty.setValue("کلاس چین < کلاس چین !");
 
     }

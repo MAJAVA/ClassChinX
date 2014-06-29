@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package jclasschin.controller;
 
 import java.io.IOException;
@@ -45,6 +44,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -137,6 +137,8 @@ public class ClassLayoutController implements Initializable
     private TableColumn<Schedule, String> schPeriodsTableColumn;
     @FXML
     private ComboBox<String> currentScheduleComboBox;
+    @FXML
+    private HBox refreshHBox;
 
     public ClassLayoutController() throws IOException
     {
@@ -390,7 +392,7 @@ public class ClassLayoutController implements Initializable
         List dField = fieldManager.selectAllDedicatedField();
         dField.stream().forEach((df) ->
         {
-            ((Field)df).initMajava();
+            ((Field) df).initMajava();
         });
 
         ObservableList<Field> fieldList = FXCollections.observableArrayList();
@@ -402,9 +404,13 @@ public class ClassLayoutController implements Initializable
         dClassListTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, String> f)
                 -> new ReadOnlyObjectWrapper(f.getValue().majava1String));
 
-        dField.stream().forEach((f) ->
+        dField.stream().forEach((Object f) ->
         {
-            fieldList.add((Field) f);
+            ArrayList<Dedication> al = new ArrayList<>(((Field) f).getDedications());
+            if (al.get(0).getTerm().getName() == null ? CtacssManager.currentTerm.getName() == null : al.get(0).getTerm().getName().equals(CtacssManager.currentTerm.getName()))
+            {
+                fieldList.add((Field) f);
+            }
         });
         dedicationTableView.setItems(fieldList);
 
@@ -431,7 +437,7 @@ public class ClassLayoutController implements Initializable
             classScheduleEditDialogController.initDialog();
             classScheduleEditDialogStage.showAndWait();
             updateScheduleTableView();
-            
+
         }
     }
 
@@ -446,7 +452,7 @@ public class ClassLayoutController implements Initializable
             //classScheduleDeleteDialogController.initDialog();
             classScheduleDeleteDialogStage.showAndWait();
             updateScheduleTableView();
-            
+
         }
 
     }
@@ -458,9 +464,9 @@ public class ClassLayoutController implements Initializable
         List l = scheduleManager.selectAllSchedule();
         l.stream().forEach((p) ->
         {
-            ((Schedule)p).initMajava();
+            ((Schedule) p).initMajava();
         });
-        
+
         ObservableList<Schedule> scheduleList = FXCollections.observableArrayList();
 
         schIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -478,12 +484,33 @@ public class ClassLayoutController implements Initializable
         scheduleTableView.setItems(scheduleList);
         new CtacssManager().initCurrentSchedule();
         currentScheduleComboBox.setValue(CtacssManager.currentSchedule.getName());
+        MainLayoutController.currentScheduleProperty.setValue(currentScheduleComboBox.getValue());
     }
 
     @FXML
     private void classScheduleTabOnSelectionChanged(Event event)
     {
-        CtacssManager cm = new CtacssManager();
-        cm.updateCurrentSchedule(currentScheduleComboBox.getValue());
+    }
+
+    @FXML
+    private void refreshHBoxMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void refreshHBoxMouseEntered(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void refreshHBoxOnMouseClicked(MouseEvent event)
+    {
+        if (CtacssManager.currentSchedule.getName() == null ? currentScheduleComboBox.getValue() != null : !CtacssManager.currentSchedule.getName().equals(currentScheduleComboBox.getValue()))
+        {
+            CtacssManager cm = new CtacssManager();
+            cm.updateCurrentSchedule(currentScheduleComboBox.getValue());
+            MainLayoutController.statusProperty.setValue("برنامه جاری سیستم بروز شد.");
+            MainLayoutController.currentScheduleProperty.setValue(currentScheduleComboBox.getValue());
+        }
     }
 }

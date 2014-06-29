@@ -73,8 +73,9 @@ public class MailManager
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Query q = session.createQuery("from Mail m where m.personByReceiverPersonId.id=:rid and m.receiverDelete=false");
+            Query q = session.createQuery("from Mail m where m.personByReceiverPersonId.id=:rid and m.receiverDelete=false and m.term.name=:tn");
             q.setParameter("rid", Login.loggedUser.getPerson().getId());
+            q.setParameter("tn", CtacssManager.currentTerm.getName());
             List resultList = q.list();
             session.getTransaction().commit();
             return resultList;
@@ -91,8 +92,9 @@ public class MailManager
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Query q = session.createQuery("from Mail m where m.personBySenderPersonId.id=:sid and m.senderDelete=false");
+            Query q = session.createQuery("from Mail m where m.personBySenderPersonId.id=:sid and m.senderDelete=false and m.term.name=:tn");
             q.setParameter("sid", Login.loggedUser.getPerson().getId());
+            q.setParameter("tn", CtacssManager.currentTerm.getName());
             List resultList = q.list();
             session.getTransaction().commit();
             return resultList;
@@ -105,16 +107,16 @@ public class MailManager
 
     public boolean insertForReply(Person personBySenderPersonId, String subject, String text)
     {
-         try
+        try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
             Person sender = (Person) session.load(Person.class, Login.loggedUser.getPerson().getId());
             Term term = CtacssManager.currentTerm;
-            mail = new Mail(term,  personBySenderPersonId, sender, subject, text,
+            mail = new Mail(term, personBySenderPersonId, sender, subject, text,
                     Utilities.getCurrentShamsidate(), Boolean.FALSE, Boolean.FALSE);
-            
+
             session.save(mail);
             session.getTransaction().commit();
             return true;
@@ -125,14 +127,14 @@ public class MailManager
         }
 
     }
-    
+
     public boolean deleteForOutbox(Integer id)
     {
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            mail =(Mail) session.load(Mail.class, id);
+            mail = (Mail) session.load(Mail.class, id);
             mail.setSenderDelete(Boolean.TRUE);
             session.update(mail);
             session.getTransaction().commit();
@@ -143,15 +145,14 @@ public class MailManager
             return false;
         }
     }
-    
-    
+
     public boolean deleteForInbox(Integer id)
     {
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            mail =(Mail) session.load(Mail.class, id);
+            mail = (Mail) session.load(Mail.class, id);
             mail.setReceiverDelete(Boolean.TRUE);
             session.update(mail);
             session.getTransaction().commit();
@@ -162,5 +163,5 @@ public class MailManager
             return false;
         }
     }
-    
+
 }

@@ -312,17 +312,21 @@ public class Utilities
                 sc.month) + "/" + String.format(loc, "%02d", sc.date);
     }
 
-    public static Date getCurrentShamsiDate2()
+    public static String getCurrentShamsiDate2()
     {
-        String string = Utilities.getCurrentShamsidate();
-        try
-        {
-            Date date = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(string);
-        }
-        catch (ParseException ex)
-        {
-            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        String string = "";
+        Utilities util = new Utilities();
+        SolarCalendar sc = util.new SolarCalendar();
+        string = " امروز" +  "  " + sc.strWeekDay + "  " + Utilities.getCurrentShamsidate();
+        return string;
+//        try
+//        {
+//            Date date = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(string);
+//        }
+//        catch (ParseException ex)
+//        {
+//            Logger.getLogger(Utilities.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
     }
 }

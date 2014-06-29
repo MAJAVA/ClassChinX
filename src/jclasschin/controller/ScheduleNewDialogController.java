@@ -102,19 +102,27 @@ public class ScheduleNewDialogController implements Initializable
         }
         else
         {
-            if (ccm.insert(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue(),
-                    courseComboBox.getValue(), professorComboBox.getValue()))
+            int i;
+            i = ccm.checkExist(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue());
+            if (i!=0)
             {
-                StatusManager sm = new StatusManager();
-                sm.insert();
-                MainLayoutController.statusProperty.setValue("برنامه جدید ثبت شد.");
+                MainLayoutController.statusProperty.setValue("متاسفیم. این کلاس در این روز و در این ساعت رزرو شده است.");
             }
             else
             {
-                MainLayoutController.statusProperty.setValue("عملیات ثبت برنامه جدید با شکست مواجه شد.");
+                if (ccm.insert(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue(),
+                        courseComboBox.getValue(), professorComboBox.getValue()))
+                {
+                    StatusManager sm = new StatusManager();
+                    sm.insert();
+                    MainLayoutController.statusProperty.setValue("برنامه جدید ثبت شد.");
+                }
+                else
+                {
+                    MainLayoutController.statusProperty.setValue("عملیات ثبت برنامه جدید با شکست مواجه شد.");
+                }
+                scheduleNewDialogStage.close();
             }
-
-            scheduleNewDialogStage.close();
         }
     }
 
