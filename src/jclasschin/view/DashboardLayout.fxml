@@ -18,9 +18,9 @@
                   <columns>
                     <TableColumn fx:id="idTableColumn" prefWidth="75.0" resizable="false" text="ردیف" />
                     <TableColumn fx:id="senderTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="177.0" resizable="false" text="از" />
-                    <TableColumn fx:id="subjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="201.0" resizable="false" text="موضوع" />
-                    <TableColumn fx:id="dateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="146.0" resizable="false" text="تاریخ" />
-                    <TableColumn fx:id="messegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="390.0" resizable="false" text="پیام" />
+                    <TableColumn fx:id="subjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="218.0" resizable="false" text="موضوع" />
+                    <TableColumn fx:id="dateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="229.0" resizable="false" text="تاریخ و ساعت" />
+                    <TableColumn fx:id="messegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="290.0" resizable="false" text="پیام" />
                   </columns>
                 </TableView>
               </center>
@@ -29,6 +29,16 @@
                   <children>
                     <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
                       <children>
+                                    <HBox id="HBox" fx:id="readHBox" alignment="CENTER" onMouseClicked="#readHBoxOnMouseClicked" onMouseEntered="#readHBoxOnMouseEntered" onMouseExited="#readHBoxOnMouseExited" spacing="10.0">
+                                       <children>
+                                          <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../gallery/image/readMailButton.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label text="خواندن" />
+                                       </children>
+                                    </HBox>
                         <HBox id="HBox" fx:id="newHBox" alignment="CENTER" onMouseClicked="#newHBoxOnMouseClicked" onMouseEntered="#newHBoxOnMouseEntered" onMouseExited="#newHBoxOnMouseExited" spacing="10.0">
                           <children>
                             <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
@@ -85,9 +95,9 @@
                   <columns>
                     <TableColumn fx:id="outboxIdTableColumn" prefWidth="75.0" resizable="false" text="ردیف" />
                     <TableColumn fx:id="outboxReceiverTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="177.0" resizable="false" text="به" />
-                    <TableColumn fx:id="outboxSubjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="223.0" resizable="false" text="موضوع" />
-                    <TableColumn fx:id="outboxDateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="132.0" resizable="false" text="تاریخ" />
-                    <TableColumn fx:id="outboxMessegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="381.0" resizable="false" text="پیام" />
+                    <TableColumn fx:id="outboxSubjectTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="246.0" resizable="false" text="موضوع" />
+                    <TableColumn fx:id="outboxDateTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="243.0" resizable="false" text="تاریخ و ساعت" />
+                    <TableColumn fx:id="outboxMessegeTableColumn" maxWidth="5000.0" minWidth="10.0" prefWidth="247.0" resizable="false" text="پیام" />
                   </columns>
                 </TableView>
               </center>
@@ -96,6 +106,16 @@
                   <children>
                     <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
                       <children>
+                                    <HBox id="HBox" fx:id="readHBox2" alignment="CENTER" onMouseClicked="#readHBox2OnMouseClicked" onMouseEntered="#readHBox2OnMouseEntered" onMouseExited="#readHBox2OnMouseExited" spacing="10.0">
+                                       <children>
+                                          <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../gallery/image/readMailButton.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label text="خواندن" />
+                                       </children>
+                                    </HBox>
                         <HBox id="HBox" fx:id="new2HBox" alignment="CENTER" onMouseClicked="#new2HBoxOnMouseClicked" onMouseEntered="#new2HBoxOnMouseEntered" onMouseExited="#new2HBoxOnMouseExited" spacing="10.0">
                           <children>
                             <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">

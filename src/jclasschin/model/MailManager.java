@@ -23,6 +23,9 @@
  */
 package jclasschin.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import jclasschin.entity.Mail;
 import jclasschin.entity.Person;
@@ -54,8 +57,10 @@ public class MailManager
             UserManager um = new UserManager();
             Person receiver = um.selectByUserName(receiverName).getPerson();
             Term term = CtacssManager.currentTerm;
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
             mail = new Mail(term, receiver, sender, subject, text,
-                    Utilities.getCurrentShamsidate(), Boolean.FALSE, Boolean.FALSE);
+                    Utilities.getCurrentShamsidate() + " " + dateFormat.format(date), Boolean.FALSE, Boolean.FALSE);
             session.save(mail);
             session.getTransaction().commit();
             return true;
@@ -114,8 +119,10 @@ public class MailManager
 
             Person sender = (Person) session.load(Person.class, Login.loggedUser.getPerson().getId());
             Term term = CtacssManager.currentTerm;
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
             mail = new Mail(term, personBySenderPersonId, sender, subject, text,
-                    Utilities.getCurrentShamsidate(), Boolean.FALSE, Boolean.FALSE);
+                    Utilities.getCurrentShamsidate() + " " + dateFormat.format(date), Boolean.FALSE, Boolean.FALSE);
 
             session.save(mail);
             session.getTransaction().commit();

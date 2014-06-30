@@ -71,16 +71,16 @@ import jclasschin.model.TermManager;
 public class DashboardLayoutController implements Initializable
 {
 
-    private final FXMLLoader dashboardInboxNewMailDialogLoader, dashboardInboxReplyMailDialogLoader,
+    private final FXMLLoader dashboardInboxReadMailDialogLoader, dashboardOutboxReadMailDialogLoader, dashboardInboxNewMailDialogLoader, dashboardInboxReplyMailDialogLoader,
             dashboardInboxDeleteMailDialogLoader, dashboardOutboxDeleteMailDialogLoader, dashboardTermNewDailogLoader,
             dashboardTermEditDailogLoader, dashboardTermDeleteDailogLoader;
-    private final AnchorPane dashboardInboxNewMailDialogLayout, dashboardInboxReplyMailDialogLayout,
+    private final AnchorPane dashboardInboxReadMailDialogLayout, dashboardOutboxReadMailDialogLayout, dashboardInboxNewMailDialogLayout, dashboardInboxReplyMailDialogLayout,
             dashboardInboxDeleteMailDialogLayout, dashboardOutboxDeleteMailDialogLayout, dashboardTermNewDailogLayout,
             dashboardTermEditDailogLayout, dashboardTermDeleteDailogLayout;
-    private final Scene dashboardInboxNewMailDialogScene, dashboardInboxReplyMailDialogScene,
+    private final Scene dashboardInboxReadMailDialogScene, dashboardOutboxReadMailDialogScene, dashboardInboxNewMailDialogScene, dashboardInboxReplyMailDialogScene,
             dashboardInboxDeleteMailDialogScene, dashboardOutboxDeleteMailDialogScene, dashboardTermNewDailogScene,
             dashboardTermEditDailogScene, dashboardTermDeleteDailogScene;
-    private final Stage dashboardInboxNewMailDialogStage, dashboardInboxReplyMailDialogStage,
+    private final Stage dashboardInboxReadMailDialogStage, dashboardOutboxReadMailDialogStage, dashboardInboxNewMailDialogStage, dashboardInboxReplyMailDialogStage,
             dashboardInboxDeleteMailDialogStage, dashboardOutboxDeleteMailDialogStage, dashboardTermNewDailogStage,
             dashboardTermEditDailogStage, dashboardTermDeleteDailogStage;
 
@@ -88,6 +88,10 @@ public class DashboardLayoutController implements Initializable
     private DashboardInboxNewDialogController dashboardInboxNewMailDialogController;
     private DashboardInboxReplyDialogController dashboardInboxReplyMailDialogController;
     private DashboardInboxDeleteDialogController dashboardInboxDeleteMailDialogController;
+    
+    private DashboardInboxReadDialogController dashboardInboxReadMailDialogController;
+    private DashboardOutboxReadDialogController dashboardOutboxReadMailDialogController;
+
 
     /* Mail Outbox */
     private DashboardOutboxDeleteDialogController dashboardOutboxDeleteMailDialogController;
@@ -176,9 +180,27 @@ public class DashboardLayoutController implements Initializable
     private HBox refresh3HBox;
     @FXML
     private HBox refresh4HBox;
+    @FXML
+    private HBox readHBox;
+    @FXML
+    private HBox readHBox2;
 
     public DashboardLayoutController() throws IOException
     {
+        /* Inbox Read Dialog   */
+        dashboardInboxReadMailDialogLoader
+                = new FXMLLoader(JClassChin.class.getResource("view/DashboardInboxReadDialog.fxml"));
+        dashboardInboxReadMailDialogLayout = (AnchorPane) dashboardInboxReadMailDialogLoader.load();
+        dashboardInboxReadMailDialogScene = new Scene(dashboardInboxReadMailDialogLayout);
+        dashboardInboxReadMailDialogStage = new Stage();
+        dashboardInboxReadMailDialogStage.setScene(dashboardInboxReadMailDialogScene);
+        dashboardInboxReadMailDialogStage.setTitle("خواندن نامه");
+        dashboardInboxReadMailDialogStage.initModality(Modality.WINDOW_MODAL);
+        dashboardInboxReadMailDialogStage.initOwner(JClassChin.getMainStage());
+        dashboardInboxReadMailDialogStage.setResizable(false);
+        dashboardInboxReadMailDialogStage.initStyle(StageStyle.UTILITY);
+        dashboardInboxReadMailDialogController =  dashboardInboxReadMailDialogLoader.getController();
+        
         /* Inbox New Dialog   */
         dashboardInboxNewMailDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardInboxNewDialog.fxml"));
@@ -217,7 +239,22 @@ public class DashboardLayoutController implements Initializable
         dashboardInboxDeleteMailDialogStage.initOwner(JClassChin.getMainStage());
         dashboardInboxDeleteMailDialogStage.setResizable(false);
         dashboardInboxDeleteMailDialogStage.initStyle(StageStyle.UTILITY);
-
+        
+        
+        /* Outbox Read Dialog   */
+        dashboardOutboxReadMailDialogLoader
+                = new FXMLLoader(JClassChin.class.getResource("view/DashboardOutboxReadDialog.fxml"));
+        dashboardOutboxReadMailDialogLayout = (AnchorPane) dashboardOutboxReadMailDialogLoader.load();
+        dashboardOutboxReadMailDialogScene = new Scene(dashboardOutboxReadMailDialogLayout);
+        dashboardOutboxReadMailDialogStage = new Stage();
+        dashboardOutboxReadMailDialogStage.setScene(dashboardOutboxReadMailDialogScene);
+        dashboardOutboxReadMailDialogStage.setTitle("خواندن نامه");
+        dashboardOutboxReadMailDialogStage.initModality(Modality.WINDOW_MODAL);
+        dashboardOutboxReadMailDialogStage.initOwner(JClassChin.getMainStage());
+        dashboardOutboxReadMailDialogStage.setResizable(false);
+        dashboardOutboxReadMailDialogStage.initStyle(StageStyle.UTILITY);
+        dashboardOutboxReadMailDialogController =  dashboardOutboxReadMailDialogLoader.getController();
+        
         /* Outbox Delete Dialog */
         dashboardOutboxDeleteMailDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardOutboxDeleteDialog.fxml"));
@@ -675,6 +712,60 @@ public class DashboardLayoutController implements Initializable
             updateOutboxTableView();
             updateStatusTableView();
             //updateTermTableView();
+        }
+    }
+
+    @FXML
+    private void readHBoxOnMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void readHBoxOnMouseEntered(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void readHBoxOnMouseClicked(MouseEvent event)
+    {
+        if(inboxTableView.getSelectionModel().getSelectedIndex() !=-1)
+        {
+            Mail m = inboxTableView.getSelectionModel().getSelectedItem();
+            dashboardInboxReadMailDialogController.setDashboardInboxReadDialogStage(dashboardInboxReadMailDialogStage);
+            dashboardInboxReadMailDialogController.setMail(m);
+            dashboardInboxReadMailDialogController.initDialog();
+            dashboardInboxReadMailDialogStage.showAndWait();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
+        }
+    }
+
+    @FXML
+    private void readHBox2OnMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void readHBox2OnMouseEntered(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void readHBox2OnMouseClicked(MouseEvent event)
+    {
+        if(outboxTableView.getSelectionModel().getSelectedIndex() !=-1)
+        {
+            Mail m = outboxTableView.getSelectionModel().getSelectedItem();
+            dashboardOutboxReadMailDialogController.setDashboardOutboxReadDialogStage(dashboardOutboxReadMailDialogStage);
+            dashboardOutboxReadMailDialogController.setMail(m);
+            dashboardOutboxReadMailDialogController.initDialog();
+            dashboardOutboxReadMailDialogStage.showAndWait();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
         }
     }
 
