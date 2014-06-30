@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 Ali.
+ * Copyright 2014 HP.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,22 +45,20 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.JClassChin;
-import jclasschin.entity.Classroom;
 import jclasschin.entity.Dedication;
 import jclasschin.entity.Field;
-import jclasschin.model.ClassManager;
 import jclasschin.model.DedicationManager;
 import org.controlsfx.control.CheckListView;
 
 /**
  * FXML Controller class
  *
- * @author Ali
+ * @author HP
  */
-public class ClassDedicateEditDialogController implements Initializable
+public class ClassDedicateDeleteDialog2Controller implements Initializable
 {
 
-    private Stage classDedicateEditDialogStage;
+    private Stage classDedicateDeleteDialog2Stage;
     private DedicationManager dedicationManager;
     private Field editableField;
     private GridPane gridPane;
@@ -72,7 +70,7 @@ public class ClassDedicateEditDialogController implements Initializable
     ArrayList<String> oldClass;
 
     @FXML
-    private AnchorPane classDedicateEditDialogAnchorPane;
+    private AnchorPane classDedicateDeleteDialog2AnchorPane;
     @FXML
     private HBox okHBox;
     @FXML
@@ -84,16 +82,12 @@ public class ClassDedicateEditDialogController implements Initializable
 
     /**
      * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
         String css = JClassChin.class.getResource("gallery/css/CSS.css").toString();
-        classDedicateEditDialogAnchorPane.getStylesheets().add(css);
+        classDedicateDeleteDialog2AnchorPane.getStylesheets().add(css);
     }
 
     @FXML
@@ -106,40 +100,40 @@ public class ClassDedicateEditDialogController implements Initializable
         else
         {
             dedicationManager = new DedicationManager();
-            if (dedicationManager.update(editableField.getId(), fieldComboBox.getValue(), (List) selectedClass))
+            if (dedicationManager.deleteAListOfDedications(fieldComboBox.getValue(), (List) selectedClass))
             {
-                MainLayoutController.statusProperty.setValue("بروزرسانی تخصیص با موفقیت انجام گرفت.");
+                MainLayoutController.statusProperty.setValue("حذف تخصیصات با موفقیت انجام گرفت.");
             }
             else
             {
-                MainLayoutController.statusProperty.setValue("بروز رسانی تخصیص با شکست مواجه شد.");
+                MainLayoutController.statusProperty.setValue("حذف تخصیصات با شکست مواجه شد.");
             }
-            classDedicateEditDialogStage.close();
+            classDedicateDeleteDialog2Stage.close();
         }
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
-        MainLayoutController.statusProperty.setValue("عملیات بروزرسانی تخصیص لغو شد.");
-        classDedicateEditDialogStage.close();
+        MainLayoutController.statusProperty.setValue("عملیات حذف تخصیصات لغو شد.");
+        classDedicateDeleteDialog2Stage.close();
     }
 
     /**
      * @return the classDedicateNewDialogStage
      */
-    public Stage getClassDedicateEditDialogStage()
+    public Stage getClassDedicateDeleteDialog2Stage()
     {
-        return classDedicateEditDialogStage;
+        return classDedicateDeleteDialog2Stage;
     }
 
     /**
-     * @param classDedicateEditDialogStage the classDedicateNewDialogStage to
+     * @param classDedicateDeleteDialog2Stage the classDedicateNewDialogStage to
      * set
      */
-    public void setClassDedicateEditDialogStage(Stage classDedicateEditDialogStage)
+    public void setClassDedicateDeleteDialog2Stage(Stage classDedicateDeleteDialog2Stage)
     {
-        this.classDedicateEditDialogStage = classDedicateEditDialogStage;
+        this.classDedicateDeleteDialog2Stage = classDedicateDeleteDialog2Stage;
     }
 
     /**
@@ -161,10 +155,10 @@ public class ClassDedicateEditDialogController implements Initializable
     void initDialog()
     {
         selectedClass = FXCollections.observableArrayList();
-        
-        if (classDedicateEditDialogAnchorPane.getChildren().contains(gridPane))
+
+        if (classDedicateDeleteDialog2AnchorPane.getChildren().contains(gridPane))
         {
-            classDedicateEditDialogAnchorPane.getChildren().remove(1);
+            classDedicateDeleteDialog2AnchorPane.getChildren().remove(1);
         }
         gridPane = new GridPane();
         gridPane.setAlignment(Pos.TOP_CENTER);
@@ -186,8 +180,8 @@ public class ClassDedicateEditDialogController implements Initializable
         gridPane.add(fieldComboBox, 1, 0);
         gridPane.add(classLabel, 0, 1);
         gridPane.add(checkListView, 1, 1);
-        classDedicateEditDialogAnchorPane.getChildren().add(gridPane);
-        classDedicateEditDialogAnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        classDedicateDeleteDialog2AnchorPane.getChildren().add(gridPane);
+        classDedicateDeleteDialog2AnchorPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
     }
 
@@ -203,17 +197,11 @@ public class ClassDedicateEditDialogController implements Initializable
         String[] oc = editableField.majava1String.split(" - ");
         oldClass.addAll(Arrays.asList(oc));
         Collections.sort(oldClass, (String pi1, String pi2) -> pi1.compareTo(pi2));
-        
         ObservableList<String> classList = FXCollections.observableArrayList();
-        ClassManager classManager = new ClassManager();
-        List cl = classManager.selectAll();
-        Collections.sort(cl, (Classroom pi1, Classroom pi2) -> pi1.getName().compareTo(pi2.getName()));
-        cl.stream().forEach((c) ->
+
+        oldClass.stream().forEach((c) ->
         {
-            if (!oldClass.contains(((Classroom) c).getName()))
-            {
-                classList.add(((Classroom) c).getName());
-            }
+            classList.add((String) c);
         });
         checkListView = new CheckListView<>(classList);
 

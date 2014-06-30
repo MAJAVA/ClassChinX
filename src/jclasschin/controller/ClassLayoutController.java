@@ -68,23 +68,23 @@ public class ClassLayoutController implements Initializable
 
     private final FXMLLoader classListNewDialogLoader, classListEditDialogLoader,
             classListDeleteDialogLoader, classDedicateNewDialogLoader, classDedicateEditDialogLoader,
-            classDedicateDeleteDialogLoader, classScheduleNewDialogLoader, classScheduleEditDialogLoader,
+            classDedicateDeleteDialogLoader, classDedicateDeleteDialog2Loader, classScheduleNewDialogLoader, classScheduleEditDialogLoader,
             classScheduleDeleteDialogLoader;
 
     private final AnchorPane classListNewDialogLayout, classListEditDialogLayout,
             classListDeleteDialogLayout, classDedicateNewDialogLayout, classDedicateEditDialogLayout,
-            classDedicateDeleteDialogLayout, classScheduleDeleteDialogLayout;
+            classDedicateDeleteDialogLayout, classDedicateDeleteDialog2Layout, classScheduleDeleteDialogLayout;
 
     private final ScrollPane classScheduleNewDialogLayout, classScheduleEditDialogLayout;
 
     private final Scene classListNewDialogScene, classListEditDialogScene,
             classListDeleteDialogScene, classDedicateNewDialogScene, classDedicateEditDialogScene,
-            classDedicateDeleteDialogScene, classScheduleNewDialogScene, classScheduleEditDialogScene,
+            classDedicateDeleteDialogScene, classDedicateDeleteDialog2Scene, classScheduleNewDialogScene, classScheduleEditDialogScene,
             classScheduleDeleteDialogScene;
 
     private final Stage classListNewDialogStage, classListEditDialogStage,
             classListDeleteDialogStage, classDedicateNewDialogStage, classDedicateEditDialogStage,
-            classDedicateDeleteDialogStage, classScheduleNewDialogStage, classScheduleEditDialogStage,
+            classDedicateDeleteDialogStage, classDedicateDeleteDialog2Stage, classScheduleNewDialogStage, classScheduleEditDialogStage,
             classScheduleDeleteDialogStage;
 
     private final ClassListNewDialogController classListNewDialogController;
@@ -93,6 +93,7 @@ public class ClassLayoutController implements Initializable
     private final ClassDedicateNewDialogController classDedicateNewDialogController;
     private final ClassDedicateEditDialogController classDedicateEditDialogController;
     private final ClassDedicateDeleteDialogController classDedicateDeleteDialogController;
+    private final ClassDedicateDeleteDialog2Controller classDedicateDeleteDialog2Controller;
     private final ClassScheduleNewDialogController classScheduleNewDialogController;
     private final ClassScheduleEditDialogController classScheduleEditDialogController;
     private final ClassScheduleDeleteDialogController classScheduleDeleteDialogController;
@@ -233,6 +234,21 @@ public class ClassLayoutController implements Initializable
 
         classDedicateDeleteDialogController = classDedicateDeleteDialogLoader.getController();
 
+        /* Dedicate Delete Dialog 2 */
+        classDedicateDeleteDialog2Loader
+                = new FXMLLoader(JClassChin.class.getResource("view/ClassDedicateDeleteDialog2.fxml"));
+        classDedicateDeleteDialog2Layout = (AnchorPane) classDedicateDeleteDialog2Loader.load();
+        classDedicateDeleteDialog2Scene = new Scene(classDedicateDeleteDialog2Layout);
+        classDedicateDeleteDialog2Stage = new Stage();
+        classDedicateDeleteDialog2Stage.setScene(classDedicateDeleteDialog2Scene);
+        classDedicateDeleteDialog2Stage.setTitle("حذف تخصیص");
+        classDedicateDeleteDialog2Stage.initModality(Modality.WINDOW_MODAL);
+        classDedicateDeleteDialog2Stage.initOwner(JClassChin.getMainStage());
+        classDedicateDeleteDialog2Stage.setResizable(false);
+        classDedicateDeleteDialog2Stage.initStyle(StageStyle.UTILITY);
+
+        classDedicateDeleteDialog2Controller = classDedicateDeleteDialog2Loader.getController();
+
         /* Schedule New Dialog */
         classScheduleNewDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/ClassScheduleNewDialog.fxml"));
@@ -282,6 +298,7 @@ public class ClassLayoutController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
      */
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -359,11 +376,16 @@ public class ClassLayoutController implements Initializable
         if (dedicationTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Field f = dedicationTableView.getSelectionModel().getSelectedItem();
-            classDedicateDeleteDialogController.setClassDedicateDeleteDialogStage(classDedicateDeleteDialogStage);
-            classDedicateDeleteDialogController.setEditableField(f);
-            classDedicateDeleteDialogStage.showAndWait();
+            classDedicateDeleteDialog2Controller.setClassDedicateDeleteDialog2Stage(classDedicateDeleteDialog2Stage);
+            classDedicateDeleteDialog2Controller.setEditableField(f);
+            classDedicateDeleteDialog2Controller.initDialog();
+            classDedicateDeleteDialog2Stage.showAndWait();
             updateDedicationTableView();
         }
+//        else
+//        {
+//            MainLayoutController.statusProperty.setValue("ابتدا یک تخصیص را انتخاب نمایید.");
+//        }
     }
 
     public void updateClassListTableView()
@@ -400,18 +422,19 @@ public class ClassLayoutController implements Initializable
         dIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         dFieldTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, String> f) -> new ReadOnlyObjectWrapper(f.getValue().getName()));
         dClassNumberTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, Integer> f)
-                -> new ReadOnlyObjectWrapper(f.getValue().getDedications().size()));
+                -> new ReadOnlyObjectWrapper(f.getValue().numberOfDedicationClass));
         dClassListTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Field, String> f)
                 -> new ReadOnlyObjectWrapper(f.getValue().majava1String));
 
-        dField.stream().forEach((Object f) ->
+        dField.stream().forEach((df) ->
         {
-            ArrayList<Dedication> al = new ArrayList<>(((Field) f).getDedications());
-            if (al.get(0).getTerm().getName() == null ? CtacssManager.currentTerm.getName() == null : al.get(0).getTerm().getName().equals(CtacssManager.currentTerm.getName()))
+            ArrayList<Dedication> al = new ArrayList<>(((Field) df).getDedications());
+            if (!"".equals(((Field) df).majava1String))
             {
-                fieldList.add((Field) f);
+                fieldList.add((Field) df);
             }
         });
+        // dedicationTableView.getItems().clear();
         dedicationTableView.setItems(fieldList);
 
     }

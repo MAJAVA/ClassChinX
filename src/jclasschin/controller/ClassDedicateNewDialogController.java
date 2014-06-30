@@ -24,10 +24,14 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -103,15 +107,15 @@ public class ClassDedicateNewDialogController implements Initializable
         {
             MainLayoutController.statusProperty.setValue("لطفا یک رشته را انتخاب نمایید.");
         }
-        else if(selectedClass==null || selectedClass.isEmpty())
+        else if (selectedClass == null || selectedClass.isEmpty())
         {
             MainLayoutController.statusProperty.setValue("انتخاب حداقل یک کلاس الزامی است.");
         }
         else
         {
             dedicationManager = new DedicationManager();
-            
-            if(dedicationManager.insert(fieldComboBox.getValue(), (List) selectedClass))
+
+            if (dedicationManager.insert(fieldComboBox.getValue(), (List) selectedClass))
             {
                 MainLayoutController.statusProperty.setValue("تخصیص با موفقیت انجام شد.");
             }
@@ -149,6 +153,8 @@ public class ClassDedicateNewDialogController implements Initializable
 
     public void initDialog()
     {
+        selectedClass = FXCollections.observableArrayList();
+
         if (classDedicateNewDialogAnchorPane.getChildren().contains(gridPane))
         {
             classDedicateNewDialogAnchorPane.getChildren().remove(1);
@@ -185,10 +191,14 @@ public class ClassDedicateNewDialogController implements Initializable
         fieldComboBox.getItems().clear();
         fieldComboBox.setPromptText("انتخاب نمایید . . .");
         FieldManager fieldManager = new FieldManager();
-        List fl = fieldManager.selectAllNotDedicatedField();
+        dedicationManager = new DedicationManager();
+        List fl = fieldManager.selectAll();
         fl.stream().forEach((f) ->
         {
-            fieldComboBox.getItems().add(((Field) f).getName());
+            if (dedicationManager.checkExist(((Field) f).getName()) == 0)
+            {
+                fieldComboBox.getItems().add(((Field) f).getName());
+            }
         });
     }
 
@@ -198,13 +208,14 @@ public class ClassDedicateNewDialogController implements Initializable
         ClassManager classManager = new ClassManager();
         List cl = classManager.selectAll();
         Collections.sort(cl, (Classroom pi1, Classroom pi2) -> pi1.getName().compareTo(pi2.getName()));
-        
+
         cl.stream().forEach((c) ->
         {
             classList.add(((Classroom) c).getName());
         });
         checkListView = new CheckListView<>(classList);
         checkListView.getCheckModel().clearSelection();
+
         checkListView.getCheckModel().getSelectedItems().addListener((ListChangeListener.Change<? extends String> c) ->
         {
             selectedClass = (ObservableList<String>) c.getList();

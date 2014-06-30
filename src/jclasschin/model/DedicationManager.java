@@ -50,9 +50,8 @@ public class DedicationManager
 
     public boolean insert(String fieldName, List selectedClass)
     {
-         
         field = fieldManager.selectByName(fieldName);
-        deleteByFieldID(field.getId());
+        //deleteByFieldID(field.getId());
         try
         {
             session = (Session) HibernateUtil.getSessionFactory().openSession();
@@ -77,7 +76,7 @@ public class DedicationManager
 
     public boolean update(Integer fieldID, String fieldName, List selectedClass)
     {
-        deleteByFieldID(fieldID);
+        //deleteByFieldID(fieldID);
         field = fieldManager.selectByName(fieldName);
         try
         {
@@ -182,4 +181,51 @@ public class DedicationManager
         }
     }
 
+    public int checkExist(String fieldName)
+    {
+
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            Query q = session.createQuery("from Dedication d where d.field.name=:fn and d.term.name=:tena");
+            q.setParameter("fn", fieldName);
+            q.setParameter("tena", CtacssManager.currentTerm.getName());
+            List l = q.list();
+            session.getTransaction().commit();
+            return l.size();
+        }
+        catch (HibernateException he)
+        {
+            return 1;
+        }
+
+    }
+
+    public boolean deleteAListOfDedications(String fieldName, List selectedClass)
+    {
+        //field = fieldManager.selectByName(fieldName);
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            selectedClass.stream().forEach((Object sc) ->
+            {
+                Query q = session.createQuery("from Dedication d where d.term.id=:tid and d.field.name=:fid and d.classroom.name=:cname");
+                q.setParameter("tid", CtacssManager.currentTerm.getId());
+                q.setParameter("fid", fieldName);
+                q.setParameter("cname", (String) sc);
+                List resultList = q.list();
+                dedication = (Dedication) resultList.get(0);
+                session.delete(dedication);
+            });
+            session.getTransaction().commit();
+            return true;
+        }
+        catch (HibernateException he)
+        {
+            return false;
+        }
+    }
 }
