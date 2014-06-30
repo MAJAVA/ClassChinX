@@ -157,6 +157,10 @@ public class FieldsLayoutController implements Initializable
 
             updateFieldTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک رشته را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -170,8 +174,12 @@ public class FieldsLayoutController implements Initializable
             fieldsDeleteDialogController.setFieldsDeleteDialogStage(fieldsDeleteDialogStage);
             fieldsDeleteDialogController.setField(f);
             fieldsDeleteDialogStage.showAndWait();
-            
+
             updateFieldTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک رشته را انتخاب نمایید.");
         }
     }
 

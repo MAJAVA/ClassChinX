@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +21,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 import jclasschin.JClassChin;
 import jclasschin.entity.User;
 import jclasschin.model.UserManager;
@@ -140,6 +138,10 @@ public class UsersLayoutController implements Initializable
 
             updateUsersTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک کاربر را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -157,6 +159,10 @@ public class UsersLayoutController implements Initializable
             usersDeleteDialogStage.showAndWait();
 
             updateUsersTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک کاربر را انتخاب نمایید.");
         }
     }
 

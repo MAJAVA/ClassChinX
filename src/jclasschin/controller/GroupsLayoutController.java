@@ -204,6 +204,10 @@ public class GroupsLayoutController implements Initializable
             courseEditDialogStage.showAndWait();
             updateCourseTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک درس را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -218,6 +222,10 @@ public class GroupsLayoutController implements Initializable
             courseDeleteDialogController.setEditableCourse(c);
             courseDeleteDialogStage.showAndWait();
             updateCourseTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک درس را انتخاب نمایید.");
         }
     }
 
@@ -244,6 +252,10 @@ public class GroupsLayoutController implements Initializable
             profEditDialogStage.showAndWait();
             updateProfTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک استاد را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -257,6 +269,10 @@ public class GroupsLayoutController implements Initializable
             profDeleteDialogController.setEditablePerson(person);
             profDeleteDialogStage.showAndWait();
             updateProfTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک استاد را انتخاب نمایید.");
         }
     }
 

@@ -329,6 +329,10 @@ public class ClassLayoutController implements Initializable
             classListEditDialogStage.showAndWait();
             updateClassListTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک کلاس را انتخاب نمایید.");
+        }
 
     }
 
@@ -345,6 +349,11 @@ public class ClassLayoutController implements Initializable
 
             updateClassListTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک کلاس را انتخاب نمایید.");
+        }
+
     }
 
     @FXML
@@ -368,6 +377,10 @@ public class ClassLayoutController implements Initializable
             classDedicateEditDialogStage.showAndWait();
             updateDedicationTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("ابتدا یک تخصیص را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -382,10 +395,10 @@ public class ClassLayoutController implements Initializable
             classDedicateDeleteDialog2Stage.showAndWait();
             updateDedicationTableView();
         }
-//        else
-//        {
-//            MainLayoutController.statusProperty.setValue("ابتدا یک تخصیص را انتخاب نمایید.");
-//        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("ابتدا یک تخصیص را انتخاب نمایید.");
+        }
     }
 
     public void updateClassListTableView()
@@ -462,6 +475,10 @@ public class ClassLayoutController implements Initializable
             updateScheduleTableView();
 
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("ابتدا یک دوره زمانی را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -475,7 +492,10 @@ public class ClassLayoutController implements Initializable
             //classScheduleDeleteDialogController.initDialog();
             classScheduleDeleteDialogStage.showAndWait();
             updateScheduleTableView();
-
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("ابتدا یک دوره زمانی را انتخاب نمایید.");
         }
 
     }

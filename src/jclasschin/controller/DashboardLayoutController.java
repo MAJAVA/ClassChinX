@@ -331,6 +331,10 @@ public class DashboardLayoutController implements Initializable
             updateInboxTableView();
             updateOutboxTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -352,6 +356,10 @@ public class DashboardLayoutController implements Initializable
 
             updateInboxTableView();
             updateOutboxTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
         }
     }
 
@@ -425,6 +433,10 @@ public class DashboardLayoutController implements Initializable
             updateInboxTableView();
             updateOutboxTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -476,6 +488,10 @@ public class DashboardLayoutController implements Initializable
 
             updateTermTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک ترم را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -491,6 +507,10 @@ public class DashboardLayoutController implements Initializable
             dashboardTermDeleteDailogStage.showAndWait();
 
             updateTermTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک ترم را انتخاب نمایید.");
         }
     }
 
@@ -650,7 +670,7 @@ public class DashboardLayoutController implements Initializable
             System.out.println(CtacssManager.currentTerm.getName());
             MainLayoutController.statusProperty.setValue("ترم جاری سیستم بروز شد.");
             MainLayoutController.currentTermProperty.setValue(currentTermComboBox.getValue());
-            
+
             updateInboxTableView();
             updateOutboxTableView();
             updateStatusTableView();

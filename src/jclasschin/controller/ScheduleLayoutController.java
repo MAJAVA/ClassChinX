@@ -187,6 +187,10 @@ public class ScheduleLayoutController implements Initializable
             scheduleEditDialogStage.showAndWait();
             updateScheduleTableView();
         }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک برنامه را انتخاب نمایید.");
+        }
     }
 
     @FXML
@@ -200,6 +204,10 @@ public class ScheduleLayoutController implements Initializable
             scheduleDeleteDialogController.initDialog();
             scheduleDeleteDialogStage.showAndWait();
             updateScheduleTableView();
+        }
+        else
+        {
+            MainLayoutController.statusProperty.setValue("یک برنامه را انتخاب نمایید.");
         }
 
     }
