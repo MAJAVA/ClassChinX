@@ -235,6 +235,7 @@ public class ClassScheduleNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        scheduleManager = new ScheduleManager();
         if (flag)
         {
             if (validationSupport.isInvalid())
@@ -257,6 +258,10 @@ public class ClassScheduleNewDialogController implements Initializable
             {
                 MainLayoutController.statusProperty.setValue("متاسفیم! نمی توانید به کلاس چین صدمه بزنید!!!");
             }
+            else if(scheduleManager.selectByName2(scheduleNameTextField.getText())!=0)
+            {
+                MainLayoutController.statusProperty.setValue("دوره زمانی با این نام قبلا ثبت شده است.");
+            }
             else
             {
                 String[] startOfPeriod = new String[periodsNumber];
@@ -266,7 +271,7 @@ public class ClassScheduleNewDialogController implements Initializable
                     startOfPeriod[i] = startOfPeriodTextField[i].getText();
                     endOfPeriod[i] = endOfPeriodTextField[i].getText();
                 }
-                scheduleManager = new ScheduleManager();
+                
                 if (scheduleManager.insert(scheduleNameTextField.getText(), periodsNumber, startOfPeriod, endOfPeriod))
                 {
                     MainLayoutController.statusProperty.setValue("بازه های زمانی با موفقیت تعریف شدند.");

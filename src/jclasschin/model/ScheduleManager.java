@@ -23,6 +23,7 @@
  */
 package jclasschin.model;
 
+import java.awt.PageAttributes;
 import java.util.List;
 import jclasschin.entity.Dedication;
 import jclasschin.entity.Period;
@@ -52,7 +53,7 @@ public class ScheduleManager
             session.beginTransaction();
             schedule = new Schedule(scheduleName, numberOfPeriod, null, null);
             session.save(schedule);
-            
+
             for (int i = 0; i < numberOfPeriod; i++)
             {
                 period = new Period(schedule, start[i], end[i], null);
@@ -69,19 +70,28 @@ public class ScheduleManager
 
     }
 
-    public boolean update(Schedule oldSchedule, String[] start, String[] end)
+    public boolean update(Schedule oldSchedule, String[] start, String[] end, 
+            String oldStart[], String oldEnd[])
     {
         try
         {
-            deleteByScheduleID(oldSchedule.getId());
+            //deleteByScheduleID(oldSchedule.getId());
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            schedule = (Schedule) session.load(Schedule.class, oldSchedule.getId());
-            
+            //schedule = (Schedule) session.load(Schedule.class, oldSchedule.getId());
+
             for (int i = 0; i < oldSchedule.getNumberOfPeriods(); i++)
             {
-                period = new Period(schedule, start[i], end[i], null);
-                session.save(period);
+                Query q = session.createQuery("from Period p where p.start=:st and p.end=:en and p.schedule.id=:sid");
+                q.setParameter("st", oldStart[i]);
+                q.setParameter("en", oldEnd[i]);
+                q.setParameter("sid", oldSchedule.getId());
+                List l = q.list();
+                period = (Period) l.get(0);
+
+                period.setStart(start[i]);
+                period.setEnd(end[i]);
+                session.update(period);
             }
             session.getTransaction().commit();
             return true;
@@ -164,6 +174,7 @@ public class ScheduleManager
             return null;
         }
     }
+
     public List selectAllPeriod()
     {
         try
@@ -179,8 +190,8 @@ public class ScheduleManager
             return null;
         }
     }
-    
-    public Period selectByPeriodStartAndEndAndScheduleID(String end, String start,Integer sid)
+
+    public Period selectByPeriodStartAndEndAndScheduleID(String end, String start, Integer sid)
     {
         try
         {
@@ -191,13 +202,33 @@ public class ScheduleManager
             q.setParameter("e", end);
             q.setParameter("sid", sid);
             List l = q.list();
-            Period p =(Period) l.get(0);
+            Period p = (Period) l.get(0);
             session.getTransaction().commit();
             return p;
         }
         catch (HibernateException he)
         {
             return null;
+        }
+    }
+    
+    public int selectByName2(String sname)
+    {
+        try
+        {
+            session = (Session) HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List resultList;
+            Query q = session.createQuery("from Schedule s where s.name=:sn");
+            q.setParameter("sn", sname);
+            resultList = q.list();
+            
+            session.getTransaction().commit();
+            return resultList.size();
+        }
+        catch (HibernateException he)
+        {
+            return 1;
         }
     }
 }

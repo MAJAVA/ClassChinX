@@ -76,6 +76,9 @@ public class ClassScheduleEditDialogController implements Initializable
     TextField[] endOfPeriodTextField;
     Tooltip timeTooltip;
 
+    String[] oldStartOfPeriod;
+    String[] oldEndOfPeriod;
+
     @FXML
     private ScrollPane classScheduleNewDialogScrollPane;
     @FXML
@@ -119,6 +122,7 @@ public class ClassScheduleEditDialogController implements Initializable
 
     void initDialog()
     {
+
         for (int i = 0; i < 24; i++)
         {
             for (int j = 0; j < 60; j++)
@@ -162,6 +166,9 @@ public class ClassScheduleEditDialogController implements Initializable
         validationSupport = new ValidationSupport();
 
         periodsNumber = Integer.parseInt(periodsNumberTextField.getText());
+        oldStartOfPeriod = new String[periodsNumber];
+        oldEndOfPeriod = new String[periodsNumber];
+
         ArrayList<Period> p = new ArrayList<>(schedule.getPeriods());
         Collections.sort(p, (Period pi1, Period pi2) -> pi1.getId().compareTo(pi2.getId()));
 
@@ -181,6 +188,7 @@ public class ClassScheduleEditDialogController implements Initializable
             startOfPeriodTextField[i].setPromptText("00:00");
             startOfPeriodTextField[i].setTooltip(timeTooltip);
             startOfPeriodTextField[i].setText(p.get(i).getStart());
+            oldStartOfPeriod[i] = p.get(i).getStart();
             validationSupport.registerValidator(startOfPeriodTextField[i], Validator.createEqualsValidator("مقدار نامعتبر است", majavaTimes));
 
             toLable[i] = new Label("تا");
@@ -190,6 +198,7 @@ public class ClassScheduleEditDialogController implements Initializable
             endOfPeriodTextField[i].setPromptText("00:00");
             endOfPeriodTextField[i].setTooltip(timeTooltip);
             endOfPeriodTextField[i].setText(p.get(i).getEnd());
+            oldEndOfPeriod[i] = p.get(i).getEnd();
             validationSupport.registerValidator(endOfPeriodTextField[i], Validator.createEqualsValidator("مقدار نامعتبر است", majavaTimes));
 
             int j = 0;
@@ -241,7 +250,8 @@ public class ClassScheduleEditDialogController implements Initializable
                 endOfPeriod[i] = endOfPeriodTextField[i].getText();
             }
             scheduleManager = new ScheduleManager();
-            if(scheduleManager.update(schedule, startOfPeriod, endOfPeriod))
+            if (scheduleManager.update(schedule, startOfPeriod, endOfPeriod,
+                    oldStartOfPeriod, oldEndOfPeriod))
             {
                 MainLayoutController.statusProperty.setValue("بروز رسانی بازه های زمانی با موفقیت انجام شد.");
             }
