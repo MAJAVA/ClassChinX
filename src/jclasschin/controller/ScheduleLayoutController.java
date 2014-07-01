@@ -23,10 +23,18 @@
  */
 package jclasschin.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,6 +59,13 @@ import javafx.stage.StageStyle;
 import jclasschin.JClassChin;
 import jclasschin.entity.Cctm;
 import jclasschin.model.CCManager;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -145,6 +160,7 @@ public class ScheduleLayoutController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -152,8 +168,8 @@ public class ScheduleLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-        filterComboBox.getItems().addAll("روز", "کلاس", "زمان", "درس", "استاد");
-        filterComboBox.setValue("روز");
+        filterComboBox.getItems().addAll("رشته", "روز", "کلاس", "زمان", "درس", "استاد");
+        filterComboBox.setValue("رشته");
     }
 
     @FXML
@@ -236,7 +252,35 @@ public class ScheduleLayoutController implements Initializable
     @FXML
     private void printHBoxOnMouseClicked(MouseEvent event)
     {
-        /*  ali's code!!!  */
+
+        try
+        {
+            /*  ali's code!!!  */
+            //JasperReport jasperReport = (JasperReport)JRLoader.loadObject(new File("C:\\Users\\HP\\Documents\\NetBeansProjects\\ClassChinX\\src\\jclasschin\\report\\report1.jasper"));
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn;
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/class_chin_db?user=root");
+            String path = "C:\\Users\\HP\\Documents\\NetBeansProjects\\ClassChinX\\src\\jclasschin\\report\\report1.jrxml";
+           // String path = "..\\jclasschin\\report\\report1.jrxml";
+
+            Map parameters = new HashMap();
+
+            parameters.put("termName", "92-2");
+            parameters.put("personId", 16);
+
+            JasperReport jr = JasperCompileManager.compileReport(path);
+            JasperPrint jp = JasperFillManager.fillReport(jr,parameters,conn);
+            JasperViewer.viewReport(jp,false);
+//            String s = JasperFillManager.fillReportToFile(path, parameters, conn);
+//            JasperViewer.viewReport(s, true, false);
+            conn.close();
+
+        }
+        catch (ClassNotFoundException | SQLException | JRException ex)
+        {
+            Logger.getLogger(ScheduleLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @FXML
@@ -245,7 +289,7 @@ public class ScheduleLayoutController implements Initializable
     {
         CCManager ccm = new CCManager();
         List l = null;
-        
+
         switch (filterComboBox.getValue())
         {
             case "روز":
@@ -271,6 +315,11 @@ public class ScheduleLayoutController implements Initializable
             case "استاد":
             {
                 l = ccm.selectAllByLike("person.lastName", filterTextField.getText());
+                break;
+            }
+            case "رشته":
+            {
+                l = ccm.selectAllByLike("person.field.name", filterTextField.getText());
                 break;
             }
             default:
