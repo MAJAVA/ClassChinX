@@ -38,6 +38,7 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -99,18 +100,17 @@ public class ClassDedicateEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (selectedClass == null || selectedClass.isEmpty())
         {
             MainLayoutController.statusProperty.setValue("انتخاب حداقل یک کلاس الزامی است.");
-        }
-        else
+        } else
         {
             dedicationManager = new DedicationManager();
             if (dedicationManager.update(editableField.getId(), fieldComboBox.getValue(), (List) selectedClass))
             {
                 MainLayoutController.statusProperty.setValue("بروزرسانی تخصیص با موفقیت انجام گرفت.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("بروز رسانی تخصیص با شکست مواجه شد.");
             }
@@ -121,6 +121,8 @@ public class ClassDedicateEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروزرسانی تخصیص لغو شد.");
         classDedicateEditDialogStage.close();
     }
@@ -161,7 +163,7 @@ public class ClassDedicateEditDialogController implements Initializable
     void initDialog()
     {
         selectedClass = FXCollections.observableArrayList();
-        
+
         if (classDedicateEditDialogAnchorPane.getChildren().contains(gridPane))
         {
             classDedicateEditDialogAnchorPane.getChildren().remove(1);
@@ -203,7 +205,7 @@ public class ClassDedicateEditDialogController implements Initializable
         String[] oc = editableField.majava1String.split(" - ");
         oldClass.addAll(Arrays.asList(oc));
         Collections.sort(oldClass, (String pi1, String pi2) -> pi1.compareTo(pi2));
-        
+
         ObservableList<String> classList = FXCollections.observableArrayList();
         ClassManager classManager = new ClassManager();
         List cl = classManager.selectAll();
@@ -221,5 +223,33 @@ public class ClassDedicateEditDialogController implements Initializable
         {
             selectedClass = (ObservableList<String>) c.getList();
         });
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 }

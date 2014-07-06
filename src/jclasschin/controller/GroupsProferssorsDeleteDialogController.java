@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -41,10 +42,11 @@ import jclasschin.model.PersonManager;
  */
 public class GroupsProferssorsDeleteDialogController implements Initializable
 {
+
     private Stage groupProferssorsDeleteDialogStage;
     private Person editablePerson;
     private PersonManager personManager;
-    
+
     @FXML
     private HBox yesHBox;
     @FXML
@@ -66,22 +68,26 @@ public class GroupsProferssorsDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         personManager = new PersonManager();
-        if(personManager.delete(editablePerson.getId()))
+        if (personManager.delete(editablePerson.getId()))
         {
             MainLayoutController.statusProperty.setValue("استاد با موفقیت حذف شد.");
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("عملیات حذف استاد با شکست مواجه شد.");
         }
@@ -91,16 +97,21 @@ public class GroupsProferssorsDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات حذف استاد لغو شد.");
         groupProferssorsDeleteDialogStage.close();
     }
@@ -114,7 +125,8 @@ public class GroupsProferssorsDeleteDialogController implements Initializable
     }
 
     /**
-     * @param groupProferssorsDeleteDialogStage the groupProferssorsDeleteDialogStage to set
+     * @param groupProferssorsDeleteDialogStage the
+     * groupProferssorsDeleteDialogStage to set
      */
     public void setGroupProferssorsDeleteDialogStage(Stage groupProferssorsDeleteDialogStage)
     {

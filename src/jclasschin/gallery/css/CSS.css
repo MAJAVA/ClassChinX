@@ -42,3 +42,74 @@
 -fx-font-family : "B Nazanin";
 -fx-font-size:20px;
 }
+
+.ok-button {
+-fx-image:url(okButton.png);
+}
+
+.ok-button:hover {
+-fx-image:url(okButtonHover.png);
+}
+
+.cancel-button {
+-fx-image:url(cancelButton.png);
+}
+
+.cancel-button:hover {
+-fx-image:url(cancelButtonHover.png);
+}
+
+.read-mail-button {
+-fx-image:url(readMailButton.png);
+}
+
+.read-mail-button:hover {
+-fx-image:url(readMailButtonHover.png);
+}
+
+.add-button {
+-fx-image:url(addButton.png);
+}
+
+.add-button:hover {
+-fx-image:url(addButtonHover.png);
+}
+
+.reply-button {
+-fx-image:url(replyButton.png);
+}
+
+.reply-button:hover {
+-fx-image:url(replyButtonHover.png);
+}
+
+.delete-button {
+-fx-image:url(deleteButton.png);
+}
+
+.delete-button:hover {
+-fx-image:url(deleteButtonHover.png);
+}
+
+.refresh-button {
+-fx-image:url(refreshButton.png);
+}
+
+.refresh-button:hover {
+-fx-image:url(refreshButtonHover.png);
+}
+
+.edit-button {
+-fx-image:url(editButton.png);
+}
+
+.edit-button:hover {
+-fx-image:url(editButtonHover.png);
+}
+
+
+
+
+
+
+

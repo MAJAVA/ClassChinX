@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -72,28 +73,29 @@ public class DashboardTermDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         termManager = new TermManager();
         if (Objects.equals(CtacssManager.currentTerm.getId(), editableTerm.getId()))
         {
             MainLayoutController.statusProperty.setValue("نمی توانید ترم جاری سیستم را حذف نمایید. ابتدا ترم جاری را تعویض کنید.");
-        }
-        else
+        } else
         {
             if (termManager.delete(editableTerm.getId()))
             {
                 MainLayoutController.statusProperty.setValue("ترم [ " + editableTerm.getName() + " ] با موفقیت حذف شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات حذف ترم با شکست مواجه شد.");
             }
@@ -105,16 +107,19 @@ public class DashboardTermDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
     }
 
     @FXML
     private void noHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
     }
 
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات حذف ترم لغو شد.");
         dashboardTermDeleteDailogStage.close();
     }

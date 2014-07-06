@@ -31,6 +31,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -87,27 +88,24 @@ public class GroupsProferssorsEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         personManager = new PersonManager();
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("فیلدهای الزامی را پر نمایید.");
-        }
-        else if (!phoneTextField.getText().matches("\\d*"))
+        } else if (!phoneTextField.getText().matches("\\d*"))
         {
             MainLayoutController.statusProperty.setValue("شماره تلفن بایستی فقط عدد باشد.");
-        }
-        else if (phoneTextField.getText().length() > 11)
+        } else if (phoneTextField.getText().length() > 11)
         {
             MainLayoutController.statusProperty.setValue("شماره تلفن بایستی حداکثر 11 رقم باشد.");
-        }
-        else
+        } else
         {
             if (personManager.update(editablePerson.getId(), titleComboBox.getValue(), firstNameTextField.getText(),
                     lastNameTextField.getText(), phoneTextField.getText(), maleSexRadioButton.isSelected()))
             {
                 MainLayoutController.statusProperty.setValue("استاد با موفقیت بروز رسانی شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی استاد با شکست مواجه شد.");
             }
@@ -119,6 +117,7 @@ public class GroupsProferssorsEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروز رسانی استاد لغو شد.");
         groupProferssorsEditDialogStage.close();
     }
@@ -172,8 +171,7 @@ public class GroupsProferssorsEditDialogController implements Initializable
         if (editablePerson.isSex())
         {
             maleSexRadioButton.setSelected(true);
-        }
-        else
+        } else
         {
             femaleSexRadioButton.setSelected(true);
         }
@@ -181,6 +179,33 @@ public class GroupsProferssorsEditDialogController implements Initializable
         validationSupport.registerValidator(titleComboBox, Validator.createEmptyValidator("عنوان الزامی است"));
         validationSupport.registerValidator(firstNameTextField, Validator.createEmptyValidator("نام الزامی است"));
         validationSupport.registerValidator(lastNameTextField, Validator.createEmptyValidator("نام خانوادگی الزامی است"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
 
     }
 

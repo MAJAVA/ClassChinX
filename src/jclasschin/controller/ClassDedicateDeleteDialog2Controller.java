@@ -38,6 +38,7 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -93,18 +94,17 @@ public class ClassDedicateDeleteDialog2Controller implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (selectedClass == null || selectedClass.isEmpty())
         {
             MainLayoutController.statusProperty.setValue("انتخاب حداقل یک کلاس الزامی است.");
-        }
-        else
+        } else
         {
             dedicationManager = new DedicationManager();
             if (dedicationManager.deleteAListOfDedications(fieldComboBox.getValue(), (List) selectedClass))
             {
                 MainLayoutController.statusProperty.setValue("حذف تخصیصات با موفقیت انجام گرفت.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("حذف تخصیصات با شکست مواجه شد.");
             }
@@ -115,6 +115,7 @@ public class ClassDedicateDeleteDialog2Controller implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات حذف تخصیصات لغو شد.");
         classDedicateDeleteDialog2Stage.close();
     }
@@ -209,5 +210,33 @@ public class ClassDedicateDeleteDialog2Controller implements Initializable
         {
             selectedClass = (ObservableList<String>) c.getList();
         });
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 }

@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -95,6 +96,7 @@ public class ScheduleEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         CCManager ccm = new CCManager();
 
         if (ccm.update(editableCctm.getId(), dayComboBox.getValue(), classComboBox.getValue(),
@@ -103,8 +105,7 @@ public class ScheduleEditDialogController implements Initializable
             StatusManager sm = new StatusManager();
             sm.insert();
             MainLayoutController.statusProperty.setValue("برنامه با موفقیت بروز رسانی شد.");
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("بروز رسانی برنامه با شکست مواجه شد.");
         }
@@ -115,6 +116,7 @@ public class ScheduleEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروز رسانی برنامه لغو شد.");
         scheduleEditDialogStage.close();
     }
@@ -261,5 +263,33 @@ public class ScheduleEditDialogController implements Initializable
         professorComboBox.setValue(editableCctm.getPerson().getId()
                 + " - " + editableCctm.getPerson().getFirstName()
                 + " " + editableCctm.getPerson().getLastName());
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 }

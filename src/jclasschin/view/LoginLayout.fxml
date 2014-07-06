@@ -20,8 +20,8 @@
          </rowConstraints>
          <children>
             <Label layoutX="390.0" layoutY="463.0" text="نام کاربری :" />
-            <PasswordField fx:id="passwordField" layoutX="491.0" layoutY="511.0" prefHeight="31.0" prefWidth="282.0" style="-fx-alignment: center; -fx-font-family: &quot;Segoe UI Light&quot;;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="usernameTextField" layoutX="491.0" layoutY="458.0" prefHeight="31.0" prefWidth="282.0" style="-fx-alignment: center; -fx-font-family: &quot;Segoe UI Light&quot;;" GridPane.columnIndex="1" />
+            <PasswordField fx:id="passwordField" layoutX="491.0" layoutY="511.0" onAction="#passwordFieldOnAction" prefHeight="31.0" prefWidth="282.0" style="-fx-alignment: center; -fx-font-family: &quot;Segoe UI Light&quot;;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="usernameTextField" layoutX="491.0" layoutY="458.0" onAction="#usernameTextFieldOnAction" prefHeight="31.0" prefWidth="282.0" style="-fx-alignment: center; -fx-font-family: &quot;Segoe UI Light&quot;;" GridPane.columnIndex="1" />
             <Label layoutX="390.0" layoutY="515.0" text="گذرواژه :" GridPane.rowIndex="1" />
          </children>
       </GridPane>
@@ -34,7 +34,7 @@
          <children>
             <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHboxOnMouseClicked" spacing="10.0">
                <children>
-                  <ImageView id="okButton" fx:id="okImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
+                  <ImageView id="okButton" fx:id="okImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true" styleClass="ok-button">
                      <image>
                         <Image preserveRatio="true" smooth="true" url="@../gallery/image/okButton.png" />
                      </image>
@@ -44,7 +44,7 @@
             </HBox>
             <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHboxOnMouseClicked" spacing="10.0">
                <children>
-                  <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
+                  <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true" styleClass="cancel-button">
                      <image>
                         <Image preserveRatio="true" smooth="true" url="@../gallery/image/cancelButton.png" />
                      </image>

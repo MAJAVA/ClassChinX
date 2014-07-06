@@ -30,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -78,18 +79,17 @@ public class DashboardInboxReplyDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("فیلد های اجباری را تکمیل فرمایید.");
-        }
-        else
+        } else
         {
             MailManager mailManager = new MailManager();
-            if(mailManager.insertForReply(mail.getPersonBySenderPersonId(), subjectTextField.getText(), messegeTextArea.getText()))
+            if (mailManager.insertForReply(mail.getPersonBySenderPersonId(), subjectTextField.getText(), messegeTextArea.getText()))
             {
                 MainLayoutController.statusProperty.setValue("نامه شما ارسال شد!");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("ارسال نامه با شکست مواجه شد.");
             }
@@ -100,6 +100,7 @@ public class DashboardInboxReplyDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("پاسخ به نامه لغو شد.");
         dashboardInboxReplyMailDialogStage.close();
     }
@@ -142,8 +143,7 @@ public class DashboardInboxReplyDialogController implements Initializable
         {
             toComboBox.setValue("آموزش" + " @ " + "admin");
             toComboBox.setDisable(true);
-        }
-        else
+        } else
         {
             toComboBox.setValue(mail.getPersonBySenderPersonId().getFirstName()
                     + " " + mail.getPersonBySenderPersonId().getLastName());
@@ -165,6 +165,50 @@ public class DashboardInboxReplyDialogController implements Initializable
     public void setMail(Mail mail)
     {
         this.mail = mail;
+    }
+
+    private void okHboxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    private void okHboxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    private void cancelHboxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    private void cancelHboxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
     }
 
 }

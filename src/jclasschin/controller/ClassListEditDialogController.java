@@ -29,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -84,6 +85,8 @@ public class ClassListEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
+
         if (capacityTextField.getText() == null || "".equals(capacityTextField.getText()))
         {
             capacityTextField.setText("0");
@@ -92,16 +95,14 @@ public class ClassListEditDialogController implements Initializable
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا نام کلاس را وارد نمایید.");
-        }
-        else
+        } else
         {
             ClassManager cm = new ClassManager();
-            if(cm.update(editableClass.getId(), classNameTextField.getText(), floorTextField.getText(), Integer.parseInt(capacityTextField.getText()),
+            if (cm.update(editableClass.getId(), classNameTextField.getText(), floorTextField.getText(), Integer.parseInt(capacityTextField.getText()),
                     videoProjectorCheckBox.isSelected(), whiteBoardCheckBox.isSelected(), blackBoardCheckBox.isSelected()))
             {
                 MainLayoutController.statusProperty.setValue("بروز رسانی کلاس با موفقیت انجام شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی کلاس با شکست مواجه شد.");
             }
@@ -112,6 +113,7 @@ public class ClassListEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروزرسانی کلاس لغو شد.");
         classEditDialogStage.close();
     }
@@ -121,7 +123,7 @@ public class ClassListEditDialogController implements Initializable
      */
     public Stage getClassEditDialogStage()
     {
-        
+
         return classEditDialogStage;
     }
 
@@ -159,6 +161,34 @@ public class ClassListEditDialogController implements Initializable
         blackBoardCheckBox.setSelected(editableClass.getBlackboard());
 
         validationSupport.registerValidator(classNameTextField, Validator.createEmptyValidator("نام کلاس الزامی است."));
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
 }

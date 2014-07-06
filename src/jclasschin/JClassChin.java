@@ -11,10 +11,13 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Bloom;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jclasschin.controller.ObjectLayoutController;
+import jclasschin.util.Effect;
 
 /**
  *
@@ -59,6 +62,10 @@ public class JClassChin extends Application
     public void start(Stage stage) throws IOException, InterruptedException
     {
 
+        String classChinCSS = JClassChin.class.getResource("gallery/css/CSS.css").toString();
+        Application.setUserAgentStylesheet(null);
+        StyleManager.getInstance().addUserAgentStylesheet(classChinCSS);
+
         objectStage = stage;
 //        mainStage = stage;
 
@@ -100,9 +107,6 @@ public class JClassChin extends Application
 //        mainStage.setResizable(false);
 //        mainStage.centerOnScreen();
 //        mainStage.show();
-        String classChinCSS = JClassChin.class.getResource("gallery/css/CSS.css").toString();
-        Application.setUserAgentStylesheet(null);
-        StyleManager.getInstance().addUserAgentStylesheet(classChinCSS);
 
     }
 

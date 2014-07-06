@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -71,28 +72,31 @@ public class FieldsDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         fieldManager = new FieldManager();
         if (field.getName() == null ? Login.loggedUserField == null : field.getName().equals(Login.loggedUserField))
         {
             MainLayoutController.statusProperty.setValue("قادر به حذف رشته جاری خود نیستید!");
-        }
-        else
+        } else
         {
             if (fieldManager.delete(field.getId()))
             {
                 MainLayoutController.statusProperty.setValue("رشته " + field.getName() + " با موفقیت حذف شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات حذف رشته با شکست مواجه شد.");
             }
@@ -103,16 +107,22 @@ public class FieldsDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
+
         MainLayoutController.statusProperty.setValue("عملیات حذف رشته لغو شد.");
         fieldsDeleteDialogStage.close();
     }

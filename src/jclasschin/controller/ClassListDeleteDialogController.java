@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -41,6 +42,7 @@ import jclasschin.model.ClassManager;
  */
 public class ClassListDeleteDialogController implements Initializable
 {
+
     private Stage classListDeleteDialogStage;
     private Classroom editableClass;
     private ClassManager classManager;
@@ -56,6 +58,7 @@ public class ClassListDeleteDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -68,41 +71,50 @@ public class ClassListDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         classManager = new ClassManager();
-       if( classManager.delete(editableClass.getId()))
-       {
-           MainLayoutController.statusProperty.setValue("کلاس با موفقیت حذف شد.");
-       }
-       else
-       {
-           MainLayoutController.statusProperty.setValue("عملیات حذف کلاس با شکست مواجه شد.");
-       }
+        if (classManager.delete(editableClass.getId()))
+        {
+            MainLayoutController.statusProperty.setValue("کلاس با موفقیت حذف شد.");
+        } else
+        {
+            MainLayoutController.statusProperty.setValue("عملیات حذف کلاس با شکست مواجه شد.");
+        }
         classListDeleteDialogStage.close();
     }
 
     @FXML
     private void noHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات حذف کلاس لغو شد.");
         classListDeleteDialogStage.close();
     }

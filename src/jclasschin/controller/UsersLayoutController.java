@@ -11,10 +11,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -60,6 +63,12 @@ public class UsersLayoutController implements Initializable
     private TableColumn<User, String> jobTableColumn;
     @FXML
     private TableColumn<User, String> stateTableColumn;
+    @FXML
+    private ImageView newImageView;
+    @FXML
+    private ImageView editImageView;
+    @FXML
+    private ImageView deleteImageView;
 
     public UsersLayoutController() throws IOException
     {
@@ -75,7 +84,7 @@ public class UsersLayoutController implements Initializable
         usersNewDialogStage.initOwner(JClassChin.getMainStage());
         usersNewDialogStage.setResizable(false);
         usersNewDialogStage.initStyle(StageStyle.UTILITY);
-        
+
         /* Edit User */
         usersEditDialogLoader = new FXMLLoader(JClassChin.class.getResource("view/UsersEditDialog.fxml"));
         usersEditDialogLayout = (AnchorPane) usersEditDialogLoader.load();
@@ -109,11 +118,13 @@ public class UsersLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        usersTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
     }
 
     @FXML
     private void newHBoxOnMouseClicked(MouseEvent event)
     {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
         usersNewDialogController = usersNewDialogLoader.getController();
         usersNewDialogController.setUsersNewDialogStage(usersNewDialogStage);
         usersNewDialogController.initDialog();
@@ -125,6 +136,7 @@ public class UsersLayoutController implements Initializable
     @FXML
     private void editHBoxOnMouseClicked(MouseEvent event)
     {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
         if (usersTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             User u = usersTableView.getSelectionModel().getSelectedItem();
@@ -137,8 +149,7 @@ public class UsersLayoutController implements Initializable
             usersEditDialogStage.showAndWait();
 
             updateUsersTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک کاربر را انتخاب نمایید.");
         }
@@ -147,6 +158,7 @@ public class UsersLayoutController implements Initializable
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (usersTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             User u = usersTableView.getSelectionModel().getSelectedItem();
@@ -155,12 +167,11 @@ public class UsersLayoutController implements Initializable
             usersDeleteDialogController.initialize(null, null);
             usersDeleteDialogController.setUsersEditDialogStage(usersDeleteDialogStage);
             usersDeleteDialogController.setEditableUser(u);
- 
+
             usersDeleteDialogStage.showAndWait();
 
             updateUsersTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک کاربر را انتخاب نمایید.");
         }
@@ -186,6 +197,46 @@ public class UsersLayoutController implements Initializable
         });
 
         usersTableView.setItems(userList);
+    }
+
+    @FXML
+    private void newHBoxOnMouseExited(MouseEvent event)
+    {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
+    }
+
+    @FXML
+    private void newHBoxOnMouseEntered(MouseEvent event)
+    {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
+    @FXML
+    private void editHBoxOnMouseExited(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+    }
+
+    @FXML
+    private void editHBoxOnMouseEntered(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseExited(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseEntered(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
     }
 
 }

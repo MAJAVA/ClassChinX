@@ -13,7 +13,7 @@
    <children>
       <HBox id="HBox" alignment="CENTER" layoutX="66.0" layoutY="515.0" spacing="40.0">
          <children>
-            <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHBoxOnMouseClicked" spacing="10.0">
+            <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHBoxOnMouseClicked" onMouseEntered="#okHBoxOnMouseEntered" onMouseExited="#okHBoxOnMouseExited" spacing="10.0">
                <children>
                   <ImageView id="okButton" fx:id="okImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
                      <image>
@@ -27,7 +27,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHBoxOnMouseClicked" spacing="10.0">
+            <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHBoxOnMouseClicked" onMouseEntered="#cancelHBoxOnMouseEntered" onMouseExited="#cancelHBoxOnMouseExited" spacing="10.0">
                <children>
                   <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
                      <image>

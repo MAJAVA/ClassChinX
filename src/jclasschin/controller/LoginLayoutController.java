@@ -26,6 +26,11 @@ package jclasschin.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,11 +39,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import jclasschin.JClassChin;
-import jclasschin.util.Effect;
 import jclasschin.model.Login;
+import jclasschin.util.Effect;
 import jclasschin.util.Utilities;
 
 /**
@@ -50,6 +58,7 @@ public class LoginLayoutController implements Initializable
 {
 
     private BorderPane objectLayout;
+    private AnchorPane loginLayout;
 
     private final FXMLLoader mainLayoutLoader;
     private final BorderPane mainLayout;
@@ -109,12 +118,12 @@ public class LoginLayoutController implements Initializable
     private void okHboxOnMouseClicked(MouseEvent event) throws InterruptedException
     {
 
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
+
         login = new Login();
-        if (login.checkForLogin(usernameTextField.getText(), passwordField.getText()))
+        if (!usernameTextField.getText().isEmpty() && !passwordField.getText().isEmpty() && login.checkForLogin(usernameTextField.getText(), passwordField.getText()))
         {
             //new Effect().fadeInTransition(loginImageView, 1000);
-
-            loginImageView.setImage(new Image("jclasschin/gallery/image/unlockIcon.png"));
 
             System.out.println(login.getLoggedUser().getPerson().getJob().getId());
             System.out.println(Utilities.getCurrentShamsidate());
@@ -123,8 +132,22 @@ public class LoginLayoutController implements Initializable
             objectLayout.setCenter(mainLayout);
             mainLayoutController.setObjectLayout(objectLayout);
             mainLayoutController.setLayout(mainLayout);
-            
+            mainLayoutController.setLoginLayout(loginLayout);
+            usernameTextField.setText("");
+            passwordField.setText("");
+            okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
             mainLayoutController.start();
+        } else
+        {
+            final Timeline timeline = new Timeline();
+            timeline.setCycleCount(6);
+            timeline.setAutoReverse(true);
+            final KeyValue kv = new KeyValue(loginImageView.opacityProperty(), 0.0);
+            final KeyFrame kf = new KeyFrame(Duration.millis(700), kv);
+            timeline.getKeyFrames().add(kf);
+            timeline.play();
+            passwordField.setText("");
+
         }
 
     }
@@ -132,6 +155,56 @@ public class LoginLayoutController implements Initializable
     @FXML
     private void cancelHboxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/css/cancelButtonActive.png"));
+        Platform.exit();
+    }
+
+    @FXML
+    private void passwordFieldOnAction(ActionEvent event) throws InterruptedException
+    {
+
+        okHboxOnMouseClicked(null);
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+//        login = new Login();
+//        if (!usernameTextField.getText().isEmpty() && !passwordField.getText().isEmpty() && login.checkForLogin(usernameTextField.getText(), passwordField.getText()))
+//        {
+//            //new Effect().fadeInTransition(loginImageView, 1000);
+//
+//            System.out.println(login.getLoggedUser().getPerson().getJob().getId());
+//            System.out.println(Utilities.getCurrentShamsidate());
+//
+//            new Effect().fadeInTransition(mainLayout, 1000);
+//            objectLayout.setCenter(mainLayout);
+//            mainLayoutController.setObjectLayout(objectLayout);
+//            mainLayoutController.setLayout(mainLayout);
+//            mainLayoutController.setLoginLayout(loginLayout);
+//            mainLayoutController.start();
+//        } else
+//        {
+//            final Timeline timeline = new Timeline();
+//            timeline.setCycleCount(6);
+//            timeline.setAutoReverse(true);
+//            final KeyValue kv = new KeyValue(loginImageView.opacityProperty(), 0.0);
+//            final KeyFrame kf = new KeyFrame(Duration.millis(700), kv);
+//            timeline.getKeyFrames().add(kf);
+//            timeline.play();
+//            passwordField.setText("");
+//        }
+    }
+
+    @FXML
+    private void usernameTextFieldOnAction(ActionEvent event) throws InterruptedException
+    {
+        passwordFieldOnAction(event);
+    }
+
+    /**
+     * @param loginLayout the loginLayout to set
+     */
+    public void setLayout(AnchorPane loginLayout)
+    {
+        this.loginLayout = loginLayout;
     }
 
 }

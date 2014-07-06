@@ -111,25 +111,24 @@ public class FieldsNewDialogController implements Initializable
 ////            programMessageLable.setText("Field Name can not be start with number!");
 //
 //        } else {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         fieldManager = new FieldManager();
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("نام رشته را وارد نمایید.");
-        }
-        else
+        } else
         {
             if (fieldManager.insert(fieldNameTextField.getText()))
             {
                 MainLayoutController.statusProperty.setValue("رشته جدید با موفقیت افزوده شد!");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات افزودن رشته جدید با شکست مواجه شد.");
             }
             newFieldDialogStage.close();
         }
 
-            //      programMessageLable.setTextFill(Color.GREEN);
+        //      programMessageLable.setTextFill(Color.GREEN);
 //                programMessageLable.setText("New Field add successfully!!!");
         //fieldNameTextField.setText("");
 //                programMessageLable.setTextFill(Color.RED);
@@ -140,18 +139,19 @@ public class FieldsNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseExited(MouseEvent event)
     {
-        okImageView.setImage(okButton);
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
     }
 
     @FXML
     private void okHBoxOnMouseEntered(MouseEvent event)
     {
-        okImageView.setImage(okButtonOnMouseEntered);
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات افزودن رشته جدید لغو شد.");
         newFieldDialogStage.close();
     }
@@ -159,13 +159,13 @@ public class FieldsNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseEntered(MouseEvent event)
     {
-        cancelImageView.setImage(cancelButtonOnMouseEntered);
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
     }
 
     @FXML
     private void cancelHBoxOnMouseExited(MouseEvent event)
     {
-        cancelImageView.setImage(cancelButton);
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
     }
 
     /**

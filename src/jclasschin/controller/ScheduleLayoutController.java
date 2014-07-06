@@ -23,7 +23,6 @@
  */
 package jclasschin.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -44,10 +43,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -60,12 +62,12 @@ import jclasschin.JClassChin;
 import jclasschin.entity.Cctm;
 import jclasschin.model.CCManager;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+//import net.sf.jasperreports.engine.JRException;
+//import net.sf.jasperreports.engine.JasperCompileManager;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+//import net.sf.jasperreports.engine.JasperReport;
+//import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -111,6 +113,14 @@ public class ScheduleLayoutController implements Initializable
     private ComboBox<String> filterComboBox;
     @FXML
     private TextField filterTextField;
+    @FXML
+    private ImageView newImageView;
+    @FXML
+    private ImageView editImageView;
+    @FXML
+    private ImageView deleteImageView;
+    @FXML
+    private ImageView printImageView;
 
     public ScheduleLayoutController() throws IOException
     {
@@ -168,6 +178,7 @@ public class ScheduleLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        scheduleTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
         filterComboBox.getItems().addAll("رشته", "روز", "کلاس", "زمان", "درس", "استاد");
         filterComboBox.setValue("رشته");
     }
@@ -175,16 +186,21 @@ public class ScheduleLayoutController implements Initializable
     @FXML
     private void newHBoxOnMouseExited(MouseEvent event)
     {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
     }
 
     @FXML
     private void newHBoxOnMouseEntered(MouseEvent event)
     {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
     }
 
     @FXML
     private void newHBoxOnMouseClicked(MouseEvent event)
     {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
         scheduleNewDialogController.setScheduleNewDialogStage(scheduleNewDialogStage);
         scheduleNewDialogController.initDialog();
         scheduleNewDialogStage.showAndWait();
@@ -194,6 +210,7 @@ public class ScheduleLayoutController implements Initializable
     @FXML
     private void editHBoxOnMouseClicked(MouseEvent event)
     {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
         if (scheduleTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Cctm cctm = scheduleTableView.getSelectionModel().getSelectedItem();
@@ -202,8 +219,7 @@ public class ScheduleLayoutController implements Initializable
             scheduleEditDialogController.initDialog();
             scheduleEditDialogStage.showAndWait();
             updateScheduleTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک برنامه را انتخاب نمایید.");
         }
@@ -212,6 +228,7 @@ public class ScheduleLayoutController implements Initializable
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (scheduleTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Cctm cctm = scheduleTableView.getSelectionModel().getSelectedItem();
@@ -220,8 +237,7 @@ public class ScheduleLayoutController implements Initializable
             scheduleDeleteDialogController.initDialog();
             scheduleDeleteDialogStage.showAndWait();
             updateScheduleTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک برنامه را انتخاب نمایید.");
         }
@@ -252,6 +268,7 @@ public class ScheduleLayoutController implements Initializable
     @FXML
     private void printHBoxOnMouseClicked(MouseEvent event)
     {
+        printImageView.setImage(new Image("jclasschin/gallery/image/printButtonActive.png"));
 
         try
         {
@@ -259,7 +276,7 @@ public class ScheduleLayoutController implements Initializable
             //JasperReport jasperReport = (JasperReport)JRLoader.loadObject(new File("C:\\Users\\HP\\Documents\\NetBeansProjects\\ClassChinX\\src\\jclasschin\\report\\report1.jasper"));
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/class_chin_db?user=root");
+            conn = DriverManager.getConnection("jdbc:mysql://172.20.5.32:3306/class_chin_db?user=root");
             String path = "C:\\Users\\HP\\Documents\\NetBeansProjects\\ClassChinX\\src\\jclasschin\\report\\report1.jrxml";
            // String path = "..\\jclasschin\\report\\report1.jrxml";
 
@@ -268,19 +285,18 @@ public class ScheduleLayoutController implements Initializable
             parameters.put("termName", "92-2");
             parameters.put("personId", 16);
 
-            JasperReport jr = JasperCompileManager.compileReport(path);
-            JasperPrint jp = JasperFillManager.fillReport(jr,parameters,conn);
-            JasperViewer.viewReport(jp,false);
+//            JasperReport jr = JasperCompileManager.compileReport(path);
+//            JasperPrint jp = JasperFillManager.fillReport(jr,parameters,conn);
+//            JasperViewer.viewReport(jp,false);
 //            String s = JasperFillManager.fillReportToFile(path, parameters, conn);
 //            JasperViewer.viewReport(s, true, false);
             conn.close();
 
         }
-        catch (ClassNotFoundException | SQLException | JRException ex)
+        catch (ClassNotFoundException | SQLException ex)
         {
             Logger.getLogger(ScheduleLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
@@ -352,6 +368,48 @@ public class ScheduleLayoutController implements Initializable
     @FXML
     private void filterTextFieldOnAction(ActionEvent event)
     {
+
+    }
+
+    @FXML
+    private void editHBoxOnMouseExited(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void editHBoxOnMouseEntered(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseExited(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseEntered(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
+    }
+
+    @FXML
+    private void printHBoxOnMouseExited(MouseEvent event)
+    {
+        printImageView.setImage(new Image("jclasschin/gallery/image/printButton.png"));
+
+    }
+
+    @FXML
+    private void printHBoxOnMouseEntered(MouseEvent event)
+    {
+        printImageView.setImage(new Image("jclasschin/gallery/image/printButtonHover.png"));
 
     }
 }

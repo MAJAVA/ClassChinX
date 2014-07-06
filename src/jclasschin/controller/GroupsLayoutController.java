@@ -14,10 +14,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -84,6 +87,18 @@ public class GroupsLayoutController implements Initializable
     private TableColumn<Course, String> typeTableColumn;
     @FXML
     private TableColumn<Course, String> fieldTableColumn;
+    @FXML
+    private ImageView newImageView;
+    @FXML
+    private ImageView editImageView;
+    @FXML
+    private ImageView deleteImageView;
+    @FXML
+    private ImageView profNewImageView;
+    @FXML
+    private ImageView profEditImageView;
+    @FXML
+    private ImageView profDeleteImageView;
 
     public GroupsLayoutController() throws IOException
     {
@@ -175,24 +190,27 @@ public class GroupsLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        profTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+        courseTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+
     }
 
     @FXML
     private void newHBoxOnMouseClicked(MouseEvent event)
     {
-
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
         courseNewDialogController = courseNewDialogLoader.getController();
         courseNewDialogController.setGroupsCoursesNewDialog(courseNewDialogStage);
         courseNewDialogController.initDialog();
         courseNewDialogStage.showAndWait();
         updateCourseTableView();
-       
 
     }
 
     @FXML
     private void editHBoxOnMouseClicked(MouseEvent event)
     {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
         if (courseTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Course c = courseTableView.getSelectionModel().getSelectedItem();
@@ -203,8 +221,7 @@ public class GroupsLayoutController implements Initializable
             courseEditDialogController.initDialog();
             courseEditDialogStage.showAndWait();
             updateCourseTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک درس را انتخاب نمایید.");
         }
@@ -213,6 +230,7 @@ public class GroupsLayoutController implements Initializable
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (courseTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Course c = courseTableView.getSelectionModel().getSelectedItem();
@@ -222,8 +240,7 @@ public class GroupsLayoutController implements Initializable
             courseDeleteDialogController.setEditableCourse(c);
             courseDeleteDialogStage.showAndWait();
             updateCourseTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک درس را انتخاب نمایید.");
         }
@@ -232,6 +249,8 @@ public class GroupsLayoutController implements Initializable
     @FXML
     private void profNewHBoxOnMouseClicked(MouseEvent event)
     {
+        profNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
+
         profNewDialogController = profNewDialogLoader.getController();
         profNewDialogController.setGroupProferssorsNewDialogStage(profNewDialogStage);
         profNewDialogController.initDialog();
@@ -242,6 +261,7 @@ public class GroupsLayoutController implements Initializable
     @FXML
     private void profEditHBoxOnMouseClicked(MouseEvent event)
     {
+        profEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
         if (profTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Person person = profTableView.getSelectionModel().getSelectedItem();
@@ -251,8 +271,7 @@ public class GroupsLayoutController implements Initializable
             profEditDialogController.initDialog();
             profEditDialogStage.showAndWait();
             updateProfTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک استاد را انتخاب نمایید.");
         }
@@ -261,6 +280,7 @@ public class GroupsLayoutController implements Initializable
     @FXML
     private void profDeleteHBoxOnMouseClicked(MouseEvent event)
     {
+        profDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (profTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Person person = profTableView.getSelectionModel().getSelectedItem();
@@ -269,8 +289,7 @@ public class GroupsLayoutController implements Initializable
             profDeleteDialogController.setEditablePerson(person);
             profDeleteDialogStage.showAndWait();
             updateProfTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک استاد را انتخاب نمایید.");
         }
@@ -308,6 +327,90 @@ public class GroupsLayoutController implements Initializable
             courseList.add((Course) c);
         });
         courseTableView.setItems(courseList);
+    }
+
+    @FXML
+    private void profNewHBoxOnMouseExited(MouseEvent event)
+    {
+        profNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
+    }
+
+    @FXML
+    private void profNewHBoxOnMouseEntered(MouseEvent event)
+    {
+        profNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
+    @FXML
+    private void profEditHBoxOnMouseExited(MouseEvent event)
+    {
+        profEditImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void profEditHBoxOnMouseEntered(MouseEvent event)
+    {
+        profEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
+    private void profDeleteHBoxOnMouseExited(MouseEvent event)
+    {
+        profDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void profDeleteHBoxOnMouseEntered(MouseEvent event)
+    {
+        profDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
+    }
+
+    @FXML
+    private void newHBoxOnMouseExited(MouseEvent event)
+    {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
+    }
+
+    @FXML
+    private void newHBoxOnMouseEntered(MouseEvent event)
+    {
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
+    @FXML
+    private void editHBoxOnMouseExited(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void editHBoxOnMouseEntered(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseExited(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseEntered(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
     }
 
 }

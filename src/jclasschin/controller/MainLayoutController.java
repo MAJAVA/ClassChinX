@@ -27,11 +27,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.adapter.JavaBeanStringProperty;
-import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,7 +42,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import jclasschin.JClassChin;
-import jclasschin.entity.User;
 import jclasschin.model.CtacssManager;
 import jclasschin.model.Login;
 import jclasschin.util.Effect;
@@ -67,6 +63,7 @@ public class MainLayoutController implements Initializable
 
     private BorderPane objectLayout;
     private BorderPane mainLayout;
+    private AnchorPane loginLayout;
 
     private AnchorPane dashboardLayout,
             fieldsLayout,
@@ -160,6 +157,10 @@ public class MainLayoutController implements Initializable
     private Label currentTermLabel;
     @FXML
     private Label currentScheduleLabel;
+    @FXML
+    private HBox logOutHBox;
+    @FXML
+    private ImageView logOutImageView;
 
     public MainLayoutController() throws IOException
     {
@@ -283,28 +284,23 @@ public class MainLayoutController implements Initializable
         {
             dashboardImageView.setImage(homeButton);
             dashboardHBoxOnMouseClickedFlag = false;
-        }
-        else if (fieldsHBoxOnMouseClickedFlag)
+        } else if (fieldsHBoxOnMouseClickedFlag)
         {
             fieldsImageView.setImage(fieldButton);
             fieldsHBoxOnMouseClickedFlag = false;
-        }
-        else if (usersHBoxOnMouseClickedFlag)
+        } else if (usersHBoxOnMouseClickedFlag)
         {
             usersImageView.setImage(userButton);
             usersHBoxOnMouseClickedFlag = false;
-        }
-        else if (groupsHBoxOnMouseClickedFlag)
+        } else if (groupsHBoxOnMouseClickedFlag)
         {
             groupsImageView.setImage(courseGroupButton);
             groupsHBoxOnMouseClickedFlag = false;
-        }
-        else if (classHBoxOnMouseClickedFlag)
+        } else if (classHBoxOnMouseClickedFlag)
         {
             classImageView.setImage(classButton);
             classHBoxOnMouseClickedFlag = false;
-        }
-        else if (scheduleHBoxOnMouseClickedFlag)
+        } else if (scheduleHBoxOnMouseClickedFlag)
         {
             scheduleImageView.setImage(scheduleButton);
             scheduleHBoxOnMouseClickedFlag = false;
@@ -341,8 +337,7 @@ public class MainLayoutController implements Initializable
         if (!dashboardHBoxOnMouseClickedFlag)
         {
             dashboardImageView.setImage(homeButton);
-        }
-        else
+        } else
         {
             dashboardImageView.setImage(homeButtonOnMouseClicked);
         }
@@ -379,8 +374,7 @@ public class MainLayoutController implements Initializable
         if (!fieldsHBoxOnMouseClickedFlag)
         {
             fieldsImageView.setImage(fieldButton);
-        }
-        else
+        } else
         {
             fieldsImageView.setImage(fieldButtonOnMouseClicked);
         }
@@ -416,8 +410,7 @@ public class MainLayoutController implements Initializable
         if (!usersHBoxOnMouseClickedFlag)
         {
             usersImageView.setImage(userButton);
-        }
-        else
+        } else
         {
             usersImageView.setImage(userButtonOnMouseClicked);
         }
@@ -450,8 +443,7 @@ public class MainLayoutController implements Initializable
         if (!groupsHBoxOnMouseClickedFlag)
         {
             groupsImageView.setImage(courseGroupButton);
-        }
-        else
+        } else
         {
             groupsImageView.setImage(courseGroupButtonOnMouseClicked);
         }
@@ -483,8 +475,7 @@ public class MainLayoutController implements Initializable
         if (!classHBoxOnMouseClickedFlag)
         {
             classImageView.setImage(classButton);
-        }
-        else
+        } else
         {
             classImageView.setImage(classButtonOnMouseClicked);
         }
@@ -526,8 +517,7 @@ public class MainLayoutController implements Initializable
         if (!scheduleHBoxOnMouseClickedFlag)
         {
             scheduleImageView.setImage(scheduleButton);
-        }
-        else
+        } else
         {
             scheduleImageView.setImage(scheduleButtonOnMouseClicked);
         }
@@ -576,6 +566,35 @@ public class MainLayoutController implements Initializable
     public void setLayout(BorderPane mainLayout)
     {
         this.mainLayout = mainLayout;
+    }
+
+    @FXML
+    private void logOutHBoxOnMouseExited(MouseEvent event)
+    {
+        logOutImageView.setImage(new Image("jclasschin/gallery/image/logOutButton.png"));
+    }
+
+    @FXML
+    private void logOutHBoxOnMouseEntered(MouseEvent event)
+    {
+        logOutImageView.setImage(new Image("jclasschin/gallery/image/logOutButtonOnMouseEntered.png"));
+    }
+
+    @FXML
+    private void logOutHBoxOnMouseClicked(MouseEvent event)
+    {
+        resetAllButtons();
+        logOutImageView.setImage(new Image("jclasschin/gallery/image/logOutButtonOnMouseClicked.png"));
+        new Effect().fadeInTransition(loginLayout, 1000);
+        objectLayout.setCenter(loginLayout);
+    }
+
+    /**
+     * @param loginLayout the loginLayout to set
+     */
+    public void setLoginLayout(AnchorPane loginLayout)
+    {
+        this.loginLayout = loginLayout;
     }
 
 }

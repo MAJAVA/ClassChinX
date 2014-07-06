@@ -38,7 +38,8 @@ import jclasschin.util.Effect;
  *
  * @author Ali
  */
-public class ObjectLayoutController implements Initializable {
+public class ObjectLayoutController implements Initializable
+{
 
     private BorderPane objectLayout;
 
@@ -49,8 +50,8 @@ public class ObjectLayoutController implements Initializable {
     private FXMLLoader preloaderLayoutLoader;
     private PreloaderLayoutController preloaderLayoutController;
 
-
-    public ObjectLayoutController() throws IOException {
+    public ObjectLayoutController() throws IOException
+    {
 
 //        loginLayoutLoader = new FXMLLoader(JClassChin.class.getResource("view/LoginLayout.fxml"));
 //        loginLayout = (AnchorPane) loginLayoutLoader.load();
@@ -65,18 +66,29 @@ public class ObjectLayoutController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb)
+    {
         // TODO
     }
 
-    public void start() {
+    public void start() throws InterruptedException
+    {
         new Effect().fadeInTransition(preloaderLayout, 1000);
         objectLayout.setCenter(preloaderLayout);
         preloaderLayoutController.setObjectLayout(objectLayout);
+        preloaderLayoutController.startLoading();
+//        while (!PreloaderLayoutController.loadingTaskEndFlag){
+//            System.out.println(!PreloaderLayoutController.loadingTaskEndFlag);
+//        }
+//        preloaderLayoutController.startProgressIndicator();
+//        while (!PreloaderLayoutController.loadingTaskEndFlag || !PreloaderLayoutController.progressIndicatorTaskEndFlag){
+//            System.out.println(!PreloaderLayoutController.loadingTaskEndFlag || !PreloaderLayoutController.progressIndicatorTaskEndFlag);
+//        }
         preloaderLayoutController.start();
     }
 
-    public void setObjectLayout(BorderPane objectLayout) {
+    public void setObjectLayout(BorderPane objectLayout)
+    {
         this.objectLayout = objectLayout;
     }
 //

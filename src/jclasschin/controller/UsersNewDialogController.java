@@ -30,17 +30,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import jclasschin.entity.Field;
@@ -147,31 +146,28 @@ public class UsersNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
+
         userManager = new UserManager();
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("فیلدهای الزامی را پر نمایید.");
-        }
-        else if (!phoneTextField.getText().matches("\\d*"))
+        } else if (!phoneTextField.getText().matches("\\d*"))
         {
             MainLayoutController.statusProperty.setValue("شماره تلفن بایستی فقط عدد باشد.");
-        }
-        else if (phoneTextField.getText().length() > 11)
+        } else if (phoneTextField.getText().length() > 11)
         {
             MainLayoutController.statusProperty.setValue("شماره تلفن بایستی حداکثر 11 رقم باشد.");
-        }
-        else if (userNameTextField.getText().length() < 4)
+        } else if (userNameTextField.getText().length() < 4)
         {
             MainLayoutController.statusProperty.setValue("شناسه بایستی حداقل 4 حرف باشد.");
-        }
-        else if (passwordField.getText().length() < 4)
+        } else if (passwordField.getText().length() < 4)
         {
             MainLayoutController.statusProperty.setValue("گذرواژه بایستی حداقل 4 حرف باشد.");
-        }
-        else
+        } else
         {
 
-            if(userManager.insert(titleComboBox.getValue(), firstNameTextField.getText(),
+            if (userManager.insert(titleComboBox.getValue(), firstNameTextField.getText(),
                     lastNameTextField.getText(), maleSexRadioButton.isSelected(),
                     phoneTextField.getText(), userNameTextField.getText(),
                     passwordField.getText(), activeRadioButton.isSelected(),
@@ -179,8 +175,7 @@ public class UsersNewDialogController implements Initializable
             ))
             {
                 MainLayoutController.statusProperty.setValue("کاربر جدید با موفقیت ثبت شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات ثبت کاربر جدید با شکست مواجه شد.");
             }
@@ -191,6 +186,8 @@ public class UsersNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
+
         MainLayoutController.statusProperty.setValue("عملیات افزودن کاربر جدید لغو شد.");
         usersNewDialogStage.close();
     }
@@ -310,6 +307,34 @@ public class UsersNewDialogController implements Initializable
     @FXML
     private void phoneTextFieldOnMousePressed(MouseEvent event)
     {
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
 }

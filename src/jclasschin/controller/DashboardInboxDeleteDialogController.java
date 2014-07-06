@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -68,42 +69,36 @@ public class DashboardInboxDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         MailManager mailManager = new MailManager();
-        
-        if(mailManager.deleteForInbox(mail.getId()))
+
+        if (mailManager.deleteForInbox(mail.getId()))
         {
             MainLayoutController.statusProperty.setValue("حذف نامه با موفقیت انجام شد.");
-        }
-        else
+        } else
         {
-             MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
+            MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
         }
         dashboardInboxDeleteDialogStage.close();
     }
 
     @FXML
-    private void noHBoxOnMouseExited(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void noHBoxOnMouseEntered(MouseEvent event)
-    {
-    }
-
-    @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات حذف نامه لغو شد.");
         dashboardInboxDeleteDialogStage.close();
     }
@@ -139,6 +134,20 @@ public class DashboardInboxDeleteDialogController implements Initializable
     public void setMail(Mail mail)
     {
         this.mail = mail;
+    }
+
+    @FXML
+    private void noHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void noHBoxOnMouseEntered(MouseEvent event)
+    {
+                cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
 }

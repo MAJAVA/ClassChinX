@@ -29,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -73,6 +74,7 @@ public class ClassListNewDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -85,7 +87,8 @@ public class ClassListNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
-        if(capacityTextField.getText()==null || "".equals(capacityTextField.getText()))
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
+        if (capacityTextField.getText() == null || "".equals(capacityTextField.getText()))
         {
             capacityTextField.setText("0");
         }
@@ -93,15 +96,13 @@ public class ClassListNewDialogController implements Initializable
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا نام کلاس را وارد نمایید.");
-        }
-        else
+        } else
         {
             if (classManager.insert(classNameTextField.getText(), floorTextField.getText(), Integer.parseInt(capacityTextField.getText()),
                     whiteBoardCheckBox.isSelected(), blackBoardCheckBox.isSelected(), videoProjectorCheckBox.isSelected()))
             {
                 MainLayoutController.statusProperty.setValue("کلاس جدید با موفقیت ثبت شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیاتت درج کلاس جدید با شکست مواجه شد.");
             }
@@ -112,6 +113,7 @@ public class ClassListNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات ثبت کلاس جدید لغو شد.");
         classListNewDialogStage.close();
     }
@@ -142,6 +144,34 @@ public class ClassListNewDialogController implements Initializable
         videoProjectorCheckBox.setSelected(false);
 
         validationSupport.registerValidator(classNameTextField, Validator.createEmptyValidator("نام کلاس الزامی است."));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
 
     }
 

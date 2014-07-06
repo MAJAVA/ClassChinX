@@ -30,7 +30,7 @@
   <left>
     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="241.0" rotate="0.0" BorderPane.alignment="CENTER">
       <children>
-        <VBox id="VBox" alignment="CENTER_LEFT" depthTest="INHERIT" fillWidth="true" spacing="15.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="29.0">
+        <VBox id="VBox" alignment="CENTER_LEFT" depthTest="INHERIT" fillWidth="true" layoutX="25.0" layoutY="4.0" prefHeight="606.0" prefWidth="212.0" spacing="15.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="4.0">
           <children>
             <HBox id="HBox" fx:id="dashboardHBox" alignment="CENTER_LEFT" onMouseClicked="#dashboardHBoxOnMouseClicked" onMouseEntered="#dashboardHBoxOnMouseEntered" onMouseExited="#dashboardHBoxOnMouseExited" prefHeight="60.0" prefWidth="149.0" spacing="10.0">
               <children>
@@ -84,7 +84,7 @@
                            </font></Label>
               </children>
             </HBox>
-            <HBox id="HBox" fx:id="classHBox" alignment="CENTER_LEFT" onMouseClicked="#classHBoxOnMouseClicked" onMouseEntered="#classHBoxOnMouseEntered" onMouseExited="#classHBoxOnMouseExited" spacing="10.0">
+            <HBox id="HBox" fx:id="classHBox" alignment="CENTER_LEFT" onMouseClicked="#classHBoxOnMouseClicked" onMouseEntered="#classHBoxOnMouseEntered" onMouseExited="#classHBoxOnMouseExited" prefHeight="60.0" prefWidth="126.0" spacing="10.0">
               <children>
                 <ImageView id="fieldButton" fx:id="classImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                   <image>
@@ -123,6 +123,20 @@
                            </font></Label>
               </children>
             </HBox>
+                  <HBox id="HBox" fx:id="logOutHBox" alignment="CENTER_LEFT" onMouseClicked="#logOutHBoxOnMouseClicked" onMouseEntered="#logOutHBoxOnMouseEntered" onMouseExited="#logOutHBoxOnMouseExited" spacing="10.0">
+                     <children>
+                        <ImageView id="fieldButton" fx:id="logOutImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../gallery/image/logOutButton.png" />
+                           </image>
+                        </ImageView>
+                        <Label id="scheduleButtonLabel" text="خروج">
+                           <font>
+                              <Font name="B Nazanin" size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
           </children>
                <effect>
                   <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="30.23" surfaceScale="0.92">

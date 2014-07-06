@@ -116,4 +116,14 @@ public class DashboardOutboxReadDialogController implements Initializable
         messegeTextArea.setText(mail.getText());
     }
 
+    @FXML
+    private void closeHboxOnMouseExited(MouseEvent event)
+    {
+    }
+
+    @FXML
+    private void closeHboxOnMouseEntered(MouseEvent event)
+    {
+    }
+
 }

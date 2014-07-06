@@ -29,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -76,30 +77,31 @@ public class DashboardTermEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
     }
 
     @FXML
     private void okHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
     }
 
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا نام ترم را وارد نمایید.");
-        }
-        else
+        } else
         {
             termManager = new TermManager();
             if (termManager.update(editableTerm.getId(), termNameTextField.getText()))
             {
                 MainLayoutController.statusProperty.setValue("بروز رسانی نام ترم با موفقیت انجام شد!");
-            }
-            else
+            } else
             {
-                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی با شکست مواجه شد. لطفا مجددا تلاش کنید");
+                MainLayoutController.statusProperty.setValue("عملیات بروز رسانی با شکست مواجه شد. لطفا مجددا تلاش کنید");
             }
             dashboardTermEditDialogStage.close();
         }
@@ -109,16 +111,19 @@ public class DashboardTermEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
     }
 
     @FXML
     private void cancelHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروز رسانی ترم لغو شد.");
         dashboardTermEditDialogStage.close();
     }

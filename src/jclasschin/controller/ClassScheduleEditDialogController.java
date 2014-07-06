@@ -35,6 +35,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
@@ -132,19 +133,16 @@ public class ClassScheduleEditDialogController implements Initializable
                     if (j < 10)
                     {
                         majavaTimes.add("0" + i + ":" + "0" + j);
-                    }
-                    else
+                    } else
                     {
                         majavaTimes.add("0" + i + ":" + j);
                     }
-                }
-                else
+                } else
                 {
                     if (j < 10)
                     {
                         majavaTimes.add(i + ":" + "0" + j);
-                    }
-                    else
+                    } else
                     {
                         majavaTimes.add(i + ":" + j);
                     }
@@ -236,11 +234,11 @@ public class ClassScheduleEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("مقادیر بازه های زمانی را معتبر وارد نمایید.");
-        }
-        else
+        } else
         {
             String[] startOfPeriod = new String[periodsNumber];
             String[] endOfPeriod = new String[periodsNumber];
@@ -254,8 +252,7 @@ public class ClassScheduleEditDialogController implements Initializable
                     oldStartOfPeriod, oldEndOfPeriod))
             {
                 MainLayoutController.statusProperty.setValue("بروز رسانی بازه های زمانی با موفقیت انجام شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی بازه های زمانی با شکست مواجه شد.");
             }
@@ -266,6 +263,7 @@ public class ClassScheduleEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروز رسانی بازه های زمانی لغو شد.");
         classScheduleEditDialogStage.close();
     }
@@ -284,6 +282,34 @@ public class ClassScheduleEditDialogController implements Initializable
     public void setSchedule(Schedule schedule)
     {
         this.schedule = schedule;
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
 }

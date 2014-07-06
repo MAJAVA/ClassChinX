@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -66,24 +67,27 @@ public class DashboardOutboxDeleteDialogController implements Initializable
     @FXML
     private void yesHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
     }
 
     @FXML
     private void yesHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
     }
 
     @FXML
     private void yesHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         MailManager mailManager = new MailManager();
-        if(mailManager.deleteForOutbox(mail.getId()))
+        if (mailManager.deleteForOutbox(mail.getId()))
         {
             MainLayoutController.statusProperty.setValue("حذف نامه با موفقیت انجام شد.");
-        }
-         else
+        } else
         {
-             MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
+            MainLayoutController.statusProperty.setValue("حذف نامه با شکست مواجه شد.");
         }
         dashboardOutboxDeleteDialogStage.close();
     }
@@ -91,16 +95,21 @@ public class DashboardOutboxDeleteDialogController implements Initializable
     @FXML
     private void noHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
     @FXML
     private void noHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات حذف نامه لغو شد.");
         dashboardOutboxDeleteDialogStage.close();
     }
@@ -110,7 +119,7 @@ public class DashboardOutboxDeleteDialogController implements Initializable
      */
     public Stage getDashboardOutboxDeleteDialogStage()
     {
-        
+
         return dashboardOutboxDeleteDialogStage;
     }
 

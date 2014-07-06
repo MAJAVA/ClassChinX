@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 /*
  * Complete fxids  and event functions on 1393-02-28 by Morteza!
  */
@@ -34,19 +33,18 @@ import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -84,17 +82,18 @@ public class DashboardLayoutController implements Initializable
             dashboardInboxDeleteMailDialogStage, dashboardOutboxDeleteMailDialogStage, dashboardTermNewDailogStage,
             dashboardTermEditDailogStage, dashboardTermDeleteDailogStage;
 
+
     /* Mail Inbox */
     private DashboardInboxNewDialogController dashboardInboxNewMailDialogController;
     private DashboardInboxReplyDialogController dashboardInboxReplyMailDialogController;
     private DashboardInboxDeleteDialogController dashboardInboxDeleteMailDialogController;
-    
+
     private DashboardInboxReadDialogController dashboardInboxReadMailDialogController;
     private DashboardOutboxReadDialogController dashboardOutboxReadMailDialogController;
 
-
     /* Mail Outbox */
     private DashboardOutboxDeleteDialogController dashboardOutboxDeleteMailDialogController;
+
 
     /* Status */
     /* Term */
@@ -184,6 +183,34 @@ public class DashboardLayoutController implements Initializable
     private HBox readHBox;
     @FXML
     private HBox readHBox2;
+    @FXML
+    private ImageView inboxReadMailImageView;
+    @FXML
+    private ImageView inboxNewImageView;
+    @FXML
+    private ImageView inboxReplyImageView;
+    @FXML
+    private ImageView inboxDeleteImageView;
+    @FXML
+    private ImageView inboxRefreshImageView;
+    @FXML
+    private ImageView outboxReadMailImageView;
+    @FXML
+    private ImageView outboxNewImageView;
+    @FXML
+    private ImageView outboxDeleteImageView;
+    @FXML
+    private ImageView outboxRefreshImageView;
+    @FXML
+    private ImageView statusRefreshImageView;
+    @FXML
+    private ImageView termNewImageView;
+    @FXML
+    private ImageView termEditImageView;
+    @FXML
+    private ImageView termDeleteImageView;
+    @FXML
+    private ImageView termRefreshImageView;
 
     public DashboardLayoutController() throws IOException
     {
@@ -199,8 +226,8 @@ public class DashboardLayoutController implements Initializable
         dashboardInboxReadMailDialogStage.initOwner(JClassChin.getMainStage());
         dashboardInboxReadMailDialogStage.setResizable(false);
         dashboardInboxReadMailDialogStage.initStyle(StageStyle.UTILITY);
-        dashboardInboxReadMailDialogController =  dashboardInboxReadMailDialogLoader.getController();
-        
+        dashboardInboxReadMailDialogController = dashboardInboxReadMailDialogLoader.getController();
+
         /* Inbox New Dialog   */
         dashboardInboxNewMailDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardInboxNewDialog.fxml"));
@@ -213,6 +240,7 @@ public class DashboardLayoutController implements Initializable
         dashboardInboxNewMailDialogStage.initOwner(JClassChin.getMainStage());
         dashboardInboxNewMailDialogStage.setResizable(false);
         dashboardInboxNewMailDialogStage.initStyle(StageStyle.UTILITY);
+
 
         /* Inbox Reply Dialog */
         dashboardInboxReplyMailDialogLoader
@@ -227,6 +255,7 @@ public class DashboardLayoutController implements Initializable
         dashboardInboxReplyMailDialogStage.setResizable(false);
         dashboardInboxReplyMailDialogStage.initStyle(StageStyle.UTILITY);
 
+
         /* Inbox Delete Dialog */
         dashboardInboxDeleteMailDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardInboxDeleteDialog.fxml"));
@@ -239,8 +268,7 @@ public class DashboardLayoutController implements Initializable
         dashboardInboxDeleteMailDialogStage.initOwner(JClassChin.getMainStage());
         dashboardInboxDeleteMailDialogStage.setResizable(false);
         dashboardInboxDeleteMailDialogStage.initStyle(StageStyle.UTILITY);
-        
-        
+
         /* Outbox Read Dialog   */
         dashboardOutboxReadMailDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardOutboxReadDialog.fxml"));
@@ -253,8 +281,8 @@ public class DashboardLayoutController implements Initializable
         dashboardOutboxReadMailDialogStage.initOwner(JClassChin.getMainStage());
         dashboardOutboxReadMailDialogStage.setResizable(false);
         dashboardOutboxReadMailDialogStage.initStyle(StageStyle.UTILITY);
-        dashboardOutboxReadMailDialogController =  dashboardOutboxReadMailDialogLoader.getController();
-        
+        dashboardOutboxReadMailDialogController = dashboardOutboxReadMailDialogLoader.getController();
+
         /* Outbox Delete Dialog */
         dashboardOutboxDeleteMailDialogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardOutboxDeleteDialog.fxml"));
@@ -267,6 +295,7 @@ public class DashboardLayoutController implements Initializable
         dashboardOutboxDeleteMailDialogStage.initOwner(JClassChin.getMainStage());
         dashboardOutboxDeleteMailDialogStage.setResizable(false);
         dashboardOutboxDeleteMailDialogStage.initStyle(StageStyle.UTILITY);
+
 
         /* Term New Dialog */
         dashboardTermNewDailogLoader
@@ -281,6 +310,7 @@ public class DashboardLayoutController implements Initializable
         dashboardTermNewDailogStage.setResizable(false);
         dashboardTermNewDailogStage.initStyle(StageStyle.UTILITY);
 
+
         /* Term Edit Dialog */
         dashboardTermEditDailogLoader
                 = new FXMLLoader(JClassChin.class.getResource("view/DashboardTermEditDialog.fxml"));
@@ -293,6 +323,7 @@ public class DashboardLayoutController implements Initializable
         dashboardTermEditDailogStage.initOwner(JClassChin.getMainStage());
         dashboardTermEditDailogStage.setResizable(false);
         dashboardTermEditDailogStage.initStyle(StageStyle.UTILITY);
+
 
         /* Term Delete Dialog */
         dashboardTermDeleteDailogLoader
@@ -315,23 +346,62 @@ public class DashboardLayoutController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        inboxTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+        outboxTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+        termTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+        statusTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+    }
 
+    //__________________________________________________________________________
+    // INBOX
+    //__________________________________________________________________________
+    @FXML
+    private void readHBoxOnMouseExited(MouseEvent event)
+    {
+        inboxReadMailImageView.setImage(new Image("jclasschin/gallery/image/readMailButton.png"));
+
+    }
+
+    @FXML
+    private void readHBoxOnMouseEntered(MouseEvent event)
+    {
+        inboxReadMailImageView.setImage(new Image("jclasschin/gallery/image/readMailButtonHover.png"));
+    }
+
+    @FXML
+    private void readHBoxOnMouseClicked(MouseEvent event)
+    {
+        inboxReadMailImageView.setImage(new Image("jclasschin/gallery/image/readMailButtonActive.png"));
+        if (inboxTableView.getSelectionModel().getSelectedIndex() != -1)
+        {
+            Mail m = inboxTableView.getSelectionModel().getSelectedItem();
+            dashboardInboxReadMailDialogController.setDashboardInboxReadDialogStage(dashboardInboxReadMailDialogStage);
+            dashboardInboxReadMailDialogController.setMail(m);
+            dashboardInboxReadMailDialogController.initDialog();
+            dashboardInboxReadMailDialogStage.showAndWait();
+        } else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
+        }
     }
 
     @FXML
     private void newHBoxOnMouseExited(MouseEvent event)
     {
-
+        inboxNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
     }
 
     @FXML
     private void newHBoxOnMouseEntered(MouseEvent event)
     {
+        inboxNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
     }
 
     @FXML
     private void newHBoxOnMouseClicked(MouseEvent event)
     {
+        inboxNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
+
         dashboardInboxNewMailDialogController = dashboardInboxNewMailDialogLoader.getController();
         dashboardInboxNewMailDialogController.initialize(null, null);
         dashboardInboxNewMailDialogController.setDashboardIboxNewDialogStage(dashboardInboxNewMailDialogStage);
@@ -345,16 +415,21 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void replyHBoxOnMouseExited(MouseEvent event)
     {
+        inboxReplyImageView.setImage(new Image("jclasschin/gallery/image/replyButton.png"));
+
     }
 
     @FXML
     private void replyHBoxOnMouseEntered(MouseEvent event)
     {
+        inboxReplyImageView.setImage(new Image("jclasschin/gallery/image/replyButtonHover.png"));
     }
 
     @FXML
     private void replyHBoxOnMouseClicked(MouseEvent event)
     {
+        inboxReplyImageView.setImage(new Image("jclasschin/gallery/image/replyButtonActive.png"));
+
         if (inboxTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Mail m = inboxTableView.getSelectionModel().getSelectedItem();
@@ -367,21 +442,30 @@ public class DashboardLayoutController implements Initializable
 
             updateInboxTableView();
             updateOutboxTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
         }
     }
 
     @FXML
+    private void deleteHBoxOnMouseExited(MouseEvent event)
+    {
+        inboxDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
     private void deleteHBoxOnMouseEntered(MouseEvent event)
     {
+        inboxDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
     }
 
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
+
+        inboxDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (inboxTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Mail m = inboxTableView.getSelectionModel().getSelectedItem();
@@ -393,8 +477,7 @@ public class DashboardLayoutController implements Initializable
 
             updateInboxTableView();
             updateOutboxTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
         }
@@ -403,16 +486,19 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void refreshHBoxMouseExited(MouseEvent event)
     {
+        inboxRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButton.png"));
     }
 
     @FXML
     private void refreshHBoxMouseEntered(MouseEvent event)
     {
+        inboxRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonHover.png"));
     }
 
     @FXML
     private void refreshHBoxOnMouseClicked(MouseEvent event)
     {
+        inboxRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonActive.png"));
         /* Refersh mail inbox table */
         updateInboxTableView();
         updateOutboxTableView();
@@ -420,20 +506,77 @@ public class DashboardLayoutController implements Initializable
         MainLayoutController.statusProperty.setValue("صندوق نامه های دریافتی بروز شد.");
     }
 
+    public void updateInboxTableView()
+    {
+        MailManager um = new MailManager();
+        List l = um.selectForInbox();
+        ObservableList<Mail> mailList = FXCollections.observableArrayList();
+        idTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        senderTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getPersonBySenderPersonId().getFirstName() + " " + m.getValue().getPersonBySenderPersonId().getLastName()));
+        dateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getDate()));
+        subjectTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getType()));
+        messegeTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getText()));
+
+        l.stream().forEach((m) ->
+        {
+            mailList.add((Mail) m);
+
+        });
+
+        inboxTableView.setItems(mailList);
+    }
+
+    //__________________________________________________________________________
+    // OUTBOX
+    //__________________________________________________________________________
+    @FXML
+    private void readHBox2OnMouseExited(MouseEvent event)
+    {
+        outboxReadMailImageView.setImage(new Image("jclasschin/gallery/image/readMailButton.png"));
+
+    }
+
+    @FXML
+    private void readHBox2OnMouseEntered(MouseEvent event)
+    {
+        outboxReadMailImageView.setImage(new Image("jclasschin/gallery/image/readMailButtonHover.png"));
+    }
+
+    @FXML
+    private void readHBox2OnMouseClicked(MouseEvent event)
+    {
+        outboxReadMailImageView.setImage(new Image("jclasschin/gallery/image/readMailButtonActive.png"));
+        if (outboxTableView.getSelectionModel().getSelectedIndex() != -1)
+        {
+            Mail m = outboxTableView.getSelectionModel().getSelectedItem();
+            dashboardOutboxReadMailDialogController.setDashboardOutboxReadDialogStage(dashboardOutboxReadMailDialogStage);
+            dashboardOutboxReadMailDialogController.setMail(m);
+            dashboardOutboxReadMailDialogController.initDialog();
+            dashboardOutboxReadMailDialogStage.showAndWait();
+        } else
+        {
+            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
+        }
+    }
+
     @FXML
     private void new2HBoxOnMouseExited(MouseEvent event)
     {
-
+        outboxNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
     }
 
     @FXML
     private void new2HBoxOnMouseEntered(MouseEvent event)
     {
+        outboxNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
     }
 
     @FXML
     private void new2HBoxOnMouseClicked(MouseEvent event)
     {
+        outboxNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
+
         dashboardInboxNewMailDialogController = dashboardInboxNewMailDialogLoader.getController();
         dashboardInboxNewMailDialogController.initialize(null, null);
         dashboardInboxNewMailDialogController.setDashboardIboxNewDialogStage(dashboardInboxNewMailDialogStage);
@@ -447,17 +590,19 @@ public class DashboardLayoutController implements Initializable
     @FXML
     private void delete2HBoxOnMouseExited(MouseEvent event)
     {
-
+        outboxDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
     }
 
     @FXML
     private void delete2HBoxOnMouseEntered(MouseEvent event)
     {
+        outboxDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
     }
 
     @FXML
     private void delete2HBoxOnMouseClicked(MouseEvent event)
     {
+        outboxDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (outboxTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Mail m = outboxTableView.getSelectionModel().getSelectedItem();
@@ -469,26 +614,78 @@ public class DashboardLayoutController implements Initializable
 
             updateInboxTableView();
             updateOutboxTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
         }
     }
 
     @FXML
+    private void refresh3HBoxMouseExited(MouseEvent event)
+    {
+        outboxRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButton.png"));
+    }
+
+    @FXML
+    private void refresh3HBoxMouseEntered(MouseEvent event)
+    {
+        outboxRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonHover.png"));
+
+    }
+
+    @FXML
+    private void refresh3HBoxOnMouseClicked(MouseEvent event)
+    {
+        outboxRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonActive.png"));
+
+        /* Refersh mail outbox table */
+        updateOutboxTableView();
+        updateInboxTableView();
+        updateStatusTableView();
+        MainLayoutController.statusProperty.setValue("صندوق نامه های ارسالی بروز شد.");
+    }
+
+    public void updateOutboxTableView()
+    {
+        MailManager um = new MailManager();
+        List l = um.selectForOutbox();
+        ObservableList<Mail> mailList = FXCollections.observableArrayList();
+        outboxIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        outboxReceiverTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getPersonByReceiverPersonId().getFirstName() + " " + m.getValue().getPersonByReceiverPersonId().getLastName()));
+        outboxDateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getDate()));
+        outboxSubjectTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getType()));
+        outboxMessegeTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getText()));
+
+        l.stream().forEach((m) ->
+        {
+            mailList.add((Mail) m);
+
+        });
+        outboxTableView.setItems(mailList);
+    }
+
+    //__________________________________________________________________________
+    // STATUS
+    //__________________________________________________________________________
+    @FXML
     private void refresh2HBoxOnMouseExited(MouseEvent event)
     {
+        statusRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButton.png"));
+
     }
 
     @FXML
     private void refresh2HBoxOnMouseEntered(MouseEvent event)
     {
+        statusRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonHover.png"));
+
     }
 
     @FXML
     private void refresh2HBoxOnMouseClicked(MouseEvent event)
     {
+        statusRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonActive.png"));
+
         /* Refersh status table */
         updateStatusTableView();
         updateInboxTableView();
@@ -497,9 +694,50 @@ public class DashboardLayoutController implements Initializable
 
     }
 
+    public void updateStatusTableView()
+    {
+        StatusManager statusManager = new StatusManager();
+        List l = statusManager.selectAllByTerm(CtacssManager.currentTerm.getName());
+
+        ObservableList<Status> statusList = FXCollections.observableArrayList();
+        statusIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        statusFieldTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getField().getName()));
+        //statusTermTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getTerm().getName()));
+        statusLastUpdateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getLastUpdate()));
+        statusStateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, Boolean> s) ->
+        {
+            return new ReadOnlyObjectWrapper(s.getValue().getState() ? "تایید شده" : "تایید نشده");
+        });
+
+        l.stream().forEach((s) ->
+        {
+            statusList.add((Status) s);
+
+        });
+        statusTableView.setItems(statusList);
+    }
+
+    //__________________________________________________________________________
+    // TERM
+    //__________________________________________________________________________
+    @FXML
+    private void newTermHBoxOnMouseExited(MouseEvent event)
+    {
+        termNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+    }
+
+    @FXML
+    private void newTermHBoxOnMouseEntered(MouseEvent event)
+    {
+        termNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
     @FXML
     private void newTermHBoxOnMouseClicked(MouseEvent event)
     {
+        termNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
+
         dashboardTermNewDialogController = dashboardTermNewDailogLoader.getController();
         dashboardTermNewDialogController.initialize(null, null);
         dashboardTermNewDialogController.setDashboardTermNewDialogStage(dashboardTermNewDailogStage);
@@ -510,8 +748,23 @@ public class DashboardLayoutController implements Initializable
     }
 
     @FXML
+    private void editTermHBoxOnMouseExited(MouseEvent event)
+    {
+        termEditImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void editTermHBoxOnMouseEntered(MouseEvent event)
+    {
+        termEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
     private void editTermHBoxOnMouseClicked(MouseEvent event)
     {
+        termEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
         if (termTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Term t = termTableView.getSelectionModel().getSelectedItem();
@@ -524,16 +777,30 @@ public class DashboardLayoutController implements Initializable
             dashboardTermEditDailogStage.showAndWait();
 
             updateTermTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک ترم را انتخاب نمایید.");
         }
     }
 
     @FXML
+    private void deleteTermHBoxOnMouseExited(MouseEvent event)
+    {
+        termDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteTermHBoxOnMouseEntered(MouseEvent event)
+    {
+        termDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
+    }
+
+    @FXML
     private void deleteTermHBoxOnMouseClicked(MouseEvent event)
     {
+        termDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (termTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Term t = termTableView.getSelectionModel().getSelectedItem();
@@ -544,10 +811,42 @@ public class DashboardLayoutController implements Initializable
             dashboardTermDeleteDailogStage.showAndWait();
 
             updateTermTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک ترم را انتخاب نمایید.");
+        }
+    }
+
+    @FXML
+    private void refresh4HBoxMouseExited(MouseEvent event)
+    {
+        termRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButton.png"));
+
+    }
+
+    @FXML
+    private void refresh4HBoxMouseEntered(MouseEvent event)
+    {
+        termRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonHover.png"));
+
+    }
+
+    @FXML
+    private void refresh4HBoxOnMouseClicked(MouseEvent event)
+    {
+        termRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonActive.png"));
+        CtacssManager cm = new CtacssManager();
+        if (currentTermComboBox.getValue() == null ? CtacssManager.currentTerm.getName() != null : !currentTermComboBox.getValue().equals(CtacssManager.currentTerm.getName()))
+        {
+            cm.updateCurrentTerm(currentTermComboBox.getValue());
+            System.out.println(CtacssManager.currentTerm.getName());
+            MainLayoutController.statusProperty.setValue("ترم جاری سیستم بروز شد.");
+            MainLayoutController.currentTermProperty.setValue(currentTermComboBox.getValue());
+
+            updateInboxTableView();
+            updateOutboxTableView();
+            updateStatusTableView();
+            //updateTermTableView();
         }
     }
 
@@ -577,196 +876,6 @@ public class DashboardLayoutController implements Initializable
         new CtacssManager().initCurrentTerm();
         currentTermComboBox.setValue(CtacssManager.currentTerm.getName());
         MainLayoutController.currentTermProperty.setValue(currentTermComboBox.getValue());
-    }
-
-    public void updateInboxTableView()
-    {
-        MailManager um = new MailManager();
-        List l = um.selectForInbox();
-        ObservableList<Mail> mailList = FXCollections.observableArrayList();
-        idTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        senderTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getPersonBySenderPersonId().getFirstName() + " " + m.getValue().getPersonBySenderPersonId().getLastName()));
-        dateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getDate()));
-        subjectTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getType()));
-        messegeTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getText()));
-
-        l.stream().forEach((m) ->
-        {
-            mailList.add((Mail) m);
-
-        });
-
-        inboxTableView.setItems(mailList);
-    }
-
-    public void updateOutboxTableView()
-    {
-        MailManager um = new MailManager();
-        List l = um.selectForOutbox();
-        ObservableList<Mail> mailList = FXCollections.observableArrayList();
-        outboxIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        outboxReceiverTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getPersonByReceiverPersonId().getFirstName() + " " + m.getValue().getPersonByReceiverPersonId().getLastName()));
-        outboxDateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getDate()));
-        outboxSubjectTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getType()));
-        outboxMessegeTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Mail, String> m) -> new ReadOnlyObjectWrapper(m.getValue().getText()));
-
-        l.stream().forEach((m) ->
-        {
-            mailList.add((Mail) m);
-
-        });
-        outboxTableView.setItems(mailList);
-    }
-
-    public void updateStatusTableView()
-    {
-        StatusManager statusManager = new StatusManager();
-        List l = statusManager.selectAllByTerm(CtacssManager.currentTerm.getName());
-
-        ObservableList<Status> statusList = FXCollections.observableArrayList();
-        statusIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        statusFieldTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getField().getName()));
-        //statusTermTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getTerm().getName()));
-        statusLastUpdateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, String> s) -> new ReadOnlyObjectWrapper(s.getValue().getLastUpdate()));
-        statusStateTableColumn.setCellValueFactory((TableColumn.CellDataFeatures<Status, Boolean> s) ->
-        {
-            return new ReadOnlyObjectWrapper(s.getValue().getState() ? "تایید شده" : "تایید نشده");
-        });
-
-        l.stream().forEach((s) ->
-        {
-            statusList.add((Status) s);
-
-        });
-        statusTableView.setItems(statusList);
-    }
-
-    @FXML
-    private void currentTermComboBoxOnInputMethodTextChanged(InputMethodEvent event)
-    {
-
-    }
-
-    @FXML
-    private void currentTermComboBoxOnAction(ActionEvent event)
-    {
-    }
-
-    @FXML
-    private void currentTermComboBoxOnContextMenuRequested(ContextMenuEvent event)
-    {
-    }
-
-    @FXML
-    private void termTabOnClose(Event event)
-    {
-    }
-
-    @FXML
-    private void termTabOnSelectionChanged(Event event)
-    {
-    }
-
-    @FXML
-    private void refresh3HBoxMouseExited(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void refresh3HBoxMouseEntered(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void refresh3HBoxOnMouseClicked(MouseEvent event)
-    {
-        /* Refersh mail outbox table */
-        updateOutboxTableView();
-        updateInboxTableView();
-        updateStatusTableView();
-        MainLayoutController.statusProperty.setValue("صندوق نامه های ارسالی بروز شد.");
-    }
-
-    @FXML
-    private void refresh4HBoxMouseExited(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void refresh4HBoxMouseEntered(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void refresh4HBoxOnMouseClicked(MouseEvent event)
-    {
-        CtacssManager cm = new CtacssManager();
-        if (currentTermComboBox.getValue() == null ? CtacssManager.currentTerm.getName() != null : !currentTermComboBox.getValue().equals(CtacssManager.currentTerm.getName()))
-        {
-            cm.updateCurrentTerm(currentTermComboBox.getValue());
-            System.out.println(CtacssManager.currentTerm.getName());
-            MainLayoutController.statusProperty.setValue("ترم جاری سیستم بروز شد.");
-            MainLayoutController.currentTermProperty.setValue(currentTermComboBox.getValue());
-
-            updateInboxTableView();
-            updateOutboxTableView();
-            updateStatusTableView();
-            //updateTermTableView();
-        }
-    }
-
-    @FXML
-    private void readHBoxOnMouseExited(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void readHBoxOnMouseEntered(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void readHBoxOnMouseClicked(MouseEvent event)
-    {
-        if(inboxTableView.getSelectionModel().getSelectedIndex() !=-1)
-        {
-            Mail m = inboxTableView.getSelectionModel().getSelectedItem();
-            dashboardInboxReadMailDialogController.setDashboardInboxReadDialogStage(dashboardInboxReadMailDialogStage);
-            dashboardInboxReadMailDialogController.setMail(m);
-            dashboardInboxReadMailDialogController.initDialog();
-            dashboardInboxReadMailDialogStage.showAndWait();
-        }
-        else
-        {
-            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
-        }
-    }
-
-    @FXML
-    private void readHBox2OnMouseExited(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void readHBox2OnMouseEntered(MouseEvent event)
-    {
-    }
-
-    @FXML
-    private void readHBox2OnMouseClicked(MouseEvent event)
-    {
-        if(outboxTableView.getSelectionModel().getSelectedIndex() !=-1)
-        {
-            Mail m = outboxTableView.getSelectionModel().getSelectedItem();
-            dashboardOutboxReadMailDialogController.setDashboardOutboxReadDialogStage(dashboardOutboxReadMailDialogStage);
-            dashboardOutboxReadMailDialogController.setMail(m);
-            dashboardOutboxReadMailDialogController.initDialog();
-            dashboardOutboxReadMailDialogStage.showAndWait();
-        }
-        else
-        {
-            MainLayoutController.statusProperty.setValue("یک نامه را انتخاب نمایید.");
-        }
     }
 
 }

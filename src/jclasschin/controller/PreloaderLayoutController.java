@@ -26,6 +26,7 @@ package jclasschin.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +34,8 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import jclasschin.JClassChin;
+import jclasschin.model.FieldManager;
+import jclasschin.model.TermManager;
 import jclasschin.util.Effect;
 
 /**
@@ -50,11 +53,16 @@ public class PreloaderLayoutController implements Initializable
     private AnchorPane loginLayout;
     private LoginLayoutController loginLayoutController;
 
+    private TermManager termManager;
+    private FieldManager fieldManager;
+//
+    public static boolean loadingTaskEndFlag=false;
+//    public static boolean progressIndicatorTaskEndFlag=false;
+
 //    private FXMLLoader mainLayoutLoader;
 //    private BorderPane mainLayout;
 //    private MainLayoutController mainLayoutController;
-    @FXML
-    private ProgressIndicator progressIndicator;
+
 
     public PreloaderLayoutController() throws IOException
     {
@@ -66,6 +74,13 @@ public class PreloaderLayoutController implements Initializable
         loginLayout = (AnchorPane) loginLayoutLoader.load();
         loginLayoutController = loginLayoutLoader.getController();
 
+        termManager = new TermManager();
+        fieldManager = new FieldManager();
+        
+//
+//        loadingTaskEndFlag = false;
+//        progressIndicatorTaskEndFlag = false;
+
     }
 
     /**
@@ -75,7 +90,6 @@ public class PreloaderLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
-        progressIndicator.setProgress(0.001F);
     }
 
     public void start()
@@ -83,7 +97,7 @@ public class PreloaderLayoutController implements Initializable
         new Effect().fadeInTransition(loginLayout, 1000);
         objectLayout.setCenter(loginLayout);
         loginLayoutController.setObjectLayout(objectLayout);
-        //loginLayout.getStylesheets().add("..\gallery\css\CSS.css");
+        loginLayoutController.setLayout(loginLayout);
         loginLayoutController.start();
     }
 
@@ -92,32 +106,42 @@ public class PreloaderLayoutController implements Initializable
         this.objectLayout = objectLayout;
     }
 
-//    public void start() throws InterruptedException {
-//
-//        Task loadingTask = new Task<Void>() {
+    public void startLoading() throws InterruptedException
+    {
+
+        Task loadingTask = new Task<Void>()
+        {
+            @Override
+            public Void call()
+            {
+                System.out.println("TASK 1 STARTED");
+                termManager.selectAll();
+                fieldManager.selectAll();
+                loadingTaskEndFlag = true;
+                System.out.println("TASK 1 FINISHED");
+                return null;
+            }
+        };
+
+//        Task progressIndicatorTask = new Task<Void>()
+//        {
 //            @Override
-//            public Void call() {
-//                System.out.println("TASK 1 STARTED");
-//                TermManager.selectAll();
-//                FieldManager.selectAll();
-//                System.out.println("TASK 1 FINISHED");
-//                return null;
-//            }
-//        };
-//
-//        Task progressIndicatorTask = new Task<Void>() {
-//            @Override
-//            public Void call() throws InterruptedException {
+//            public Void call() throws InterruptedException
+//            {
 //
 //                System.out.println("TASK 2 STARTED");
 //                double max = 10000000;
-//                for (double i = 0; i <= max; i += 0.1) {
-//                    if (isCancelled()) {
+//                for (double i = 0; i <= max; i += 0.1)
+//                {
+//                    if (isCancelled())
+//                    {
 //                        break;
 //                    }
 //
 //                    updateProgress(i, max);
 //                }
+//
+//                progressIndicatorTaskEndFlag = true;
 //                System.out.println("TASK 2 FINISHED");
 //
 //                return null;
@@ -132,29 +156,38 @@ public class PreloaderLayoutController implements Initializable
 //                return null;
 //            }
 //        };
+
 //        progressIndicator.progressProperty().bind(progressIndicatorTask.progressProperty());
+
 //        Thread progressIndicatorThread = new Thread(progressIndicatorTask);
-//        Thread loadingThread = new Thread(loadingTask);
-//        Thread layoutThread = new Thread(layoutTask);
-    //layoutThread.start();
+        Thread loadingThread = new Thread(loadingTask);
+
 //        progressIndicatorThread.start();
-//        loadingThread.start();
-    //PlatformImpl.runAndWait(layoutTask);
+        loadingThread.start();
+        loadingThread.join();
+
+//        while (!loadingTaskEndFlag || !progressIndicatorTaskEndFlag){
+//            System.out.println(!loadingTaskEndFlag || !progressIndicatorTaskEndFlag);
+//        }
+
+//        Thread layoutThread = new Thread(layoutTask);
+//        layoutThread.start();
+//        PlatformImpl.runAndWait(layoutTask);
 //        progressIndicatorThread.wait();
-    //loadingThread.wait();
+//        loadingThread.wait();
 //        progressIndicatorThread.notify();
 //          progressIndicatorThread.join();
-    // pro
-    // Thread.sleep(2000);
-//        //   progressIndicatorThread.start();
+//         pro
+//         Thread.sleep(2000);
+//           progressIndicatorThread.start();
 //        loadingThread.start();
 //        
 //       // layoutThread.join();
 //        //loadingThread.join();
 //       progressIndicatorThread.join();
-    //    layoutThread.join();
-    //progressIndicatorThread.join();
-    // layoutThread.join();
+        //    layoutThread.join();
+        //progressIndicatorThread.join();
+        // layoutThread.join();
 //    public void addProgress() {
 //        progressIndicator.setProgress(progressIndicator.getProgress()+0.000001F);
 //        System.out.println(progressIndicator.getProgress());
@@ -167,4 +200,14 @@ public class PreloaderLayoutController implements Initializable
 //        mainLayoutController.setLayout(mainLayout);
 //        mainLayoutController.start();
 //    }
+    }
+    
+//    public void startProgressIndicator(){
+//        for (double i = 0; i <=1; i+=0.0001)
+//        {
+//            progressIndicator.setProgress(i);
+//            System.out.println(i);
+//        }
+//    }
+
 }

@@ -33,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
@@ -112,19 +113,16 @@ public class ClassScheduleNewDialogController implements Initializable
                     if (j < 10)
                     {
                         majavaTimes.add("0" + i + ":" + "0" + j);
-                    }
-                    else
+                    } else
                     {
                         majavaTimes.add("0" + i + ":" + j);
                     }
-                }
-                else
+                } else
                 {
                     if (j < 10)
                     {
                         majavaTimes.add(i + ":" + "0" + j);
-                    }
-                    else
+                    } else
                     {
                         majavaTimes.add(i + ":" + j);
                     }
@@ -169,16 +167,13 @@ public class ClassScheduleNewDialogController implements Initializable
         if (periodsNumberTextField.getText() == null || "".equals(periodsNumberTextField.getText()))
         {
             MainLayoutController.statusProperty.setValue("یک مقدار برای تعداد بازه ها انتخاب کنید.");
-        }
-        else if (!periodsNumberTextField.getText().matches("\\d*"))
+        } else if (!periodsNumberTextField.getText().matches("\\d*"))
         {
             MainLayoutController.statusProperty.setValue("تعداد بازه ها بایستی عدد صحیح باشد.");
-        }
-        else if (Integer.parseInt(periodsNumberTextField.getText()) < 1 || Integer.parseInt(periodsNumberTextField.getText()) > 24)
+        } else if (Integer.parseInt(periodsNumberTextField.getText()) < 1 || Integer.parseInt(periodsNumberTextField.getText()) > 24)
         {
             MainLayoutController.statusProperty.setValue("تعداد بازه ها بایستی بین 1 و 24 باشد.");
-        }
-        else
+        } else
         {
             periodsGridPane.getChildren().clear();
 
@@ -235,34 +230,29 @@ public class ClassScheduleNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         scheduleManager = new ScheduleManager();
         if (flag)
         {
             if (validationSupport.isInvalid())
             {
                 MainLayoutController.statusProperty.setValue("لطفا کلیه فیلدها را به صورت صحیح وارد نمایید.");
-            }
-            else if (periodsNumberTextField.getText() == null || "".equals(periodsNumberTextField.getText()))
+            } else if (periodsNumberTextField.getText() == null || "".equals(periodsNumberTextField.getText()))
             {
                 MainLayoutController.statusProperty.setValue("یک مقدار برای تعداد بازه ها انتخاب کنید.");
-            }
-            else if (!periodsNumberTextField.getText().matches("\\d*"))
+            } else if (!periodsNumberTextField.getText().matches("\\d*"))
             {
                 MainLayoutController.statusProperty.setValue("تعداد بازه ها بایستی عدد صحیح باشد.");
-            }
-            else if (Integer.parseInt(periodsNumberTextField.getText()) < 1 || Integer.parseInt(periodsNumberTextField.getText()) > 24)
+            } else if (Integer.parseInt(periodsNumberTextField.getText()) < 1 || Integer.parseInt(periodsNumberTextField.getText()) > 24)
             {
                 MainLayoutController.statusProperty.setValue("تعداد بازه ها بایستی بین 1 و 24 باشد.");
-            }
-            else if(Integer.parseInt(periodsNumberTextField.getText())!=periodsNumber)
+            } else if (Integer.parseInt(periodsNumberTextField.getText()) != periodsNumber)
             {
                 MainLayoutController.statusProperty.setValue("متاسفیم! نمی توانید به کلاس چین صدمه بزنید!!!");
-            }
-            else if(scheduleManager.selectByName2(scheduleNameTextField.getText())!=0)
+            } else if (scheduleManager.selectByName2(scheduleNameTextField.getText()) != 0)
             {
                 MainLayoutController.statusProperty.setValue("دوره زمانی با این نام قبلا ثبت شده است.");
-            }
-            else
+            } else
             {
                 String[] startOfPeriod = new String[periodsNumber];
                 String[] endOfPeriod = new String[periodsNumber];
@@ -271,19 +261,17 @@ public class ClassScheduleNewDialogController implements Initializable
                     startOfPeriod[i] = startOfPeriodTextField[i].getText();
                     endOfPeriod[i] = endOfPeriodTextField[i].getText();
                 }
-                
+
                 if (scheduleManager.insert(scheduleNameTextField.getText(), periodsNumber, startOfPeriod, endOfPeriod))
                 {
                     MainLayoutController.statusProperty.setValue("بازه های زمانی با موفقیت تعریف شدند.");
-                }
-                else
+                } else
                 {
                     MainLayoutController.statusProperty.setValue("عملیات ثبت بازه های زمانی جدید با شکست مواجه شد.");
                 }
                 classScheduleNewDialogStage.close();
             }
-        }
-        else
+        } else
         {
             periodsNumberTextFieldOnAction(new ActionEvent());
         }
@@ -293,6 +281,7 @@ public class ClassScheduleNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات ثبت بازه های زمانی جدید لغو شد.");
         classScheduleNewDialogStage.close();
     }
@@ -311,6 +300,34 @@ public class ClassScheduleNewDialogController implements Initializable
     public void setClassScheduleNewDialogStage(Stage classScheduleNewDialogStage)
     {
         this.classScheduleNewDialogStage = classScheduleNewDialogStage;
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
 }

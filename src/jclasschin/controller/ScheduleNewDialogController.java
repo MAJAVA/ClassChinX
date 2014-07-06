@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -95,20 +96,19 @@ public class ScheduleNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         ccm = new CCManager();
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا فیلدهای الزامی را تکمیل نمایید.");
-        }
-        else
+        } else
         {
             int i;
             i = ccm.checkExist(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue());
-            if (i!=0)
+            if (i != 0)
             {
                 MainLayoutController.statusProperty.setValue("متاسفیم. این کلاس در این روز و در این ساعت رزرو شده است.");
-            }
-            else
+            } else
             {
                 if (ccm.insert(dayComboBox.getValue(), classComboBox.getValue(), timeComboBox.getValue(),
                         courseComboBox.getValue(), professorComboBox.getValue()))
@@ -116,8 +116,7 @@ public class ScheduleNewDialogController implements Initializable
                     StatusManager sm = new StatusManager();
                     sm.insert();
                     MainLayoutController.statusProperty.setValue("برنامه جدید ثبت شد.");
-                }
-                else
+                } else
                 {
                     MainLayoutController.statusProperty.setValue("عملیات ثبت برنامه جدید با شکست مواجه شد.");
                 }
@@ -129,6 +128,7 @@ public class ScheduleNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات ثبت برنامه جدید لغو شد.");
         scheduleNewDialogStage.close();
     }
@@ -241,5 +241,33 @@ public class ScheduleNewDialogController implements Initializable
             professorComboBox.getItems().add(((Person) p).getId() + " - " + ((Person) p).getFirstName()
                     + " " + ((Person) p).getLastName());
         });
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 }

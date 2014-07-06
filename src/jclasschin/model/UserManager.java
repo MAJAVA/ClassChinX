@@ -76,8 +76,7 @@ public class UserManager
             session.save(user);
             session.getTransaction().commit();
             return true;
-        }
-        catch (HibernateException he)
+        } catch (HibernateException he)
         {
             return false;
         }
@@ -118,8 +117,7 @@ public class UserManager
 
             session.getTransaction().commit();
             return true;
-        }
-        catch (HibernateException he)
+        } catch (HibernateException he)
         {
             return false;
         }
@@ -135,8 +133,7 @@ public class UserManager
             session.delete(person);
             session.getTransaction().commit();
             return true;
-        }
-        catch (HibernateException he)
+        } catch (HibernateException he)
         {
             return false;
         }
@@ -164,14 +161,12 @@ public class UserManager
 
             session.getTransaction().commit();
             return resultList2;
-        }
-        catch (HibernateException he)
+        } catch (HibernateException he)
         {
             return null;
         }
     }
 
-    
     public User selectByUserNameAndPassWord(String userName, String passWord)
     {
         try
@@ -179,30 +174,37 @@ public class UserManager
             session = (Session) HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             Query q = session.createQuery("from User u where u.username=:un and u.password=:pass and u.state=true");
-            
+
             q.setParameter("un", userName);
-            q.setParameter("pass",passWord );
+            q.setParameter("pass", passWord);
             //q.setParameter("s", "true");
             List resultList = q.list();
             session.getTransaction().commit();
             //session.disconnect();
-           // session.close();
-            user = (User) resultList.get(0);
-            System.out.println(user.getPerson().getField().getName());
+            // session.close();
+            if (resultList.isEmpty())
+            {
+                user = null;
+            } else
+            {
+                user = (User) resultList.get(0);
+            }
             return user;
-        }
-        catch (HibernateException he)
+        } catch (HibernateException he)
         {
             //User u0 = new User();
             return null;
-        }
-        finally
-        {
-            session.close();
-            
-        }
+        } 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
+
+//        finally
+//        {
+//            session.close();
+//
+//        }
 
     }
+
     public User selectByUserName(String userName)
     {
         try
@@ -216,12 +218,11 @@ public class UserManager
             List resultList = q.list();
             session.getTransaction().commit();
             //session.disconnect();
-           // session.close();
+            // session.close();
             user = (User) resultList.get(0);
             System.out.println(user.getPerson().getFirstName());
             return user;
-        }
-        catch (HibernateException he)
+        } catch (HibernateException he)
         {
             //User u0 = new User();
             return null;

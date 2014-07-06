@@ -56,7 +56,7 @@
          </children>
       </GridPane>
     <HBox id="HBox" alignment="CENTER" layoutX="83.0" layoutY="348.0" spacing="40.0" />
-  <HBox id="HBox" fx:id="closeHBox" alignment="CENTER" layoutX="160.0" layoutY="336.0" onMouseClicked="#closeHboxOnMouseClicked" spacing="10.0">
+  <HBox id="HBox" fx:id="closeHBox" alignment="CENTER" layoutX="160.0" layoutY="336.0" onMouseClicked="#closeHboxOnMouseClicked" onMouseEntered="#closeHboxOnMouseEntered" onMouseExited="#closeHboxOnMouseExited" spacing="10.0">
     <children>
       <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
         <image>

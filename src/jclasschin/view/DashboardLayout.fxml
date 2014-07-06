@@ -31,7 +31,7 @@
                       <children>
                                     <HBox id="HBox" fx:id="readHBox" alignment="CENTER" onMouseClicked="#readHBoxOnMouseClicked" onMouseEntered="#readHBoxOnMouseEntered" onMouseExited="#readHBoxOnMouseExited" spacing="10.0">
                                        <children>
-                                          <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                          <ImageView id="addButton" fx:id="inboxReadMailImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                                              <image>
                                                 <Image url="@../gallery/image/readMailButton.png" />
                                              </image>
@@ -41,7 +41,7 @@
                                     </HBox>
                         <HBox id="HBox" fx:id="newHBox" alignment="CENTER" onMouseClicked="#newHBoxOnMouseClicked" onMouseEntered="#newHBoxOnMouseEntered" onMouseExited="#newHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="addButton" fx:id="inboxNewImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/addButton.png" />
                               </image>
@@ -51,7 +51,7 @@
                         </HBox>
                         <HBox id="HBox" fx:id="replyHBox" alignment="CENTER" onMouseClicked="#replyHBoxOnMouseClicked" onMouseEntered="#replyHBoxOnMouseEntered" onMouseExited="#replyHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="replyButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="replyButton" fx:id="inboxReplyImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/replyButton.png" />
                               </image>
@@ -59,9 +59,9 @@
                             <Label text="پاسخ" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" fx:id="deleteHBox" alignment="CENTER" onMouseClicked="#deleteHBoxOnMouseClicked" onMouseEntered="#deleteHBoxOnMouseEntered" onMouseExited="#replyHBoxOnMouseExited" spacing="10.0">
+                        <HBox id="HBox" fx:id="deleteHBox" alignment="CENTER" onMouseClicked="#deleteHBoxOnMouseClicked" onMouseEntered="#deleteHBoxOnMouseEntered" onMouseExited="#deleteHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="deleteButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
+                            <ImageView id="deleteButton" fx:id="inboxDeleteImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/deleteButton.png" />
                               </image>
@@ -73,7 +73,7 @@
                     </HBox>
                     <HBox id="HBox" fx:id="refreshHBox" alignment="CENTER" onMouseClicked="#refreshHBoxOnMouseClicked" onMouseEntered="#refreshHBoxMouseEntered" onMouseExited="#refreshHBoxMouseExited" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                       <children>
-                        <ImageView id="refreshButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                        <ImageView id="refreshButton" fx:id="inboxRefreshImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                           <image>
                             <Image preserveRatio="true" smooth="true" url="@../gallery/image/refreshButton.png" />
                           </image>
@@ -108,7 +108,7 @@
                       <children>
                                     <HBox id="HBox" fx:id="readHBox2" alignment="CENTER" onMouseClicked="#readHBox2OnMouseClicked" onMouseEntered="#readHBox2OnMouseEntered" onMouseExited="#readHBox2OnMouseExited" spacing="10.0">
                                        <children>
-                                          <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                          <ImageView id="addButton" fx:id="outboxReadMailImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                                              <image>
                                                 <Image url="@../gallery/image/readMailButton.png" />
                                              </image>
@@ -118,7 +118,7 @@
                                     </HBox>
                         <HBox id="HBox" fx:id="new2HBox" alignment="CENTER" onMouseClicked="#new2HBoxOnMouseClicked" onMouseEntered="#new2HBoxOnMouseEntered" onMouseExited="#new2HBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="addButton" fx:id="outboxNewImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/addButton.png" />
                               </image>
@@ -128,7 +128,7 @@
                         </HBox>
                         <HBox id="HBox" fx:id="delete2HBox" alignment="CENTER" onMouseClicked="#delete2HBoxOnMouseClicked" onMouseEntered="#delete2HBoxOnMouseEntered" onMouseExited="#delete2HBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="deleteButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
+                            <ImageView id="deleteButton" fx:id="outboxDeleteImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/deleteButton.png" />
                               </image>
@@ -140,7 +140,7 @@
                     </HBox>
                               <HBox id="HBox" fx:id="refresh3HBox" alignment="CENTER" layoutX="844.0" layoutY="14.0" onMouseClicked="#refresh3HBoxOnMouseClicked" onMouseEntered="#refresh3HBoxMouseEntered" onMouseExited="#refresh3HBoxMouseExited" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                                  <children>
-                                    <ImageView id="refreshButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                    <ImageView id="refreshButton" fx:id="outboxRefreshImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                                        <image>
                                           <Image preserveRatio="true" smooth="true" url="@../gallery/image/refreshButton.png" />
                                        </image>
@@ -173,7 +173,7 @@
                     <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="15.0" spacing="30.0" />
                     <HBox id="HBox" fx:id="refresh2HBox" alignment="CENTER" onMouseClicked="#refresh2HBoxOnMouseClicked" onMouseEntered="#refresh2HBoxOnMouseEntered" onMouseExited="#refresh2HBoxOnMouseExited" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                       <children>
-                        <ImageView id="refreshButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                        <ImageView id="refreshButton" fx:id="statusRefreshImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                           <image>
                             <Image preserveRatio="true" smooth="true" url="@../gallery/image/refreshButton.png" />
                           </image>
@@ -187,7 +187,7 @@
             </BorderPane>
           </content>
         </Tab>
-        <Tab fx:id="termTab" onClosed="#termTabOnClose" onSelectionChanged="#termTabOnSelectionChanged" text="ترم">
+        <Tab fx:id="termTab" text="ترم">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
@@ -203,9 +203,9 @@
                   <children>
                     <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
                       <children>
-                        <HBox id="HBox" fx:id="newTermHBox" alignment="CENTER" onMouseClicked="#newTermHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" fx:id="newTermHBox" alignment="CENTER" onMouseClicked="#newTermHBoxOnMouseClicked" onMouseEntered="#newTermHBoxOnMouseEntered" onMouseExited="#newTermHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="addButton" fx:id="termNewImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/addButton.png" />
                               </image>
@@ -213,9 +213,9 @@
                             <Label text="جدید" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" fx:id="editTermHBox" alignment="CENTER" onMouseClicked="#editTermHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" fx:id="editTermHBox" alignment="CENTER" onMouseClicked="#editTermHBoxOnMouseClicked" onMouseEntered="#editTermHBoxOnMouseEntered" onMouseExited="#editTermHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="replyButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="replyButton" fx:id="termEditImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/editButton.png" />
                               </image>
@@ -223,9 +223,9 @@
                             <Label text="ویرایش" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" fx:id="deleteTermHBox" alignment="CENTER" onMouseClicked="#deleteTermHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" fx:id="deleteTermHBox" alignment="CENTER" onMouseClicked="#deleteTermHBoxOnMouseClicked" onMouseEntered="#deleteTermHBoxOnMouseEntered" onMouseExited="#deleteTermHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="deleteButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
+                            <ImageView id="deleteButton" fx:id="termDeleteImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/deleteButton.png" />
                               </image>
@@ -236,7 +236,7 @@
                       </children>
                     </HBox>
                     <HBox id="HBox" alignment="CENTER" layoutX="774.0" layoutY="14.5" spacing="10.0" AnchorPane.bottomAnchor="31.5" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.5" />
-                  <ComboBox fx:id="currentTermComboBox" layoutX="680.0" layoutY="21.0" onAction="#currentTermComboBoxOnAction" onContextMenuRequested="#currentTermComboBoxOnContextMenuRequested" onInputMethodTextChanged="#currentTermComboBoxOnInputMethodTextChanged" prefHeight="30.0" prefWidth="141.0">
+                  <ComboBox fx:id="currentTermComboBox" layoutX="676.0" layoutY="15.0" prefHeight="42.0" prefWidth="141.0">
                     <items>
                       <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Item 1" />
@@ -245,10 +245,10 @@
                       </FXCollections>
                     </items>
                   </ComboBox>
-                  <Label layoutX="604.0" layoutY="27.0" text="ترم جاری" />
+                  <Label layoutX="582.0" layoutY="22.0" text="ترم جاری :" />
                               <HBox id="HBox" fx:id="refresh4HBox" alignment="CENTER" layoutX="859.0" layoutY="16.0" onMouseClicked="#refresh4HBoxOnMouseClicked" onMouseEntered="#refresh4HBoxMouseEntered" onMouseExited="#refresh4HBoxMouseExited" spacing="10.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                                  <children>
-                                    <ImageView id="refreshButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                    <ImageView id="refreshButton" fx:id="termRefreshImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                                        <image>
                                           <Image preserveRatio="true" smooth="true" url="@../gallery/image/refreshButton.png" />
                                        </image>

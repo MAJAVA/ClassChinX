@@ -30,6 +30,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -66,6 +67,7 @@ public class GroupsCoursesNewDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -78,18 +80,17 @@ public class GroupsCoursesNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا فیلدهای الزامی را پر نمایید.");
-        }
-        else
+        } else
         {
             CourseManager cm = new CourseManager();
-            if(cm.insert(nameTextField.getText(), typeComboBox.getValue()))
+            if (cm.insert(nameTextField.getText(), typeComboBox.getValue()))
             {
                 MainLayoutController.statusProperty.setValue("درس جدید با موفقیت افزوده شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات ثبت درس جدید با شکست مواجه شد.");
             }
@@ -101,6 +102,7 @@ public class GroupsCoursesNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات ثبت درس جدید لغو شد.");
         groupsCoursesNewDialog.close();
     }
@@ -135,5 +137,33 @@ public class GroupsCoursesNewDialogController implements Initializable
 
         validationSupport.registerValidator(nameTextField, Validator.createEmptyValidator("عنوان درس الزامی است"));
         validationSupport.registerValidator(typeComboBox, Validator.createEmptyValidator("نوع درس الزامی است"));
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 }

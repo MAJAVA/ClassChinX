@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -64,6 +65,7 @@ public class FieldsEditDialogController implements Initializable
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -76,30 +78,32 @@ public class FieldsEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseExited(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
 
     }
 
     @FXML
     private void okHBoxOnMouseEntered(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
     }
 
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("نام رشته را وارد نمایید.");
-        }
-        else
+        } else
         {
 
             fieldManager = new FieldManager();
-            if(fieldManager.update(field.getId(), fieldNameTextField.getText()))
+            if (fieldManager.update(field.getId(), fieldNameTextField.getText()))
             {
                 MainLayoutController.statusProperty.setValue("رشته با موفقیت بروزرسانی شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی رشته با شکست مواجه شد.");
             }
@@ -111,16 +115,22 @@ public class FieldsEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseExited(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
     }
 
     @FXML
     private void cancelHBoxOnMouseEntered(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
+
         MainLayoutController.statusProperty.setValue("عملیات بروز رسانی رشته لغو شد.");
         fieldsEditDialogStage.close();
     }
@@ -164,7 +174,7 @@ public class FieldsEditDialogController implements Initializable
         fieldNameTextField.setText(this.field.getName());
         validationSupport.registerValidator(fieldNameTextField,
                 Validator.createEmptyValidator("نام رشته الزامی است"));
-        if(Login.loggedUserField == null ? field.getName() == null : Login.loggedUserField.equals(field.getName()))
+        if (Login.loggedUserField == null ? field.getName() == null : Login.loggedUserField.equals(field.getName()))
         {
             MainLayoutController.statusProperty.setValue("قادر به ویرایش رشته جاری خود نیستید!");
             okHBox.setDisable(true);

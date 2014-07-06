@@ -33,9 +33,9 @@
                   <children>
                     <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
                       <children>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#newClassHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#newClassHBoxOnMouseClicked" onMouseEntered="#newClassHBoxOnMouseEntered" onMouseExited="#newClassHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="addButton" fx:id="classNewImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/addButton.png" />
                               </image>
@@ -43,9 +43,9 @@
                             <Label text="جدید" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#editClassHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#editClassHBoxOnMouseClicked" onMouseEntered="#editClassHBoxOnMouseEntered" onMouseExited="#editClassHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="replyButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="replyButton" fx:id="classEditImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/editButton.png" />
                               </image>
@@ -53,9 +53,9 @@
                             <Label text="ویرایش" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#deleteClassHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#deleteClassHBoxOnMouseClicked" onMouseEntered="#deleteClassHBoxOnMouseEntered" onMouseExited="#deleteClassHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="deleteButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
+                            <ImageView id="deleteButton" fx:id="classDeleteImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/deleteButton.png" />
                               </image>
@@ -89,9 +89,9 @@
                   <children>
                     <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
                       <children>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#newDedicateHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#newDedicateHBoxOnMouseClicked" onMouseEntered="#newDedicateHBoxOnMouseEntered" onMouseExited="#newDedicateHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="addButton" fx:id="dedicationNewImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/addButton.png" />
                               </image>
@@ -99,9 +99,9 @@
                             <Label text="جدید" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#editDedicateHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#editDedicateHBoxOnMouseClicked" onMouseEntered="#editDedicateHBoxOnMouseEntered" onMouseExited="#editDedicateHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="replyButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="replyButton" fx:id="dedicationEditImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/editButton.png" />
                               </image>
@@ -109,9 +109,9 @@
                             <Label text="ویرایش" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#deleteDedicateHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#deleteDedicateHBoxOnMouseClicked" onMouseEntered="#deleteDedicateHBoxOnMouseEntered" onMouseExited="#deleteDedicateHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="deleteButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
+                            <ImageView id="deleteButton" fx:id="dedicationDeleteImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/deleteButton.png" />
                               </image>
@@ -143,11 +143,11 @@
               <top>
                 <AnchorPane prefHeight="71.0" prefWidth="991.0">
                   <children>
-                    <HBox id="HBox" alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="14.0" spacing="30.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                       <children>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#newScheduleHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#newScheduleHBoxOnMouseClicked" onMouseEntered="#newScheduleHBoxOnMouseEntered" onMouseExited="#newScheduleHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="addButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="addButton" fx:id="scheduleNewImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/addButton.png" />
                               </image>
@@ -155,9 +155,9 @@
                             <Label text="جدید" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#editScheduleHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#editScheduleHBoxOnMouseClicked" onMouseEntered="#editScheduleHBoxOnMouseEntered" onMouseExited="#editScheduleHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="replyButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                            <ImageView id="replyButton" fx:id="scheduleEditImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/editButton.png" />
                               </image>
@@ -165,9 +165,9 @@
                             <Label text="ویرایش" />
                           </children>
                         </HBox>
-                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#deleteScheduleHBoxOnMouseClicked" spacing="10.0">
+                        <HBox id="HBox" alignment="CENTER" onMouseClicked="#deleteScheduleHBoxOnMouseClicked" onMouseEntered="#deleteScheduleHBoxOnMouseEntered" onMouseExited="#deleteScheduleHBoxOnMouseExited" spacing="10.0">
                           <children>
-                            <ImageView id="deleteButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
+                            <ImageView id="deleteButton" fx:id="scheduleDeleteImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" x="0.0">
                               <image>
                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/deleteButton.png" />
                               </image>
@@ -181,7 +181,7 @@
                                  <children>
                                     <HBox id="HBox" fx:id="refreshHBox" alignment="CENTER" onMouseClicked="#refreshHBoxOnMouseClicked" onMouseEntered="#refreshHBoxMouseEntered" onMouseExited="#refreshHBoxMouseExited" spacing="10.0">
                                        <children>
-                                          <ImageView id="refreshButton" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
+                                          <ImageView id="refreshButton" fx:id="scheduleRefreshImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                                              <image>
                                                 <Image preserveRatio="true" smooth="true" url="@../gallery/image/refreshButton.png" />
                                              </image>
@@ -191,10 +191,10 @@
                                     </HBox>
                                  </children>
                     </HBox>
-                              <HBox layoutX="400.0" layoutY="20.0" spacing="20.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0">
+                              <HBox alignment="CENTER" layoutX="400.0" layoutY="20.0" spacing="20.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0">
                                  <children>
-                        <Label layoutX="477.0" layoutY="27.0" text="برنامه دوره جاری" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="442.0" AnchorPane.topAnchor="27.0" />
-                        <ComboBox fx:id="currentScheduleComboBox" layoutX="639.0" layoutY="18.0" prefHeight="36.0" prefWidth="141.0">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="477.0" layoutY="27.0" text="برنامه دوره جاری :" textAlignment="CENTER" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="442.0" AnchorPane.topAnchor="27.0" />
+                        <ComboBox fx:id="currentScheduleComboBox" layoutX="639.0" layoutY="18.0" prefHeight="41.0" prefWidth="165.0">
                           <items>
                             <FXCollections fx:factory="observableArrayList">
                               <String fx:value="Item 1" />

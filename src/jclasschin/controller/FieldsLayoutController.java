@@ -33,9 +33,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -75,6 +78,12 @@ public class FieldsLayoutController implements Initializable
     private TableColumn<Field, String> idTableColumn;
     @FXML
     private TableColumn<Field, String> nameTableColumn;
+    @FXML
+    private ImageView newImageView;
+    @FXML
+    private ImageView editImageView;
+    @FXML
+    private ImageView deleteImageView;
 
     /**
      * Initializes the controller class constructor
@@ -127,12 +136,14 @@ public class FieldsLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        fieldsTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+
     }
 
     @FXML
     private void newHBoxOnMouseClicked(MouseEvent event)
     {
-
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
         newFieldDialogController = newFieldDialogLoader.getController();
         newFieldDialogController.initialize(null, null);
         newFieldDialogController.setNewFieldDialogStage(newFieldDialogStage);
@@ -145,6 +156,7 @@ public class FieldsLayoutController implements Initializable
     @FXML
     private void editHBoxOnMouseClicked(MouseEvent event)
     {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
         if (fieldsTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Field f = fieldsTableView.getSelectionModel().getSelectedItem();
@@ -156,8 +168,7 @@ public class FieldsLayoutController implements Initializable
             fieldsEditDialogStage.showAndWait();
 
             updateFieldTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک رشته را انتخاب نمایید.");
         }
@@ -166,6 +177,7 @@ public class FieldsLayoutController implements Initializable
     @FXML
     private void deleteHBoxOnMouseClicked(MouseEvent event)
     {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
         if (fieldsTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Field f = fieldsTableView.getSelectionModel().getSelectedItem();
@@ -176,8 +188,7 @@ public class FieldsLayoutController implements Initializable
             fieldsDeleteDialogStage.showAndWait();
 
             updateFieldTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک رشته را انتخاب نمایید.");
         }
@@ -186,13 +197,13 @@ public class FieldsLayoutController implements Initializable
     @FXML
     private void newHBoxOnMouseExited(MouseEvent event)
     {
-
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
     }
 
     @FXML
     private void newHBoxOnMouseEntered(MouseEvent event)
     {
-
+        newImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
     }
 
     /*
@@ -213,6 +224,30 @@ public class FieldsLayoutController implements Initializable
 
         });
         fieldsTableView.setItems(fieldList);
+    }
+
+    @FXML
+    private void editHBoxOnMouseExited(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+    }
+
+    @FXML
+    private void editHBoxOnMouseEntered(MouseEvent event)
+    {
+        editImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseExited(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+    }
+
+    @FXML
+    private void deleteHBoxOnMouseEntered(MouseEvent event)
+    {
+        deleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
     }
 
 }

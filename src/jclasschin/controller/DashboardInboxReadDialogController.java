@@ -30,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -43,10 +44,10 @@ import jclasschin.entity.Mail;
  */
 public class DashboardInboxReadDialogController implements Initializable
 {
-    
+
     private Stage dashboardInboxReadDialogStage;
     private Mail mail;
-    
+
     @FXML
     private TextArea messegeTextArea;
     @FXML
@@ -66,10 +67,24 @@ public class DashboardInboxReadDialogController implements Initializable
     {
         // TODO
     }
-    
+
+    @FXML
+    private void closeHboxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+    }
+
+    @FXML
+    private void closeHboxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
+    }
+
     @FXML
     private void closeHboxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات خواندن نامه لغو شد.");
         dashboardInboxReadDialogStage.close();
     }
@@ -106,7 +121,7 @@ public class DashboardInboxReadDialogController implements Initializable
     {
         this.mail = mail;
     }
-    
+
     public void initDialog()
     {
         fromComboBox.getItems().clear();
@@ -115,5 +130,5 @@ public class DashboardInboxReadDialogController implements Initializable
         subjectTextField.setText(mail.getType());
         messegeTextArea.setText(mail.getText());
     }
-    
+
 }

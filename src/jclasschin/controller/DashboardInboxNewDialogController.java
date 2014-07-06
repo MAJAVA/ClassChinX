@@ -31,6 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -84,6 +85,7 @@ public class DashboardInboxNewDialogController implements Initializable
     private void okHboxOnMouseClicked(MouseEvent event)
     {
 
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (!validationSupport.isInvalid())
         {
             MailManager mailManager = new MailManager();
@@ -91,14 +93,12 @@ public class DashboardInboxNewDialogController implements Initializable
             if (mailManager.insert(s[1], subjectTextField.getText(), messegeTextArea.getText()))
             {
                 MainLayoutController.statusProperty.setValue("نامه شما ارسال شد!");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("ارسال نامه با شکست مواجه شد.");
             }
             dashboardIboxNewDialogStage.close();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("فیلد های الزامی را تکمیل فرمایید.");
         }
@@ -107,6 +107,8 @@ public class DashboardInboxNewDialogController implements Initializable
     @FXML
     private void cancelHboxOnMouseClicked(MouseEvent event)
     {
+
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
 
         MainLayoutController.statusProperty.setValue("ارسال جدید لغو شد.");
         dashboardIboxNewDialogStage.close();
@@ -153,8 +155,7 @@ public class DashboardInboxNewDialogController implements Initializable
         {
             toComboBox.setValue("آموزش" + " @ " + "admin");
             toComboBox.setDisable(true);
-        }
-        else
+        } else
         {
             toComboBox.setPromptText("انتخاب نمایید . . .");
             UserManager um = new UserManager();
@@ -166,5 +167,33 @@ public class DashboardInboxNewDialogController implements Initializable
                         + (((User) u).getUsername()));
             });
         }
+    }
+
+    @FXML
+    private void okHboxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHboxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHboxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHboxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 }

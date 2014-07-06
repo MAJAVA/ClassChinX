@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,10 +37,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -140,6 +142,26 @@ public class ClassLayoutController implements Initializable
     private ComboBox<String> currentScheduleComboBox;
     @FXML
     private HBox refreshHBox;
+    @FXML
+    private ImageView classNewImageView;
+    @FXML
+    private ImageView classEditImageView;
+    @FXML
+    private ImageView classDeleteImageView;
+    @FXML
+    private ImageView dedicationNewImageView;
+    @FXML
+    private ImageView dedicationEditImageView;
+    @FXML
+    private ImageView dedicationDeleteImageView;
+    @FXML
+    private ImageView scheduleNewImageView;
+    @FXML
+    private ImageView scheduleEditImageView;
+    @FXML
+    private ImageView scheduleDeleteImageView;
+    @FXML
+    private ImageView scheduleRefreshImageView;
 
     public ClassLayoutController() throws IOException
     {
@@ -304,11 +326,15 @@ public class ClassLayoutController implements Initializable
     public void initialize(URL url, ResourceBundle rb)
     {
         // TODO
+        classTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+        dedicationTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
+        scheduleTableView.setPlaceholder(new Label("تا کنون داده اي ثبت نشده است"));
     }
 
     @FXML
     private void newClassHBoxOnMouseClicked(MouseEvent event)
     {
+        classNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
         classListNewDialogController.setClassListNewDialogStage(classListNewDialogStage);
         classListNewDialogController.initDialog();
         classListNewDialogStage.showAndWait();
@@ -319,6 +345,7 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void editClassHBoxOnMouseClicked(MouseEvent event)
     {
+        classEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
 
         if (classTableView.getSelectionModel().getSelectedIndex() != -1)
         {
@@ -328,8 +355,7 @@ public class ClassLayoutController implements Initializable
             classListEditDialogController.initDialog();
             classListEditDialogStage.showAndWait();
             updateClassListTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک کلاس را انتخاب نمایید.");
         }
@@ -339,6 +365,7 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void deleteClassHBoxOnMouseClicked(MouseEvent event)
     {
+        classDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
 
         if (classTableView.getSelectionModel().getSelectedIndex() != -1)
         {
@@ -348,8 +375,7 @@ public class ClassLayoutController implements Initializable
             classListDeleteDialogStage.showAndWait();
 
             updateClassListTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("یک کلاس را انتخاب نمایید.");
         }
@@ -359,6 +385,8 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void newDedicateHBoxOnMouseClicked(MouseEvent event)
     {
+        dedicationNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
+
         classDedicateNewDialogController.setClassDedicateNewDialogStage(classDedicateNewDialogStage);
         classDedicateNewDialogController.initDialog();
         classDedicateNewDialogStage.showAndWait();
@@ -368,6 +396,8 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void editDedicateHBoxOnMouseClicked(MouseEvent event)
     {
+        dedicationEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
+
         if (dedicationTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Field f = dedicationTableView.getSelectionModel().getSelectedItem();
@@ -376,8 +406,7 @@ public class ClassLayoutController implements Initializable
             classDedicateEditDialogController.initDialog();
             classDedicateEditDialogStage.showAndWait();
             updateDedicationTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("ابتدا یک تخصیص را انتخاب نمایید.");
         }
@@ -386,6 +415,8 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void deleteDedicateHBoxOnMouseClicked(MouseEvent event)
     {
+        dedicationDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
+
         if (dedicationTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Field f = dedicationTableView.getSelectionModel().getSelectedItem();
@@ -394,8 +425,7 @@ public class ClassLayoutController implements Initializable
             classDedicateDeleteDialog2Controller.initDialog();
             classDedicateDeleteDialog2Stage.showAndWait();
             updateDedicationTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("ابتدا یک تخصیص را انتخاب نمایید.");
         }
@@ -455,6 +485,8 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void newScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        scheduleNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonActive.png"));
+
         classScheduleNewDialogController.setClassScheduleNewDialogStage(classScheduleNewDialogStage);
         classScheduleNewDialogController.initDialog();
         classScheduleNewDialogStage.showAndWait();
@@ -465,6 +497,8 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void editScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        scheduleEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonActive.png"));
+
         if (scheduleTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Schedule s = scheduleTableView.getSelectionModel().getSelectedItem();
@@ -474,8 +508,7 @@ public class ClassLayoutController implements Initializable
             classScheduleEditDialogStage.showAndWait();
             updateScheduleTableView();
 
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("ابتدا یک دوره زمانی را انتخاب نمایید.");
         }
@@ -484,6 +517,8 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void deleteScheduleHBoxOnMouseClicked(MouseEvent event)
     {
+        scheduleDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonActive.png"));
+
         if (scheduleTableView.getSelectionModel().getSelectedIndex() != -1)
         {
             Schedule s = scheduleTableView.getSelectionModel().getSelectedItem();
@@ -492,8 +527,7 @@ public class ClassLayoutController implements Initializable
             //classScheduleDeleteDialogController.initDialog();
             classScheduleDeleteDialogStage.showAndWait();
             updateScheduleTableView();
-        }
-        else
+        } else
         {
             MainLayoutController.statusProperty.setValue("ابتدا یک دوره زمانی را انتخاب نمایید.");
         }
@@ -538,16 +572,21 @@ public class ClassLayoutController implements Initializable
     @FXML
     private void refreshHBoxMouseExited(MouseEvent event)
     {
+        scheduleRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButton.png"));
+
     }
 
     @FXML
     private void refreshHBoxMouseEntered(MouseEvent event)
     {
+        scheduleRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonHover.png"));
+
     }
 
     @FXML
     private void refreshHBoxOnMouseClicked(MouseEvent event)
     {
+        scheduleRefreshImageView.setImage(new Image("jclasschin/gallery/image/refreshButtonActive.png"));
         if (CtacssManager.currentSchedule.getName() == null ? currentScheduleComboBox.getValue() != null : !CtacssManager.currentSchedule.getName().equals(currentScheduleComboBox.getValue()))
         {
             CtacssManager cm = new CtacssManager();
@@ -555,5 +594,131 @@ public class ClassLayoutController implements Initializable
             MainLayoutController.statusProperty.setValue("برنامه جاری سیستم بروز شد.");
             MainLayoutController.currentScheduleProperty.setValue(currentScheduleComboBox.getValue());
         }
+    }
+
+    @FXML
+    private void newClassHBoxOnMouseExited(MouseEvent event)
+    {
+        classNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
+    }
+
+    @FXML
+    private void newClassHBoxOnMouseEntered(MouseEvent event)
+    {
+        classNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
+    @FXML
+    private void editClassHBoxOnMouseExited(MouseEvent event)
+    {
+        classEditImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void editClassHBoxOnMouseEntered(MouseEvent event)
+    {
+        classEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
+    private void deleteClassHBoxOnMouseExited(MouseEvent event)
+    {
+        classDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteClassHBoxOnMouseEntered(MouseEvent event)
+    {
+        classDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
+    }
+
+    @FXML
+    private void newDedicateHBoxOnMouseExited(MouseEvent event)
+    {
+        dedicationNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
+    }
+
+    @FXML
+    private void newDedicateHBoxOnMouseEntered(MouseEvent event)
+    {
+        dedicationNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
+    @FXML
+    private void editDedicateHBoxOnMouseExited(MouseEvent event)
+    {
+        dedicationEditImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void editDedicateHBoxOnMouseEntered(MouseEvent event)
+    {
+        dedicationEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
+    private void deleteDedicateHBoxOnMouseExited(MouseEvent event)
+    {
+        dedicationDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteDedicateHBoxOnMouseEntered(MouseEvent event)
+    {
+        dedicationDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
+    }
+
+    @FXML
+    private void newScheduleHBoxOnMouseExited(MouseEvent event)
+    {
+        scheduleNewImageView.setImage(new Image("jclasschin/gallery/image/addButton.png"));
+
+    }
+
+    @FXML
+    private void newScheduleHBoxOnMouseEntered(MouseEvent event)
+    {
+        scheduleNewImageView.setImage(new Image("jclasschin/gallery/image/addButtonHover.png"));
+
+    }
+
+    @FXML
+    private void editScheduleHBoxOnMouseExited(MouseEvent event)
+    {
+        scheduleEditImageView.setImage(new Image("jclasschin/gallery/image/editButton.png"));
+
+    }
+
+    @FXML
+    private void editScheduleHBoxOnMouseEntered(MouseEvent event)
+    {
+        scheduleEditImageView.setImage(new Image("jclasschin/gallery/image/editButtonHover.png"));
+
+    }
+
+    @FXML
+    private void deleteScheduleHBoxOnMouseExited(MouseEvent event)
+    {
+        scheduleDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButton.png"));
+
+    }
+
+    @FXML
+    private void deleteScheduleHBoxOnMouseEntered(MouseEvent event)
+    {
+        scheduleDeleteImageView.setImage(new Image("jclasschin/gallery/image/deleteButtonHover.png"));
+
     }
 }

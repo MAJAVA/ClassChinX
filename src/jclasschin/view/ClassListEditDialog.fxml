@@ -8,8 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="443.0" prefWidth="315.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="jclasschin.controller.ClassListEditDialogController">
+<AnchorPane id="AnchorPane" nodeOrientation="RIGHT_TO_LEFT" prefHeight="443.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jclasschin.controller.ClassListEditDialogController">
    <children>
       <GridPane hgap="15.0" layoutX="40.0" layoutY="29.0" prefHeight="150.0" prefWidth="236.0" vgap="15.0">
          <columnConstraints>
@@ -22,11 +21,11 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label layoutX="53.0" layoutY="180.0" text="ظرفیت :" GridPane.rowIndex="2" />
-            <Label layoutX="59.0" layoutY="116.0" text="طبقه :" GridPane.rowIndex="1" />
+			<TextField fx:id="classNameTextField" layoutX="126.0" layoutY="54.0" prefHeight="40.0" prefWidth="156.0" GridPane.columnIndex="1" />
             <TextField fx:id="floorTextField" layoutX="126.0" layoutY="109.0" prefHeight="40.0" prefWidth="196.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="capacityTextField" layoutX="120.0" layoutY="173.0" prefHeight="40.0" prefWidth="196.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="classNameTextField" layoutX="126.0" layoutY="54.0" prefHeight="40.0" prefWidth="156.0" GridPane.columnIndex="1" />
+		   <Label layoutX="53.0" layoutY="180.0" text="ظرفیت :" GridPane.rowIndex="2" />
+            <Label layoutX="59.0" layoutY="116.0" text="طبقه :" GridPane.rowIndex="1" />
             <Label layoutX="44.0" layoutY="56.0" text="نام کلاس :" />
          </children>
       </GridPane>
@@ -41,7 +40,7 @@
       </VBox>
       <HBox id="HBox" alignment="CENTER" layoutX="43.0" layoutY="374.0" spacing="40.0">
          <children>
-            <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHBoxOnMouseClicked" spacing="10.0">
+            <HBox id="HBox" fx:id="okHBox" alignment="CENTER" onMouseClicked="#okHBoxOnMouseClicked" onMouseEntered="#okHBoxOnMouseEntered" onMouseExited="#okHBoxOnMouseExited" spacing="10.0">
                <children>
                   <ImageView id="okButton" fx:id="okImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
                      <image>
@@ -55,7 +54,7 @@
                   </Label>
                </children>
             </HBox>
-            <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHBoxOnMouseClicked" spacing="10.0">
+            <HBox id="HBox" fx:id="cancelHBox" alignment="CENTER" onMouseClicked="#cancelHBoxOnMouseClicked" onMouseEntered="#cancelHBoxOnMouseEntered" onMouseExited="#cancelHBoxOnMouseExited" spacing="10.0">
                <children>
                   <ImageView id="okButton" fx:id="cancelImageView" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true">
                      <image>

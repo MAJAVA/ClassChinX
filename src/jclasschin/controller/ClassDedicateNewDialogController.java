@@ -24,14 +24,9 @@
 package jclasschin.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.ResourceBundle;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -41,6 +36,7 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -49,7 +45,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.JClassChin;
 import jclasschin.entity.Classroom;
-import jclasschin.entity.Dedication;
 import jclasschin.entity.Field;
 import jclasschin.model.ClassManager;
 import jclasschin.model.DedicationManager;
@@ -103,23 +98,21 @@ public class ClassDedicateNewDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا یک رشته را انتخاب نمایید.");
-        }
-        else if (selectedClass == null || selectedClass.isEmpty())
+        } else if (selectedClass == null || selectedClass.isEmpty())
         {
             MainLayoutController.statusProperty.setValue("انتخاب حداقل یک کلاس الزامی است.");
-        }
-        else
+        } else
         {
             dedicationManager = new DedicationManager();
 
             if (dedicationManager.insert(fieldComboBox.getValue(), (List) selectedClass))
             {
                 MainLayoutController.statusProperty.setValue("تخصیص با موفقیت انجام شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات تخصیص با شکست مواجه شد.");
             }
@@ -131,6 +124,7 @@ public class ClassDedicateNewDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات تخصیص لغو شد.");
         classDedicateNewDialogStage.close();
     }
@@ -220,6 +214,34 @@ public class ClassDedicateNewDialogController implements Initializable
         {
             selectedClass = (ObservableList<String>) c.getList();
         });
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
+
     }
 
 }

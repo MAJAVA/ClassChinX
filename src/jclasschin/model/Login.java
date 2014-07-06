@@ -34,18 +34,20 @@ public class Login
 
     private UserManager userManager;
     public static User loggedUser;
-    
+
     public static String loggedUserField;
     public static Integer loggedUserID;
-    
 
     /**
      * @return the logedUser
      */
-    public  User getLoggedUser()
+    public User getLoggedUser()
     {
-        loggedUserField = loggedUser.getPerson().getField().getName();
-        loggedUserID = loggedUser.getPerson().getField().getId();
+        if (loggedUser != null)
+        {
+            loggedUserField = loggedUser.getPerson().getField().getName();
+            loggedUserID = loggedUser.getPerson().getField().getId();
+        }
         return loggedUser;
     }
 

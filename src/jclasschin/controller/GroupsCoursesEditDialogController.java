@@ -30,6 +30,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -78,18 +79,17 @@ public class GroupsCoursesEditDialogController implements Initializable
     @FXML
     private void okHBoxOnMouseClicked(MouseEvent event)
     {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
         CourseManager cm = new CourseManager();
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("لطفا فیلدهای الزامی را پر نمایید.");
-        }
-        else
+        } else
         {
-            if(cm.update(editableCourse.getId(), typeComboBox.getValue(), nameTextField.getText()))
+            if (cm.update(editableCourse.getId(), typeComboBox.getValue(), nameTextField.getText()))
             {
                 MainLayoutController.statusProperty.setValue("درس با موفقیت بروز رسانی شد.");
-            }
-            else
+            } else
             {
                 MainLayoutController.statusProperty.setValue("عملیات بروز رسانی درس با شکست مواجه شد.");
             }
@@ -100,6 +100,7 @@ public class GroupsCoursesEditDialogController implements Initializable
     @FXML
     private void cancelHBoxOnMouseClicked(MouseEvent event)
     {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonActive.png"));
         MainLayoutController.statusProperty.setValue("عملیات بروز رسانی درس لغو شد.");
         groupsCoursesEditDialogStage.close();
     }
@@ -153,6 +154,34 @@ public class GroupsCoursesEditDialogController implements Initializable
 
         validationSupport.registerValidator(nameTextField, Validator.createEmptyValidator("عنوان درس الزامی است"));
         validationSupport.registerValidator(typeComboBox, Validator.createEmptyValidator("نوع درس الزامی است"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseExited(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButton.png"));
+
+    }
+
+    @FXML
+    private void okHBoxOnMouseEntered(MouseEvent event)
+    {
+        okImageView.setImage(new Image("jclasschin/gallery/image/okButtonHover.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseExited(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButton.png"));
+
+    }
+
+    @FXML
+    private void cancelHBoxOnMouseEntered(MouseEvent event)
+    {
+        cancelImageView.setImage(new Image("jclasschin/gallery/image/cancelButtonHover.png"));
 
     }
 
