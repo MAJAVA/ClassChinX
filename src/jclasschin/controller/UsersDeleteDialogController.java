@@ -24,6 +24,7 @@
 package jclasschin.controller;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +34,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import jclasschin.entity.User;
+import jclasschin.model.Login;
 import jclasschin.model.UserManager;
 import org.controlsfx.validation.ValidationSupport;
 
@@ -87,10 +89,15 @@ public class UsersDeleteDialogController implements Initializable
         okImageView.setImage(new Image("jclasschin/gallery/image/okButtonActive.png"));
 
         userManager = new UserManager();
-        if (userManager.delete(editableUser.getPerson().getId()))
+        if (Objects.equals(editableUser.getId(), Login.loggedUser.getId()))
+        {
+             MainLayoutController.statusProperty.setValue("نمی توانید خودتان را حذف کنید.");
+        }
+        else if (userManager.delete(editableUser.getPerson().getId()))
         {
             MainLayoutController.statusProperty.setValue("حذف کاربر با موفقیت انجام شد.");
-        } else
+        }
+        else
         {
             MainLayoutController.statusProperty.setValue("عملیات حذف کاربر با شکست مواجه شد.");
         }

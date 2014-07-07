@@ -547,6 +547,7 @@ public class MainLayoutController implements Initializable
         mainLayout.setCenter(reportsLayout);
         reportsImageView.setImage(reportButtonOnMouseClicked);
         reportsHBoxOnMouseClickedFlag = true;
+        reportsLayoutController.initDialog();
     }
 
     @FXML
