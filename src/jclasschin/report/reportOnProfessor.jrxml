@@ -67,33 +67,12 @@ ORDER BY
 	<pageHeader>
 		<band height="49" splitType="Stretch">
 			<staticText>
-				<reportElement x="414" y="5" width="100" height="34" uuid="c2fc67ee-a800-4cfd-9fd7-b974245bdad4"/>
+				<reportElement x="448" y="19" width="66" height="20" uuid="c2fc67ee-a800-4cfd-9fd7-b974245bdad4"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="B Nazanin" size="18" isBold="true"/>
+					<font fontName="B Nazanin" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[برنامه هفتگی ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="354" y="5" width="60" height="34" uuid="1fa6e1c8-2986-41d4-8dc3-2293a74f18bf"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="B Nazanin" size="18"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{person_title}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="270" y="5" width="84" height="34" uuid="8ecae627-b17b-4c9a-85ac-ab298eb293b4"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="B Nazanin" size="18"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{person_first_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="194" y="5" width="75" height="34" uuid="95d59dc1-ceec-4573-a52f-94eccc5824a5"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="B Nazanin" size="18"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{person_last_name}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="57" y="11" width="46" height="20" uuid="c2bde044-f897-4e3d-96b6-d966703b3acc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -108,33 +87,40 @@ ORDER BY
 				</textElement>
 				<textFieldExpression><![CDATA[$P{termName}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="274" y="19" width="162" height="20" uuid="200a7300-5def-4bc0-b8fb-44470ef984de"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{person_title} + " " + $F{person_first_name} + " " + $F{person_last_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement x="442" y="4" width="100" height="20" uuid="14f8f1ff-a4ba-4ca1-8522-c6fa086cffba"/>
+				<reportElement x="436" y="4" width="100" height="20" uuid="14f8f1ff-a4ba-4ca1-8522-c6fa086cffba"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[روز هفته]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="342" y="4" width="100" height="20" uuid="83428288-e42a-4e5b-b268-5c04c24f8810"/>
+				<reportElement x="314" y="4" width="100" height="20" uuid="83428288-e42a-4e5b-b268-5c04c24f8810"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[نام کلاس]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="211" y="4" width="119" height="20" uuid="528d0b15-13c5-4afc-b73c-972bcb85c47b"/>
+				<reportElement x="194" y="4" width="100" height="20" uuid="528d0b15-13c5-4afc-b73c-972bcb85c47b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ساعت]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="4" width="100" height="20" uuid="575f673b-4f2b-4c18-91c5-a93a499f2189"/>
+				<reportElement x="57" y="4" width="117" height="20" uuid="575f673b-4f2b-4c18-91c5-a93a499f2189"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14" isBold="true"/>
 				</textElement>
@@ -148,39 +134,32 @@ ORDER BY
 	<detail>
 		<band height="37" splitType="Stretch">
 			<textField>
-				<reportElement x="442" y="11" width="100" height="20" uuid="e73a65a2-bcd4-4d7c-ac19-748031f55adc"/>
+				<reportElement x="436" y="11" width="100" height="20" uuid="e73a65a2-bcd4-4d7c-ac19-748031f55adc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{weekday_day_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="342" y="11" width="100" height="20" uuid="dabfbcd9-c9cd-4d29-9cc2-64246eb77048"/>
+				<reportElement x="314" y="11" width="100" height="20" uuid="dabfbcd9-c9cd-4d29-9cc2-64246eb77048"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{classroom_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="269" y="11" width="57" height="20" uuid="e36fad87-2c0c-4706-bea9-ca524c5f92d6"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="B Nazanin" size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{period_start}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="219" y="11" width="50" height="20" uuid="d4942cee-9781-46cb-ba9f-7ff1231798b4"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="B Nazanin" size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{period_end}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="99" y="11" width="100" height="20" uuid="c7618df4-75af-45f1-beff-6d905e24d79a"/>
+				<reportElement x="57" y="11" width="117" height="20" uuid="c7618df4-75af-45f1-beff-6d905e24d79a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="B Nazanin" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{course_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="11" width="100" height="20" uuid="6d4f69f8-2c68-4209-ae9a-59a6c6d4709a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period_end} + " - " + $F{period_start}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

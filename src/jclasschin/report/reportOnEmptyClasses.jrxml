@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11102285-319a-46b3-ab50-5f47cba20222">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="termName" class="java.lang.String">
+		<defaultValueExpression><![CDATA["92-2"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     period.`start` AS period_start,
+     period.`end` AS period_end,
+     classroom.`name` AS classroom_name,
+     weekday.`day_name` AS weekday_day_name,
+     course.`id` AS course_id,
+     course.`name` AS course_name,
+     person.`id` AS person_id,
+     person.`title` AS person_title,
+     person.`first_name` AS person_first_name,
+     person.`last_name` AS person_last_name
+FROM
+     `cctm` cctm INNER JOIN `dedication` dedication ON cctm.`dedication_id` = dedication.`id`
+     INNER JOIN `period` period ON cctm.`period_id` = period.`id`
+     INNER JOIN `weekday` weekday ON cctm.`weekday_id` = weekday.`id`
+     INNER JOIN `course` course ON cctm.`course_id` = course.`id`
+     INNER JOIN `person` person ON cctm.`person_id` = person.`id`
+     INNER JOIN `schedule` schedule ON period.`schedule_id` = schedule.`id`
+     INNER JOIN `ctacss` ctacss ON schedule.`id` = ctacss.`schedule_id`
+     INNER JOIN `term` term ON ctacss.`term_id` = term.`id`
+     AND dedication.`term_id` = term.`id`
+     INNER JOIN `classroom` classroom ON dedication.`classroom_id` = classroom.`id`
+WHERE
+     term.name = $P{termName}
+     and period.id NOT IN ( SELECT period_id FROM cctm )
+     and weekday.id NOT IN ( SELECT weekday_id FROM cctm )
+ORDER BY
+     weekday.id ASC,
+     classroom.name ASC,
+     period.start ASC]]>
+	</queryString>
+	<field name="course_id" class="java.lang.Integer"/>
+	<field name="person_id" class="java.lang.Integer"/>
+	<field name="period_start" class="java.lang.String"/>
+	<field name="period_end" class="java.lang.String"/>
+	<field name="classroom_name" class="java.lang.String"/>
+	<field name="weekday_day_name" class="java.lang.String"/>
+	<field name="course_name" class="java.lang.String"/>
+	<field name="person_title" class="java.lang.String"/>
+	<field name="person_first_name" class="java.lang.String"/>
+	<field name="person_last_name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="230" y="0" width="100" height="20" uuid="3b973b4b-0bf6-4698-86df-dfef817e0efb"/>
+				<textElement textAlignment="Center">
+					<font fontName="B Koodak" size="14"/>
+				</textElement>
+				<text><![CDATA[کلاس چین نسخه 1]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="357" y="19" width="157" height="20" uuid="c2fc67ee-a800-4cfd-9fd7-b974245bdad4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[برنامه کلاس های بدون استفاده]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="57" y="11" width="46" height="20" uuid="c2bde044-f897-4e3d-96b6-d966703b3acc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ترم :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="18" y="11" width="39" height="20" uuid="8d0751f0-504b-491a-b0b5-4a04493d33fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{termName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="436" y="4" width="100" height="20" uuid="14f8f1ff-a4ba-4ca1-8522-c6fa086cffba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[روز هفته]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="4" width="100" height="20" uuid="83428288-e42a-4e5b-b268-5c04c24f8810"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[نام کلاس]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="194" y="4" width="100" height="20" uuid="528d0b15-13c5-4afc-b73c-972bcb85c47b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ساعت]]></text>
+			</staticText>
+			<line>
+				<reportElement x="6" y="30" width="536" height="1" uuid="5310a31c-1b09-4496-95c5-ff0430c27a83"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="436" y="11" width="100" height="20" uuid="e73a65a2-bcd4-4d7c-ac19-748031f55adc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{weekday_day_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="314" y="11" width="100" height="20" uuid="dabfbcd9-c9cd-4d29-9cc2-64246eb77048"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{classroom_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="11" width="100" height="20" uuid="6d4f69f8-2c68-4209-ae9a-59a6c6d4709a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="B Nazanin" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period_end} + " - " + $F{period_start}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="19" y="28" width="80" height="20" uuid="b8b2f369-e90c-4e93-8d36-cf516b27501c"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="112" y="28" width="40" height="20" uuid="d4c3aabd-26db-4687-adf0-b9ff88a6fd30"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="342" y="28" width="172" height="20" uuid="58990c56-dee8-47a7-8943-c8d80bea39e1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
