@@ -61,7 +61,6 @@ import javafx.stage.StageStyle;
 import jclasschin.JClassChin;
 import jclasschin.entity.Cctm;
 import jclasschin.model.CCManager;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;

@@ -56,7 +56,7 @@ public class PreloaderLayoutController implements Initializable
     private TermManager termManager;
     private FieldManager fieldManager;
 //
-    public static boolean loadingTaskEndFlag=false;
+//    public static boolean loadingTaskEndFlag=false;
 //    public static boolean progressIndicatorTaskEndFlag=false;
 
 //    private FXMLLoader mainLayoutLoader;
@@ -115,9 +115,9 @@ public class PreloaderLayoutController implements Initializable
             public Void call()
             {
                 System.out.println("TASK 1 STARTED");
-                termManager.selectAll();
-                fieldManager.selectAll();
-                loadingTaskEndFlag = true;
+//               termManager.selectAll();
+//                fieldManager.selectAll();
+//                loadingTaskEndFlag = true;
                 System.out.println("TASK 1 FINISHED");
                 return null;
             }

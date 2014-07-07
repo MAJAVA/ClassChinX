@@ -138,16 +138,6 @@
                      </children>
                   </HBox>
           </children>
-               <effect>
-                  <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="30.23" surfaceScale="0.92">
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-                        <Light.Distant color="#3a7a2a" />
-                     </light>
-                  </Lighting>
-               </effect>
         </VBox>
         <Separator orientation="VERTICAL" prefHeight="613.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="237.0" AnchorPane.topAnchor="-3.0" />
       </children>

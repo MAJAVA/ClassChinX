@@ -269,6 +269,14 @@ public class MainLayoutController implements Initializable
             currentScheduleLabel.setDisable(true);
             currentTermLabel.setDisable(true);
         }
+        else
+        {
+            fieldsHBox.setDisable(false);
+            usersHBox.setDisable(false);
+            classHBox.setDisable(false);
+            currentScheduleLabel.setDisable(false);
+            currentTermLabel.setDisable(false);
+        }
 
         dashboardLayoutController.updateTermTableView();
         dashboardLayoutController.updateInboxTableView();
