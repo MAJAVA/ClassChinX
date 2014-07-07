@@ -70,16 +70,16 @@ public class MainLayoutController implements Initializable
             usersLayout,
             groupsLayout,
             classLayout,
-            scheduleLayout;
-//            reportsLayout;
+            scheduleLayout,
+            reportsLayout;
 
     private FXMLLoader dashboardLayoutLoader,
             fieldsLayoutLoader,
             usersLayoutLoader,
             groupsLayoutLoader,
             classLayoutLoader,
-            scheduleLayoutLoader;
-//            reportsLayoutLoader;
+            scheduleLayoutLoader,
+            reportsLayoutLoader;
 
     private DashboardLayoutController dashboardLayoutController;
     private FieldsLayoutController fieldsLayoutController;
@@ -87,7 +87,7 @@ public class MainLayoutController implements Initializable
     private GroupsLayoutController groupsLayoutController;
     private ClassLayoutController classLayoutController;
     private ScheduleLayoutController scheduleLayoutController;
-//    private ReportsLayoutController reportsLayoutController;
+    private ReportsLayoutController reportsLayoutController;
 
     private final Image homeButton,
             homeButtonOnMouseEntered,
@@ -106,10 +106,10 @@ public class MainLayoutController implements Initializable
             classButtonOnMouseClicked,
             scheduleButton,
             scheduleButtonOnMouseEntered,
-            scheduleButtonOnMouseClicked;
-//            reportButton,
-//            reportButtonOnMouseEntered,
-//            reportButtonOnMouseClicked;
+            scheduleButtonOnMouseClicked,
+            reportButton,
+            reportButtonOnMouseEntered,
+            reportButtonOnMouseClicked;
 
     private boolean dashboardHBoxOnMouseClickedFlag,
             fieldsHBoxOnMouseClickedFlag,
@@ -189,9 +189,10 @@ public class MainLayoutController implements Initializable
         scheduleLayout = new AnchorPane((AnchorPane) scheduleLayoutLoader.load());
         scheduleLayoutController = scheduleLayoutLoader.getController();
 
-//        reportsLayoutLoader = new FXMLLoader(JClassChin.class.getResource("view/ReportsLayout.fxml"));
-//        reportsLayout = new AnchorPane((AnchorPane) reportsLayoutLoader.load());
-//        reportsLayoutController=reportsLayoutLoader.getController();
+        reportsLayoutLoader = new FXMLLoader(JClassChin.class.getResource("view/ReportsLayout.fxml"));
+        reportsLayout = new AnchorPane((AnchorPane) reportsLayoutLoader.load());
+        reportsLayoutController=reportsLayoutLoader.getController();
+        
         homeButton = new Image("jclasschin/gallery/image/homeButton.png");
         homeButtonOnMouseEntered = new Image("jclasschin/gallery/image/homeButtonEntered.png");
         homeButtonOnMouseClicked = new Image("jclasschin/gallery/image/homeButtonClicked.png");
@@ -216,9 +217,10 @@ public class MainLayoutController implements Initializable
         scheduleButtonOnMouseEntered = new Image("jclasschin/gallery/image/scheduleButtonEntered.png");
         scheduleButtonOnMouseClicked = new Image("jclasschin/gallery/image/scheduleButtonClicked.png");
 
-//        reportButton = new Image("jclasschin/gallery/image/reportButton.png");
-//        reportButtonOnMouseEntered = new Image("jclasschin/gallery/image/reportButtonEntered.png");
-//        reportButtonOnMouseClicked = new Image("jclasschin/gallery/image/reportButtonClicked.png");
+        reportButton = new Image("jclasschin/gallery/image/reportButton.png");
+        reportButtonOnMouseEntered = new Image("jclasschin/gallery/image/reportButtonEntered.png");
+        reportButtonOnMouseClicked = new Image("jclasschin/gallery/image/reportButtonClicked.png");
+        
         dashboardHBoxOnMouseClickedFlag = false;
         fieldsHBoxOnMouseClickedFlag = false;
         usersHBoxOnMouseClickedFlag = false;
@@ -313,10 +315,10 @@ public class MainLayoutController implements Initializable
             scheduleImageView.setImage(scheduleButton);
             scheduleHBoxOnMouseClickedFlag = false;
         }
-//		else if (reportsHBoxOnMouseClickedFlag) {
-//            reportsImageView.setImage(reportButton);
-//            reportsHBoxOnMouseClickedFlag = false;
-//        }
+		else if (reportsHBoxOnMouseClickedFlag) {
+            reportsImageView.setImage(reportButton);
+            reportsHBoxOnMouseClickedFlag = false;
+        }
 
     }
 
@@ -540,30 +542,29 @@ public class MainLayoutController implements Initializable
     @FXML
     private void reportHBoxOnMouseClicked(MouseEvent event)
     {
-//        resetAllButtons();
-//        new Effect().fadeInTransition(reportsLayout, 1000);
-//        mainLayout.setCenter(reportsLayout);
-//        reportsImageView.setImage(reportButtonOnMouseClicked);
-//        reportsHBoxOnMouseClickedFlag = true;
-//        reportsLayoutController.updateScheduleTableView();
+        resetAllButtons();
+        new Effect().fadeInTransition(reportsLayout, 1000);
+        mainLayout.setCenter(reportsLayout);
+        reportsImageView.setImage(reportButtonOnMouseClicked);
+        reportsHBoxOnMouseClickedFlag = true;
     }
 
     @FXML
     private void reportHBoxOnMouseExited(MouseEvent event)
     {
-//        if (!reportsHBoxOnMouseClickedFlag)
-//        {
-//            reportsImageView.setImage(reportButton);
-//        } else
-//        {
-//            reportsImageView.setImage(reportButtonOnMouseClicked);
-//        }
+        if (!reportsHBoxOnMouseClickedFlag)
+        {
+            reportsImageView.setImage(reportButton);
+        } else
+        {
+            reportsImageView.setImage(reportButtonOnMouseClicked);
+        }
     }
 
     @FXML
     private void reportHBoxOnMouseEntered(MouseEvent event)
     {
-//        reportsImageView.setImage(reportButtonOnMouseEntered);
+        reportsImageView.setImage(reportButtonOnMouseEntered);
     }
 
     public void setObjectLayout(BorderPane objectLayout)
