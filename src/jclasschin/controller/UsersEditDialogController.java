@@ -25,11 +25,13 @@ package jclasschin.controller;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Point2D;
+import javafx.scene.DepthTest;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
@@ -49,6 +51,7 @@ import jclasschin.entity.Job;
 import jclasschin.entity.User;
 import jclasschin.model.FieldManager;
 import jclasschin.model.JobManager;
+import jclasschin.model.Login;
 import jclasschin.model.UserManager;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
@@ -123,19 +126,24 @@ public class UsersEditDialogController implements Initializable
         if (validationSupport.isInvalid())
         {
             MainLayoutController.statusProperty.setValue("فیلدهای الزامی را پر نمایید.");
-        } else if (!phoneTextField.getText().matches("\\d*"))
+        }
+        else if (!phoneTextField.getText().matches("\\d*"))
         {
             MainLayoutController.statusProperty.setValue("شماره تلفن بایستی فقط عدد باشد.");
-        } else if (phoneTextField.getText().length() > 11)
+        }
+        else if (phoneTextField.getText().length() > 11)
         {
             MainLayoutController.statusProperty.setValue("شماره تلفن بایستی حداکثر 11 رقم باشد.");
-        } else if (userNameTextField.getText().length() < 4)
+        }
+        else if (userNameTextField.getText().length() < 4)
         {
             MainLayoutController.statusProperty.setValue("شناسه بایستی حداقل 4 حرف باشد.");
-        } else if (passwordField.getText().length() < 4)
+        }
+        else if (passwordField.getText().length() < 4)
         {
             MainLayoutController.statusProperty.setValue("گذرواژه بایستی حداقل 4 حرف باشد.");
-        } else
+        }
+        else
         {
 
             if (userManager.update(editableUser.getId(), editableUser.getPerson().getId(), titleComboBox.getValue(),
@@ -144,7 +152,8 @@ public class UsersEditDialogController implements Initializable
                     activeRadioButton.isSelected(), jobComboBox.getValue(), fieldComboBox.getValue()))
             {
                 MainLayoutController.statusProperty.setValue("ویرایش کاربر با موفقیت انجام شد.");
-            } else
+            }
+            else
             {
                 MainLayoutController.statusProperty.setValue("عملیات ویرایش کاربر با شکست مواجه شد.");
             }
@@ -206,7 +215,8 @@ public class UsersEditDialogController implements Initializable
         if (editableUser.getPerson().isSex())
         {
             maleSexRadioButton.setSelected(true);
-        } else
+        }
+        else
         {
             femaleSexRadioButton.setSelected(true);
         }
@@ -217,7 +227,8 @@ public class UsersEditDialogController implements Initializable
         if (editableUser.isState())
         {
             activeRadioButton.setSelected(true);
-        } else
+        }
+        else
         {
             deActiveRadioButton.setSelected(true);
         }
@@ -237,6 +248,13 @@ public class UsersEditDialogController implements Initializable
         validationSupport.registerValidator(userNameTextField, Validator.createEmptyValidator("شناسه الزامی است"));
         validationSupport.registerValidator(fieldComboBox, Validator.createEmptyValidator("رشته الزامی است"));
 
+        fieldComboBox.setDisable(false);
+        jobComboBox.setDisable(false);
+        if (Objects.equals(editableUser.getId(), Login.loggedUser.getId()))
+        {
+            fieldComboBox.setDisable(true);
+            jobComboBox.setDisable(true);
+        }
     }
 
     private void clearDialogFields()
